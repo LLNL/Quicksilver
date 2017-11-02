@@ -23,7 +23,7 @@ Simulation:
    eMin: 1e-09
    nGroups: 230
    lowWeightCutoff: 0.001
-   fluence: 1
+   coralBenchmark: 1
 
 Geometry:
    material: sourceMaterial
