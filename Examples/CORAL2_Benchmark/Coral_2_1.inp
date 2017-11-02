@@ -9,7 +9,7 @@ Simulation:
    lx: 100
    ly: 100
    lz: 100
-   nParticles: 150000
+   nParticles: 160000
    nBatches: 10
    nSteps: 10 
    nx: 20
@@ -23,6 +23,7 @@ Simulation:
    eMin: 1e-09
    nGroups: 230
    lowWeightCutoff: 0.001
+   fluence: 1
 
 Geometry:
    material: sourceMaterial

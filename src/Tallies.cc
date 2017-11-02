@@ -11,14 +11,6 @@ using std::vector;
 
 void Tallies::CycleInitialize(MonteCarlo* monteCarlo)
 {
-    //Turned off zeroing out of scalar flux tally each cycle so we can gather cumulative data
-#if 0
-    for (int domainIndex = 0; domainIndex < _scalarFluxDomain.size(); domainIndex++)
-    {
-        _cellTallyDomain[domainIndex]._task[0].Reset();
-        _scalarFluxDomain[domainIndex]._task[0].Reset();
-    }
-#endif
 }
 
 void Tallies::SumTasks(void)
@@ -95,7 +87,36 @@ void Tallies::CycleFinalize(MonteCarlo *monteCarlo)
             _scalarFluxDomain[domainIndex]._task[0].Add(_scalarFluxDomain[domainIndex]._task[replication_index]);
             _scalarFluxDomain[domainIndex]._task[replication_index].Reset();  
         }
+
+        if( monteCarlo->_params.simulationParams.computeFluence )
+            _fluence.compute( domainIndex, _scalarFluxDomain[domainIndex] );
+
+        _cellTallyDomain[domainIndex]._task[0].Reset();
+        _scalarFluxDomain[domainIndex]._task[0].Reset();
     }
+}
+
+void Fluence::compute( int domainIndex, ScalarFluxDomain &scalarFluxDomain )
+{
+    int numCells = scalarFluxDomain._task[0]._cell.size();
+
+    while( this->_domain.size() <= domainIndex )
+    {
+        FluenceDomain *newDomain = new FluenceDomain( numCells ); 
+        this->_domain.push_back( newDomain );
+    }
+
+    FluenceDomain* fluenceDomain = this->_domain[domainIndex];
+
+    for( int cellIndex = 0; cellIndex < numCells; cellIndex++ )
+    {
+        int numGroups = scalarFluxDomain._task[0]._cell[cellIndex].size();
+        for( int groupIndex = 0; groupIndex < numGroups; groupIndex++ )
+        {
+            fluenceDomain->addCell( cellIndex, scalarFluxDomain._task[0]._cell[cellIndex]._group[groupIndex]);
+        }
+    }
+
 }
 
 void Tallies::PrintSummary(MonteCarlo *monteCarlo)

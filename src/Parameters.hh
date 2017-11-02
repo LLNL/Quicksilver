@@ -128,7 +128,8 @@ struct SimulationParameters
      lowWeightCutoff(0.001),
      balanceTallyReplications(1),
      fluxTallyReplications(1),
-     cellTallyReplications(1)
+     cellTallyReplications(1),
+     computeFluence(0)
    {};
 
    std::string inputFile;        //!< name of input file
@@ -138,8 +139,8 @@ struct SimulationParameters
    int debugThreads;             //!< enable or disable thread debugging lines
    int mpiThreadMultiple;        //!< enable or disable MPI_THREAD_MULTIPLE
    uint64_t nParticles;          //!< number of particles
-   uint64_t batchSize;          //!< number of particles in a batch
-   uint64_t nBatches;          //!< number of batches to start
+   uint64_t batchSize;           //!< number of particles in a batch
+   uint64_t nBatches;            //!< number of batches to start
    int nSteps;                   //!< number of time steps
    int nx;                       //!< number of mesh elements in x-direction
    int ny;                       //!< number of mesh elements in y-direction
@@ -160,6 +161,7 @@ struct SimulationParameters
    int balanceTallyReplications; //!< Number of replications for the balance tallies
    int fluxTallyReplications;    //!< Number of replications for the scalar flux tally
    int cellTallyReplications;    //!< Number of replications for the scalar cell tally
+   int computeFluence;           //!< flag to compute fluence duing cycleFinalize or not
 };
 
 struct Parameters

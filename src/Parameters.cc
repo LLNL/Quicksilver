@@ -170,6 +170,7 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   bTally: " << pp.balanceTallyReplications << "\n";
    out << "   fTally: " << pp.fluxTallyReplications << "\n";
    out << "   cTally: " << pp.cellTallyReplications << "\n";
+   out << "   fluence: " << pp.computeFluence << "\n";
    out << endl;
    return out;
 }
@@ -270,6 +271,7 @@ namespace
       addArg("bTally",           'B', 1, 'i', &(sp.balanceTallyReplications), 0, "number of balance tally replications");
       addArg("fTally",           'F', 1, 'i', &(sp.fluxTallyReplications),    0, "number of scalar flux tally replications");
       addArg("cTally",           'C', 1, 'i', &(sp.cellTallyReplications),    0, "number of scalar cell tally replications");
+      addArg("fluence",          'S', 0, 'i', &(sp.computeFluence),    0, "flag for enabling computing fluence");
 
       processArgs(argc, argv);
 
@@ -439,6 +441,7 @@ namespace
       input.getValue<int>("bTally",sp.balanceTallyReplications);
       input.getValue<int>("fTally",sp.fluxTallyReplications);
       input.getValue<int>("cTally",sp.cellTallyReplications);
+      input.getValue<int>("fluence",sp.computeFluence);
 
       // The SimulationParameters pp.sp have already been set to
       // whatever was specified on the command line (or the default).
