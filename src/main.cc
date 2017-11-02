@@ -71,9 +71,7 @@ int main(int argc, char** argv)
 
    gameOver();
 
-#ifdef CORAL_2_BENCHMARK
     coralBenchmarkCorrectness(mcco, params);
-#endif
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
