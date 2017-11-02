@@ -69,6 +69,20 @@ MonteCarlo* initMC(const Parameters& params)
 
 namespace
 {
+#if HAVE_CUDA
+#include "cudaFunctions.hh"
+    __global__ void WarmUpKernel()
+    {
+        int global_index = getGlobalThreadID();
+        if( global_index == 0)
+        {
+        }
+    }
+#endif
+}
+
+namespace
+{
 //Init GPU usage information
    void initGPUInfo( MonteCarlo* monteCarlo)
    {
@@ -112,6 +126,10 @@ namespace
          monteCarlo->processor_info->gpu_id = -1;
 #endif
 
+#ifdef HAVE_CUDA
+    if( monteCarlo->processor_info->use_gpu )
+        WarmUpKernel<<<1, 1>>>();
+#endif
 
          //printf("monteCarlo->processor_info->use_gpu = %d\n", monteCarlo->processor_info->use_gpu);
          
