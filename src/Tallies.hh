@@ -59,16 +59,20 @@ class Balance
 
     void PrintHeader()
     {
-        Print0("%12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s",
-               "start", "source",
-               "absorb", "escape", "collisn", "fission", "produce", "scatter", "rr", "split", "census", "end", "num_seg");
+        Print0("%12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s",
+               "start", "source", "rr", "split", 
+               "absorb", "scatter", "fission", "produce", 
+               "collisn", "escape", "census", 
+               "num_seg");
     }
 
     void Print()
     {
-        Print0("%12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "",
-               _start, _source,
-               _absorb, _escape, _collision, _fission, _produce, _scatter, _rr, _split, _census, _end, _numSegments);
+        Print0("%12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "",
+               _start, _source,_rr, _split,
+               _absorb, _scatter, _fission, _produce, 
+               _collision, _escape, _census, 
+               _numSegments);
     }
 
    void Reset()
