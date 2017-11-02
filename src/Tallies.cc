@@ -88,7 +88,7 @@ void Tallies::CycleFinalize(MonteCarlo *monteCarlo)
             _scalarFluxDomain[domainIndex]._task[replication_index].Reset();  
         }
 
-        if( monteCarlo->_params.simulationParams.computeFluence )
+        if( monteCarlo->_params.simulationParams.coralBenchmark )
             _fluence.compute( domainIndex, _scalarFluxDomain[domainIndex] );
 
         _cellTallyDomain[domainIndex]._task[0].Reset();

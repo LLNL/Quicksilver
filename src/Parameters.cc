@@ -441,7 +441,7 @@ namespace
       input.getValue<int>("bTally",sp.balanceTallyReplications);
       input.getValue<int>("fTally",sp.fluxTallyReplications);
       input.getValue<int>("cTally",sp.cellTallyReplications);
-      input.getValue<int>("coralBenchmark",sp.computeFluence);
+      input.getValue<int>("coralBenchmark",sp.coralBenchmark);
 
       // The SimulationParameters pp.sp have already been set to
       // whatever was specified on the command line (or the default).

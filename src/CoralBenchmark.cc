@@ -5,45 +5,36 @@
 #include "utilsMpi.hh"
 #include "MC_Processor_Info.hh"
 
-#ifdef CORAL_2_BENCHMARK
 void BalanceRatioTest( MonteCarlo* monteCarlo, Parameters &params );
-#endif
-
-#ifdef CORAL_2_BENCHMARK
 void MissingParticleTest( MonteCarlo* monteCarlo );
-#endif
-
-#ifdef CORAL_2_BENCHMARK
 void FluenceTest( MonteCarlo* monteCarlo );
-#endif
 
-#ifdef CORAL_2_BENCHMARK
 void coralBenchmarkCorrectness( MonteCarlo* monteCarlo, Parameters &params )
 {
-
-    if( monteCarlo->processor_info->rank == 0 )
+    if( params.simulationParams.coralBenchmark )
     {
-        //Test Balance Tallies for relative correctness
-        //  Expected ratios of absorbs,fisisons, scatters are maintained
-        //  withing some tolerance, based on input expectation
-        BalanceRatioTest( monteCarlo, params );
-        
-        //Test for lost particles during the simulation
-        //  This test should always succeed unless test for 
-        //  done was broken, or we are running with 1 MPI rank
-        //  and so never preform this test duing test_for_done
-        MissingParticleTest( monteCarlo );
-    }
 
-    //Test that the scalar flux is homogenous across cells for the problem
-    //  This test really required alot of particles or cycles or both
-    //  This solution should converge to a homogenous solution
-    if( params.simulationParams.computeFluence )
+        if( monteCarlo->processor_info->rank == 0 )
+        {
+            //Test Balance Tallies for relative correctness
+            //  Expected ratios of absorbs,fisisons, scatters are maintained
+            //  withing some tolerance, based on input expectation
+            BalanceRatioTest( monteCarlo, params );
+            
+            //Test for lost particles during the simulation
+            //  This test should always succeed unless test for 
+            //  done was broken, or we are running with 1 MPI rank
+            //  and so never preform this test duing test_for_done
+            MissingParticleTest( monteCarlo );
+        }
+
+        //Test that the scalar flux is homogenous across cells for the problem
+        //  This test really required alot of particles or cycles or both
+        //  This solution should converge to a homogenous solution
         FluenceTest( monteCarlo );
+    }
 }
-#endif
 
-#ifdef CORAL_2_BENCHMARK
 void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
 {
     fprintf(stdout,"\n");
@@ -125,9 +116,7 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
     }
 
 }
-#endif
 
-#ifdef CORAL_2_BENCHMARK
 void MissingParticleTest( MonteCarlo *monteCarlo )
 {
     fprintf(stdout,"\n");
@@ -151,10 +140,8 @@ void MissingParticleTest( MonteCarlo *monteCarlo )
 
 
 }
-#endif
 
 
-#ifdef CORAL_2_BENCHMARK
 void FluenceTest( MonteCarlo* monteCarlo )
 {
     if( monteCarlo->processor_info->rank == 0 )
@@ -209,4 +196,3 @@ void FluenceTest( MonteCarlo* monteCarlo )
     }
 
 }
-#endif
