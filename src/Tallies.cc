@@ -133,7 +133,7 @@ void Tallies::PrintSummary(MonteCarlo *monteCarlo)
    Print0("%8i ", monteCarlo->time_info->cycle);
    _balanceTask[0].Print();
    double sum = ScalarFluxSum(monteCarlo);
-   Print0("%14e %14e %14e %14e fin\n", sum,
+   Print0("%14e %14e %14e %14e\n", sum,
       MC_FASTTIMER_GET_LASTCYCLE(MC_Fast_Timer::cycleInit),
       MC_FASTTIMER_GET_LASTCYCLE(MC_Fast_Timer::cycleTracking),
       MC_FASTTIMER_GET_LASTCYCLE(MC_Fast_Timer::cycleFinalize)
