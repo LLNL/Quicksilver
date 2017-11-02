@@ -14,7 +14,6 @@
 
 #include "DeclareMacro.hh"
 
-using std::vector;
 typedef unsigned long long int uint64_cu;
 
 class Fluence;
@@ -277,7 +276,7 @@ class FluenceDomain
     int size(){ return _cell.size(); }
     
   private:
-    vector<double> _cell;
+    std::vector<double> _cell;
 };
 
 class Fluence
@@ -295,7 +294,7 @@ class Fluence
 
     void compute(int domain, ScalarFluxDomain &scalarFluxDomain);
 
-    vector<FluenceDomain*> _domain;
+    std::vector<FluenceDomain*> _domain;
 };
 
 class Tallies
