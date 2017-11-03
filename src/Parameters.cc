@@ -271,7 +271,6 @@ namespace
       addArg("bTally",           'B', 1, 'i', &(sp.balanceTallyReplications), 0, "number of balance tally replications");
       addArg("fTally",           'F', 1, 'i', &(sp.fluxTallyReplications),    0, "number of scalar flux tally replications");
       addArg("cTally",           'C', 1, 'i', &(sp.cellTallyReplications),    0, "number of scalar cell tally replications");
-      addArg("coralBenchmark",   'S', 0, 'i', &(sp.coralBenchmark),    0, "flag for enabling coralBenchmark");
 
       processArgs(argc, argv);
 
