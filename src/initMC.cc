@@ -20,6 +20,8 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
+#include "cudaUtils.hh"
+#include "cudaFunctions.hh"
 
 using std::vector;
 using std::string;
@@ -67,19 +69,6 @@ MonteCarlo* initMC(const Parameters& params)
    return monteCarlo;
 }
 
-namespace
-{
-#if HAVE_CUDA
-#include "cudaFunctions.hh"
-    __global__ void WarmUpKernel()
-    {
-        int global_index = getGlobalThreadID();
-        if( global_index == 0)
-        {
-        }
-    }
-#endif
-}
 
 namespace
 {
@@ -128,7 +117,7 @@ namespace
 
 #ifdef HAVE_CUDA
     if( monteCarlo->processor_info->use_gpu )
-        WarmUpKernel<<<1, 1>>>();
+        warmup_kernel();
 #endif
 
          //printf("monteCarlo->processor_info->use_gpu = %d\n", monteCarlo->processor_info->use_gpu);
