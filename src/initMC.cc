@@ -69,7 +69,6 @@ MonteCarlo* initMC(const Parameters& params)
    return monteCarlo;
 }
 
-
 namespace
 {
 //Init GPU usage information
