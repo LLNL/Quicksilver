@@ -4,6 +4,7 @@
 #include "Tallies.hh"
 #include "utilsMpi.hh"
 #include "MC_Processor_Info.hh"
+#include <cmath>
 
 void BalanceRatioTest( MonteCarlo* monteCarlo, Parameters &params );
 void MissingParticleTest( MonteCarlo* monteCarlo );
@@ -57,45 +58,24 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
         absorbRatio  = mp.absorptionCrossSectionRatio;
     }
 
-    double Absorb2Scatter  = ( absorb /  absorbRatio  ) * (scatterRatio / scatter);
-    double Absorb2Fission  = ( absorb /  absorbRatio  ) * (fissionRatio / fission);
-    double Scatter2Absorb  = ( scatter / scatterRatio ) * (absorbRatio  / absorb );
-    double Scatter2Fission = ( scatter / scatterRatio ) * (fissionRatio / fission);
-    double Fission2Absorb  = ( fission / fissionRatio ) * (absorbRatio  / absorb );
-    double Fission2Scatter = ( fission / fissionRatio ) * (scatterRatio / scatter);
+    double Absorb2Scatter  = std::abs( ( absorb /  absorbRatio  ) * (scatterRatio / scatter) - 1);
+    double Absorb2Fission  = std::abs( ( absorb /  absorbRatio  ) * (fissionRatio / fission) - 1);
+    double Scatter2Absorb  = std::abs( ( scatter / scatterRatio ) * (absorbRatio  / absorb ) - 1);
+    double Scatter2Fission = std::abs( ( scatter / scatterRatio ) * (fissionRatio / fission) - 1);
+    double Fission2Absorb  = std::abs( ( fission / fissionRatio ) * (absorbRatio  / absorb ) - 1);
+    double Fission2Scatter = std::abs( ( fission / fissionRatio ) * (scatterRatio / scatter) - 1);
 
     double percent_tolerance = 1.0;
     double tolerance = percent_tolerance / 100.0;
-    double min_tolerance = 1-(1*tolerance);
-    double max_tolerance = 1+(1*tolerance);
 
-    
     bool pass = true;
 
-    if( min_tolerance > Absorb2Scatter && Absorb2Scatter > max_tolerance )
-    {
-        pass = false;
-    }
-    else if( min_tolerance > Absorb2Fission && Absorb2Scatter > max_tolerance )
-    {
-        pass = false;
-    }
-    else if( min_tolerance > Scatter2Absorb && Scatter2Absorb > max_tolerance )
-    {
-        pass = false;
-    }
-    else if( min_tolerance > Scatter2Fission && Scatter2Fission > max_tolerance )
-    {
-        pass = false;
-    }
-    else if( min_tolerance > Fission2Absorb && Fission2Absorb > max_tolerance )
-    {
-        pass = false;
-    }
-    else if( min_tolerance > Fission2Scatter && Fission2Scatter > max_tolerance )
-    {
-        pass = false;
-    }
+    if( Absorb2Scatter  > tolerance ) pass = false;
+    if( Absorb2Fission  > tolerance ) pass = false;
+    if( Scatter2Absorb  > tolerance ) pass = false;
+    if( Scatter2Fission > tolerance ) pass = false;
+    if( Fission2Absorb  > tolerance ) pass = false;
+    if( Fission2Scatter > tolerance ) pass = false;
 
     if( pass )
     {
