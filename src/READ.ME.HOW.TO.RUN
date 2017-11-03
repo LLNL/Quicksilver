@@ -42,7 +42,7 @@ studies.
 Note, the specific homogeneousProblem_v3.inp test problem is designed to
 use MPI_THREAD_MULTIPLE, and requires this support.  If the MPI library
 does not support this, it may be disabled by setting the mpiThreadMultiple 
-option within the deck to 0.
+option within the deck to 0.[ mpiThreadMultiple has ben disable in QS ]
 
 Also, that particular test problem requires the user to specify the 
 number of I, J, and K ranks such that their product equals the number
