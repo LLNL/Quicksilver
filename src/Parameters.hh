@@ -102,7 +102,6 @@ struct SimulationParameters
      loadBalance(0),
      cycleTimers(0),
      debugThreads(0),
-     mpiThreadMultiple(0),
      nParticles(1000000), // 10^6
      batchSize(0), // default to use nBatches
      nBatches(10),
@@ -137,7 +136,6 @@ struct SimulationParameters
    int loadBalance;              //!< enable or disable load balancing
    int cycleTimers;              //!< enable or disable cycle timers 
    int debugThreads;             //!< enable or disable thread debugging lines
-   int mpiThreadMultiple;        //!< enable or disable MPI_THREAD_MULTIPLE
    uint64_t nParticles;          //!< number of particles
    uint64_t batchSize;           //!< number of particles in a batch
    uint64_t nBatches;            //!< number of batches to start
@@ -174,7 +172,6 @@ struct Parameters
 
 Parameters getParameters(int argc, char** argv);
 void printParameters(const Parameters& params, std::ostream& out);
-bool checkThreadMultiple(int argc, char** argv);
 
 std::ostream& operator<<(std::ostream& out, const SimulationParameters& pp);
 std::ostream& operator<<(std::ostream& out, const GeometryParameters& pp);

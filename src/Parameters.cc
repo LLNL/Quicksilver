@@ -56,7 +56,6 @@ namespace
    void badGeometryBlock(const InputBlock& input);
    void badMaterialBlock(const InputBlock& input);
    void badCrossSectionBlock(const InputBlock& input);
-   void threadMultipleMismatchError();
 }
 
 
@@ -76,8 +75,6 @@ namespace
 ///  4. For duplicated keywords, last value wins. (Includes multiple
 ///     Simulation: blocks or multiple Material: or CrossSection: blocks
 ///     with the same name.
-///  5. Processing of the -m and --mpiThreadMultiple arguments is
-///     special.  See checkThreadMultiple().
 ///
 
 Parameters getParameters(int argc, char** argv)
@@ -114,30 +111,6 @@ void printParameters(const Parameters& pp, ostream& out)
       out << iter->second;
 }
 
-/// In order to limit the complexity of the code that is called before
-/// MPI_init, the command line argument to enable MPI thread multiple
-/// needs to be handled as a special case.
-bool checkThreadMultiple(int argc, char** argv)
-{
-   for (int ii=1; ii<argc; ++ii)
-   {
-      string iString = argv[ii];
-      if (iString == "--mpiThreadMultiple")
-         return true;
-      if (iString == "-m")
-         return true;
-      if (iString.substr(0,2) == "--")
-         continue;
-      if (iString.substr(0,1) != "-")
-         continue;
-      qs_assert(iString.substr(0,1) == "-");
-      if (iString.find("m") != string::npos)
-         return true;
-   }
-   return false;
-}
-
-
 ostream& operator<<(ostream& out, const SimulationParameters& pp)
 {
    out << "Simulation:\n";
@@ -148,7 +121,6 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   loadBalance: " << pp.loadBalance << "\n";
    out << "   cycleTimers: " << pp.cycleTimers << "\n";
    out << "   debugThreads: " << pp.debugThreads << "\n";
-   out << "   mpiThreadMultiple: " << pp.mpiThreadMultiple << "\n";
    out << "   lx: " << pp.lx << "\n";
    out << "   ly: " << pp.ly << "\n";
    out << "   lz: " << pp.lz << "\n";
@@ -244,7 +216,6 @@ namespace
       int help=0;
       char name[1024];
       name[0] = '\0';
-      sp.mpiThreadMultiple = 0;
       
       addArg("help",             'h', 0, 'i', &(help),           0,      "print this message");
       addArg("dt",               'D', 1, 'd', &(sp.dt),          0,      "time step (seconds)");
@@ -253,7 +224,6 @@ namespace
       addArg("loadBalance",      'l', 0, 'i', &(sp.loadBalance), 0,      "enable/disable load balancing" );
       addArg("cycleTimers",      'c', 1, 'i', &(sp.cycleTimers), 0,      "enable/disable cycle timers" );
       addArg("debugThreads",     't', 1, 'i', &(sp.debugThreads),0,      "set thread debug level to 1, 2, 3" );
-      addArg("mpiThreadMultiple",'m', 0, 'i', &(sp.mpiThreadMultiple),0, "1 enables MPI_THREAD_MULTIPLE" );
       addArg("lx",               'X', 1, 'd', &(sp.lx),          0,      "x-size of simulation (cm)");
       addArg("ly",               'Y', 1, 'd', &(sp.ly),          0,      "y-size of simulation (cm)");
       addArg("lz",               'Z', 1, 'd', &(sp.lz),          0,      "z-size of simulation (cm)");
@@ -397,19 +367,6 @@ namespace
 
 namespace
 {
-   /// The mpiThreadMultiple parameter needs special handling.
-   /// Although the vaule of mpiThreadMultiple is written to output,
-   /// and read from the input file, the input file is read *after*
-   /// MPI is initialized.  Hence, the input file parameter can't be
-   /// used to control how MPI is initialized.  Only the command line
-   /// version of the flag can control MPI.  Hence, we check the value
-   /// in the input deck (or the default value if mpiThreadMultiple
-   /// wasn't specified in the input deck) to make sure it is
-   /// consistent with the command line.  We stop the show if it
-   /// isn't.  All of this effort is intended to stay true to the
-   /// vision that you should be able to repeat a run by using the
-   /// output file of that run as an input file.
-
    void scanSimulationBlock(const InputBlock& input, Parameters& pp)
    {
       SimulationParameters& sp = pp.simulationParams;
@@ -442,17 +399,6 @@ namespace
       input.getValue<int>("cTally",sp.cellTallyReplications);
       input.getValue<int>("coralBenchmark",sp.coralBenchmark);
 
-      // The SimulationParameters pp.sp have already been set to
-      // whatever was specified on the command line (or the default).
-      // We use a dummy SimulationParameters object to get the default
-      // value of mpiThreadMultiple.  Calling InputBlock::getValue is a
-      // no-op when the keyword isn't found.
-      SimulationParameters defaultSimParams;
-      int tmp = defaultSimParams.mpiThreadMultiple; 
-      input.getValue<int>   ("mpiThreadMultiple", tmp);
-
-      if (tmp != sp.mpiThreadMultiple)
-         threadMultipleMismatchError();
    }
 }
 
@@ -545,16 +491,6 @@ namespace
       qs_assert(false);
    }
    void badCrossSectionBlock(const InputBlock& input){qs_assert(false);}
-
-   void threadMultipleMismatchError()
-   {
-      // The value of mpiThreadMultiple set in the input deck doesn't
-      // match the value specified on the command line.  For all other
-      // parameters, the value in the input deck would win.  However,
-      // MPI_Init is called before the input deck is read so for this
-      // parameter the best we can do is ensure consistency.
-      qs_assert(false);
-   }
 }
 
 

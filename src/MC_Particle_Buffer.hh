@@ -110,15 +110,12 @@ class MC_Particle_Buffer
 
     bool Trivially_Done();
     void Unpack_Particle_Buffer(int particle_vault_task_num, int recv_buff_task_num, int buffer_index, uint64_t &fill_vault);
-    void Unpack_Particle_Buffer_Thread_Multiple(int particle_vault_task_num, int recv_buff_task_num, int buffer_index, uint64_t &fill_vault);
     void Instantiate();
     void Initialize_Map();
     void Delete_Completed_Extra_Send_Buffers(int task_num);
 
 
  public:
-    // non-master threads place full buffers here for master thread to send
-    // std::list<particle_buffer_base_type> thread_send_buffer_queue;
 
     bool Test_Done_New( MC_New_Test_Done_Method::Enum test_done_method = MC_New_Test_Done_Method::Blocking);
     MC_New_Test_Done_Method::Enum new_test_done_method; // which algorithm to use

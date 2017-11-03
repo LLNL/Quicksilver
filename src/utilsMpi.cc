@@ -14,16 +14,11 @@
 void mpiInit( int *argc, char ***argv)
 {
 
-   bool threadMultipleRequested = checkThreadMultiple(*argc, *argv);
-
 #ifdef HAVE_OPENMP
    { // limit scope
       char const* const provided_string[4] = \
          {"MPI_THREAD_SINGLE","MPI_THREAD_FUNNELED","MPI_THREAD_SERIALIZED","MPI_THREAD_MULTIPLE"};
       int provided, required = MPI_THREAD_FUNNELED;
-      
-      if (threadMultipleRequested)
-         required = MPI_THREAD_MULTIPLE; 
       
       int err = MPI_Init_thread(argc, argv, required, &provided);
       qs_assert(err == MPI_SUCCESS);
@@ -43,11 +38,6 @@ void mpiInit( int *argc, char ***argv)
    
 #else
    { // limit scope
-      if (threadMultipleRequested)
-      {
-         printf("Fatal Error.  User requested mpiThreadMultiple support in a non-threaded code build.\n");
-         qs_assert(false);
-      }
       int err = MPI_Init(argc, argv);
       qs_assert(err == MPI_SUCCESS);
    } //limit scope

@@ -599,15 +599,6 @@ int MC_Particle_Buffer::Num_Parts_Recv()
 //----------------------------------------------------------------------------------------------------------------------
 void MC_Particle_Buffer::Unpack_Particle_Buffer(int particle_vault_task_num, int recv_buffer_task_num, int buffer_index, uint64_t &fill_vault)
 {
-    //The Particle Vault Work Queues are currently dissabled and we will not be doing any thread based MPI so we can simple assume it is safe to push particles directly onto the particle vault
-      Unpack_Particle_Buffer_Thread_Multiple(particle_vault_task_num, recv_buffer_task_num, buffer_index, fill_vault);
-}
-
-//----------------------------------------------------------------------------------------------------------------------
-//  Unpack a particle buffer that was just received into the thread specific paricle vault
-//----------------------------------------------------------------------------------------------------------------------
-void MC_Particle_Buffer::Unpack_Particle_Buffer_Thread_Multiple(int particle_vault_task_num, int recv_buffer_task_num, int buffer_index, uint64_t &fill_vault)
-{
     MC_Base_Particle base_particle;
 
     int int_index   = 0;
