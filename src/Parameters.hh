@@ -161,7 +161,7 @@ struct SimulationParameters
    int balanceTallyReplications; //!< Number of replications for the balance tallies
    int fluxTallyReplications;    //!< Number of replications for the scalar flux tally
    int cellTallyReplications;    //!< Number of replications for the scalar cell tally
-   int coralBenchmark;           //!< flag to compute fluence duing cycleFinalize or not
+   int coralBenchmark;           //!< enable correctness check for Coral2 benchmark
 };
 
 struct Parameters
