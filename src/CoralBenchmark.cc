@@ -89,12 +89,12 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
         fprintf(stdout, "absorb:  %12" PRIu64 "\t%g\n", absorb, absorbRatio);
         fprintf(stdout, "scatter: %12" PRIu64 "\t%g\n", scatter, scatterRatio);
         fprintf(stdout, "fission: %12" PRIu64 "\t%g\n", fission, fissionRatio);
-        fprintf(stdout, "Relative Absorb to Scatter:  %g < %g < %g\n", min_tolerance, Absorb2Scatter , max_tolerance );
-        fprintf(stdout, "Relative Absorb to Fission:  %g < %g < %g\n", min_tolerance, Absorb2Fission , max_tolerance );
-        fprintf(stdout, "Relative Scatter to Absorb:  %g < %g < %g\n", min_tolerance, Scatter2Absorb , max_tolerance );
-        fprintf(stdout, "Relative Scatter to Fission: %g < %g < %g\n", min_tolerance, Scatter2Fission, max_tolerance );
-        fprintf(stdout, "Relative Fission to Absorb:  %g < %g < %g\n", min_tolerance, Fission2Absorb , max_tolerance );
-        fprintf(stdout, "Relative Fission to Scatter: %g < %g < %g\n", min_tolerance, Fission2Scatter, max_tolerance );
+        fprintf(stdout, "Relative Absorb to Scatter:  %g < %g\n", Absorb2Scatter , tolerance );
+        fprintf(stdout, "Relative Absorb to Fission:  %g < %g\n", Absorb2Fission , tolerance );
+        fprintf(stdout, "Relative Scatter to Absorb:  %g < %g\n", Scatter2Absorb , tolerance );
+        fprintf(stdout, "Relative Scatter to Fission: %g < %g\n", Scatter2Fission, tolerance );
+        fprintf(stdout, "Relative Fission to Absorb:  %g < %g\n", Fission2Absorb , tolerance );
+        fprintf(stdout, "Relative Fission to Scatter: %g < %g\n", Fission2Scatter, tolerance );
     }
 
 }
