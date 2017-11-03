@@ -24,25 +24,26 @@ MonteCarlo::MonteCarlo(const Parameters& params)
    _materialDatabase       = 0;
 
     #if defined (HAVE_UVM)
-        void *ptr1, *ptr2, *ptr3, *ptr4, *ptr5;
+        void *ptr1, *ptr2, *ptr3, *ptr4;
 
         cudaMallocManaged( &ptr1, sizeof(Tallies), cudaMemAttachHost );
         cudaMallocManaged( &ptr2, sizeof(MC_Processor_Info), cudaMemAttachHost );
         cudaMallocManaged( &ptr3, sizeof(MC_Time_Info), cudaMemAttachHost );
         cudaMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
-        cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
 
-        _tallies                = new(ptr1) Tallies();
+        _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
+                                                     params.simulationParams.fluxTallyReplications,
+                                                     params.simulationParams.cellTallyReplications);
         processor_info          = new(ptr2) MC_Processor_Info();
         time_info               = new(ptr3) MC_Time_Info();
         fast_timer              = new(ptr4) MC_Fast_Timer_Container();
-        particle_buffer         = new(ptr5) MC_Particle_Buffer(this, params.simulationParams.batchSize);
     #else
-        _tallies                = new Tallies();
+        _tallies                = new Tallies( params.simulationParams.balanceTallyReplications, 
+                                               params.simulationParams.fluxTallyReplications,
+                                               params.simulationParams.cellTallyReplications);
         processor_info          = new MC_Processor_Info();
         time_info               = new MC_Time_Info();
         fast_timer              = new MC_Fast_Timer_Container();
-        particle_buffer         = new MC_Particle_Buffer(this, params.simulationParams.batchSize);
     #endif
 
    source_particle_weight = 0.0;
@@ -93,10 +94,13 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     //Previous definition was not enough extra space for some reason? need to determine why still
 
     #if defined(HAVE_UVM)
-        void *ptr;
-        cudaMallocManaged( &ptr, sizeof(ParticleVaultContainer), cudaMemAttachHost );
-        _particleVaultContainer = new(ptr) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
+        void *ptr5, *ptr6;
+        cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
+        cudaMallocManaged( &ptr6, sizeof(ParticleVaultContainer), cudaMemAttachHost );
+        particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
+        _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
+        particle_buffer         = new MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #endif
 

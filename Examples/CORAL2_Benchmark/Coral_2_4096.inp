@@ -9,7 +9,7 @@ Simulation:
    lx: 1600
    ly: 1600
    lz: 1600
-   nParticles: 614400000
+   nParticles: 655360000
    nBatches: 10
    nSteps: 10 
    nx: 320
@@ -23,6 +23,7 @@ Simulation:
    eMin: 1e-09
    nGroups: 230
    lowWeightCutoff: 0.001
+   coralBenchmark: 1
 
 Geometry:
    material: sourceMaterial

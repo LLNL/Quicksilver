@@ -20,6 +20,8 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
+#include "cudaUtils.hh"
+#include "cudaFunctions.hh"
 
 using std::vector;
 using std::string;
@@ -112,6 +114,10 @@ namespace
          monteCarlo->processor_info->gpu_id = -1;
 #endif
 
+#ifdef HAVE_CUDA
+    if( monteCarlo->processor_info->use_gpu )
+        warmup_kernel();
+#endif
 
          //printf("monteCarlo->processor_info->use_gpu = %d\n", monteCarlo->processor_info->use_gpu);
          

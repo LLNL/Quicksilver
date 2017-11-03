@@ -4,6 +4,7 @@
 #include "portability.hh"
 #include "QS_Vector.hh"
 #include <stdlib.h>
+#include <vector>
 #include <cinttypes>
 #include "NuclearData.hh"
 #include "MonteCarlo.hh"
@@ -14,6 +15,8 @@
 #include "DeclareMacro.hh"
 
 typedef unsigned long long int uint64_cu;
+
+class Fluence;
 
 struct MC_Tally_Event
 {
@@ -55,16 +58,20 @@ class Balance
 
     void PrintHeader()
     {
-        Print0("%12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s",
-               "start", "source",
-               "absorb", "escape", "collisn", "fission", "produce", "scatter", "rr", "split", "census", "end", "num_seg");
+        Print0("%12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s %12s",
+               "start", "source", "rr", "split", 
+               "absorb", "scatter", "fission", "produce", 
+               "collisn", "escape", "census", 
+               "num_seg");
     }
 
     void Print()
     {
-        Print0("%12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "",
-               _start, _source,
-               _absorb, _escape, _collision, _fission, _produce, _scatter, _rr, _split, _census, _end, _numSegments);
+        Print0("%12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 " %12" PRIu64 "",
+               _start, _source,_rr, _split,
+               _absorb, _scatter, _fission, _produce, 
+               _collision, _escape, _census, 
+               _numSegments);
     }
 
    void Reset()
@@ -258,6 +265,38 @@ class ScalarFluxDomain
    ~ScalarFluxDomain() {}
 };
 
+class FluenceDomain
+{
+  public:
+    FluenceDomain( int numCells) : _cell(numCells, 0.0)
+    {}
+
+    void addCell( int index, double value ){ _cell[index] += value;}
+    double getCell( int index ){ return _cell[index]; }
+    int size(){ return _cell.size(); }
+    
+  private:
+    std::vector<double> _cell;
+};
+
+class Fluence
+{
+  public:
+    Fluence() {};
+    ~Fluence()
+    {
+        for( int i = 0; i < _domain.size(); i++ )
+        {
+            if( _domain[i] != NULL )
+                delete _domain[i];
+        }
+    }
+
+    void compute(int domain, ScalarFluxDomain &scalarFluxDomain);
+
+    std::vector<FluenceDomain*> _domain;
+};
+
 class Tallies
 {
   public:
@@ -265,11 +304,18 @@ class Tallies
     qs_vector<Balance>          _balanceTask;
     qs_vector<ScalarFluxDomain> _scalarFluxDomain;
     qs_vector<CellTallyDomain>  _cellTallyDomain;
+    Fluence                     _fluence;
     
     Tallies() : _balanceCumulative(), _balanceTask(),
         _scalarFluxDomain(), _num_balance_replications(1), 
         _num_flux_replications(1), _num_cellTally_replications(1)
     {}
+
+    Tallies( int balRep, int fluxRep, int cellRep ) : _balanceCumulative(), _balanceTask(),
+        _scalarFluxDomain(), _num_balance_replications(balRep), 
+        _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep)
+    {
+    }
 
     HOST_DEVICE_CUDA
     int GetNumBalanceReplications()

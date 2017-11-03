@@ -170,6 +170,7 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   bTally: " << pp.balanceTallyReplications << "\n";
    out << "   fTally: " << pp.fluxTallyReplications << "\n";
    out << "   cTally: " << pp.cellTallyReplications << "\n";
+   out << "   coralBenchmark: " << pp.coralBenchmark << "\n";
    out << endl;
    return out;
 }
@@ -439,6 +440,7 @@ namespace
       input.getValue<int>("bTally",sp.balanceTallyReplications);
       input.getValue<int>("fTally",sp.fluxTallyReplications);
       input.getValue<int>("cTally",sp.cellTallyReplications);
+      input.getValue<int>("coralBenchmark",sp.coralBenchmark);
 
       // The SimulationParameters pp.sp have already been set to
       // whatever was specified on the command line (or the default).

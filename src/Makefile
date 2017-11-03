@@ -269,6 +269,7 @@ Quicksilver_EXE=qs
 # For development purposes, what is working now.
 SOURCES= \
     CollisionEvent.cc \
+    CoralBenchmark.cc \
     CycleTracking.cc \
     DecompositionObject.cc \
     DirectionCosine.cc \
@@ -300,8 +301,8 @@ SOURCES= \
     SharedMemoryCommObject.cc \
     Tallies.cc \
     cmdLineParser.cc \
+    cudaFunctions.cc \
     initMC.cc \
-    CoralBenchmark.cc \
     main.cc \
     parseUtils.cc \
     utils.cc \
