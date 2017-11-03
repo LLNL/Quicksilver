@@ -10,30 +10,32 @@ void BalanceRatioTest( MonteCarlo* monteCarlo, Parameters &params );
 void MissingParticleTest( MonteCarlo* monteCarlo );
 void FluenceTest( MonteCarlo* monteCarlo );
 
+//
+//  Coral Benchmark tests are only relavent/tested for the  coral benchmark input deck
+//
 void coralBenchmarkCorrectness( MonteCarlo* monteCarlo, Parameters &params )
 {
-    if( params.simulationParams.coralBenchmark )
+    if( !params.simulationParams.coralBenchmark )
+        return;
+
+    if( monteCarlo->processor_info->rank == 0 )
     {
-
-        if( monteCarlo->processor_info->rank == 0 )
-        {
-            //Test Balance Tallies for relative correctness
-            //  Expected ratios of absorbs,fisisons, scatters are maintained
-            //  withing some tolerance, based on input expectation
-            BalanceRatioTest( monteCarlo, params );
-            
-            //Test for lost particles during the simulation
-            //  This test should always succeed unless test for 
-            //  done was broken, or we are running with 1 MPI rank
-            //  and so never preform this test duing test_for_done
-            MissingParticleTest( monteCarlo );
-        }
-
-        //Test that the scalar flux is homogenous across cells for the problem
-        //  This test really required alot of particles or cycles or both
-        //  This solution should converge to a homogenous solution
-        FluenceTest( monteCarlo );
+        //Test Balance Tallies for relative correctness
+        //  Expected ratios of absorbs,fisisons, scatters are maintained
+        //  withing some tolerance, based on input expectation
+        BalanceRatioTest( monteCarlo, params );
+        
+        //Test for lost particles during the simulation
+        //  This test should always succeed unless test for 
+        //  done was broken, or we are running with 1 MPI rank
+        //  and so never preform this test duing test_for_done
+        MissingParticleTest( monteCarlo );
     }
+
+    //Test that the scalar flux is homogenous across cells for the problem
+    //  This test really required alot of particles or cycles or both
+    //  This solution should converge to a homogenous solution
+    FluenceTest( monteCarlo );
 }
 
 void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
