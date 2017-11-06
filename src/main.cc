@@ -142,12 +142,10 @@ void cycleTracking(MonteCarlo *monteCarlo)
     //Determine whether or not to use GPUs if they are available (set for each MPI rank)
     ExecutionPolicy execPolicy = getExecutionPolicy( monteCarlo->processor_info->use_gpu );
 
-    int task_index = 0;
-
     ParticleVaultContainer &my_particle_vault = *(monteCarlo->_particleVaultContainer);
 
     //Post Inital Receives for Particle Buffer
-    monteCarlo->particle_buffer->Post_Receive_Particle_Buffer( task_index, my_particle_vault.getVaultSize() );
+    monteCarlo->particle_buffer->Post_Receive_Particle_Buffer( my_particle_vault.getVaultSize() );
 
     //Get Test For Done Method (Blocking or non-blocking
     MC_New_Test_Done_Method::Enum new_test_done_method = monteCarlo->particle_buffer->new_test_done_method;
@@ -245,7 +243,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                 NVTX_Range cleanAndComm("cycleTracking_clean_and_comm");
                 
                 SendQueue &sendQueue = *(my_particle_vault.getSendQueue());
-                monteCarlo->particle_buffer->Allocate_Send_Buffer( task_index, sendQueue );
+                monteCarlo->particle_buffer->Allocate_Send_Buffer( sendQueue );
 
                 //Move particles from send queue to the send buffers
                 for ( int index = 0; index < sendQueue.size(); index++ )
@@ -255,11 +253,11 @@ void cycleTracking(MonteCarlo *monteCarlo)
 
                     processingVault->getBaseParticleComm( mcb_particle, sendQueueT._particleIndex );
 
-                    int buffer = monteCarlo->particle_buffer->Choose_Buffer(sendQueueT._neighbor, task_index );
-                    monteCarlo->particle_buffer->Buffer_Particle(mcb_particle, task_index, buffer );
+                    int buffer = monteCarlo->particle_buffer->Choose_Buffer(sendQueueT._neighbor );
+                    monteCarlo->particle_buffer->Buffer_Particle(mcb_particle, buffer );
                 }
 
-                monteCarlo->particle_buffer->Send_Particle_Buffers( task_index ); // post MPI sends
+                monteCarlo->particle_buffer->Send_Particle_Buffers(); // post MPI sends
 
                 processingVault->clear(); //remove the invalid particles
                 sendQueue.clear();
@@ -268,7 +266,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                 my_particle_vault.cleanExtraVaults();
 
                 // receive any particles that have arrived from other ranks
-                monteCarlo->particle_buffer->Receive_Particle_Buffers( processing_vault, fill_vault );
+                monteCarlo->particle_buffer->Receive_Particle_Buffers( fill_vault );
 
             } // for loop on vaults
 
@@ -294,9 +292,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
     } while ( !done );
 
     //Make sure to cancel all pending receive requests
-    monteCarlo->particle_buffer->Cancel_Receive_Buffer_Requests( task_index );
+    monteCarlo->particle_buffer->Cancel_Receive_Buffer_Requests();
     //Make sure Buffers Memory is Free
-    monteCarlo->particle_buffer->Free_Buffers( task_index );
+    monteCarlo->particle_buffer->Free_Buffers();
 
    MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking);
 }

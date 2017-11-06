@@ -47,8 +47,8 @@ struct particle_buffer_base_type
     MPI_Request  request_list;    // Request for the unbuffered data
 
     void Allocate(int buffer_size);
-    void Reset_Offsets();
     void Initialize_Buffer();
+    void Reset_Offsets();
     void Free_Memory();
 };
 
@@ -108,40 +108,39 @@ class MC_Particle_Buffer
     particle_buffer_task_class  *task;                 // buffers for each task
     std::map<int, int>    processor_buffer_map; // Map processors to buffers. buffer_index = processor_buffer_map[processor]
 
-    bool Trivially_Done();
-    void Unpack_Particle_Buffer(int particle_vault_task_num, int recv_buff_task_num, int buffer_index, uint64_t &fill_vault);
     void Instantiate();
     void Initialize_Map();
-    void Delete_Completed_Extra_Send_Buffers(int task_num);
+    void Unpack_Particle_Buffer(int buffer_index, uint64_t &fill_vault);
+    bool Trivially_Done();
+    void Delete_Completed_Extra_Send_Buffers();
 
 
  public:
+    // non-master threads place full buffers here for master thread to send
+    // std::list<particle_buffer_base_type> thread_send_buffer_queue;
 
-    bool Test_Done_New( MC_New_Test_Done_Method::Enum test_done_method = MC_New_Test_Done_Method::Blocking);
     MC_New_Test_Done_Method::Enum new_test_done_method; // which algorithm to use
-
     int  num_buffers;         // Number of particle buffers
     int  buffer_size;         // Buffer size to be sent.
 
     MC_Particle_Buffer(MonteCarlo *mcco_, size_t bufferSize_);       // constructor
     void Initialize();
+    int  Choose_Buffer(int neighbor_rank);
     int  Get_Processor_Buffer_Index(int processor);
-    void Buffer_Particle(MC_Particle *particle_to_buffer, int task_index, int buffer);
-    void Buffer_Particle(MC_Base_Particle &particle_to_buffer, int task_index, int buffer);
-    int  Choose_Buffer(int neighbor_rank, int task_num);
-    void Send_Particle_Buffer(int task_num, int buffer);
-    void Send_Particle_Buffers(int task_num);
-    void Allocate_Send_Buffer( int task_index, SendQueue& sendQueue);
-    void Free_Send_Buffer_Requests( int task_num );
-    void Receive_Particle_Buffers(int particle_vault_task_num, uint64_t &fill_vault);
-    void Post_Receive_Particle_Buffer( int particle_vault_task_num, size_t batchSize_ );
-    void Cancel_Receive_Buffer_Requests( int particle_vault_task_num );
+    void Buffer_Particle(MC_Particle *particle_to_buffer, int buffer);
+    void Buffer_Particle(MC_Base_Particle &particle_to_buffer, int buffer);
+    void Allocate_Send_Buffer(SendQueue& sendQueue);
+    void Send_Particle_Buffers();
+    void Send_Particle_Buffer(int buffer);
+    void Post_Receive_Particle_Buffer(size_t batchSize_ );
+    void Receive_Particle_Buffers(uint64_t &fill_vault);
+    void Cancel_Receive_Buffer_Requests();
+
+    bool Test_Done_New( MC_New_Test_Done_Method::Enum test_done_method = MC_New_Test_Done_Method::Blocking);
     bool Allreduce_ParticleCounts();
     bool Iallreduce_ParticleCounts();
 
-    int Num_Parts_Recv();
-
-    void Free_Buffers( int task_index );
+    void Free_Buffers();
     void Free_Memory();
 private:
     MC_Particle_Buffer( const MC_Particle_Buffer& );                    // disable copy constructor
