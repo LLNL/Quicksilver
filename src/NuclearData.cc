@@ -1,11 +1,14 @@
 #include "NuclearData.hh"
+#include <cmath>
 #include "MC_RNG_State.hh"
 #include "DeclareMacro.hh"
+#include "qs_assert.hh"
 
+using std::log10;
+using std::pow;
 
 // Set the cross section values and reaction type
-// Also integrates the cross section and scales to a specified reaction
-// cross section.
+// Cross sections are scaled to produce the supplied reactionCrossSection at 1MeV.
 NuclearDataReaction::NuclearDataReaction(
    Enum reactionType, double nuBar, const qs_vector<double>& energies,
    const Polynomial& polynomial, double reactionCrossSection)
@@ -18,20 +21,22 @@ NuclearDataReaction::NuclearDataReaction(
    for (int ii=0; ii<nGroups; ++ii)
    {
       double energy = (energies[ii] + energies[ii+1]) / 2.0;
-      _crossSection[ii] = polynomial(energy);
+      _crossSection[ii] = pow( 10, polynomial(log10( energy)));
    }
 
-   //integrate reaction cross section
-   double integral = 0.0;
-   for (int ii = 0; ii < nGroups; ii++)
-   {
-      double binWidth = energies[ii+1] - energies[ii];
-      integral += _crossSection[ii] * binWidth;
-   }
-   integral /= (energies[nGroups] - energies[0]);
+   // Find the normalization value for the polynomial.  This is the
+   // value of the energy group that contains 1 MeV
+   double normalization = 0.0;
+   for (unsigned ii=0; ii<nGroups; ++ii)
+      if (energies[ii+1] > 1. ) //1 MeV
+      {
+         normalization = _crossSection[ii];
+         break;
+      }
+   qs_assert(normalization > 0.);
 
    // scale to specified reaction cross section
-   double scale = reactionCrossSection/integral;
+   double scale = reactionCrossSection/normalization;
    for (int ii=0; ii<nGroups; ++ii)
       _crossSection[ii] *= scale;
 }

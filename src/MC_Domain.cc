@@ -379,7 +379,10 @@ MC_Domain::MC_Domain(const MeshPartition& meshPartition, const GlobalFccGrid& gr
       cell_state[ii]._total = _cachedCrossSectionStorage.getBlock(numEnergyGroups);
 
       int numIsos = static_cast<int>(materialDatabase._mat[cell_state[ii]._material]._iso.size());
-      cell_state[ii]._cellNumberDensity = 1.0 / numIsos;
+      //  The cellNumberDensity scales the crossSections so we choose to
+      //  set this density to 1.0 so that the totalCrossSection will be
+      //  as requested by the user.
+      cell_state[ii]._cellNumberDensity = 1.0;
 
       MC_Vector cellCenter = findCellCenter(mesh._cellConnectivity[ii], mesh._node);
       cell_state[ii]._id = grid.whichCell(cellCenter) * UINT64_C(0x0100000000);
