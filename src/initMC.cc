@@ -68,8 +68,8 @@ MonteCarlo* initMC(const Parameters& params)
    MC_Base_Particle::Update_Counts();
 
    //   used when debugging cross sections
-      checkCrossSections(monteCarlo, params);
-
+   //   checkCrossSections(monteCarlo, params);
+      
    return monteCarlo;
 }
 
@@ -395,8 +395,8 @@ namespace
 namespace
 {
    // This function is useful for debugging but is not called in ordinary
-   // use of the code.  Uncomment the call to theis function in initMC()
-   // (main.cc) if you want to get plot data for the cross sections.
+   // use of the code.  Uncomment the call to this function in initMC()
+   // if you want to get plot data for the cross sections.
    void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params)
    {
       struct XC_Data
