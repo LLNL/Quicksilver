@@ -1,3 +1,6 @@
+
+#include <cstdint>
+
 #include "ParticleVaultContainer.hh"
 #include "ParticleVault.hh"
 #include "SendQueue.hh"
