@@ -19,10 +19,12 @@ double macroscopicCrossSection(MonteCarlo* monteCarlo, int reactionIndex, int do
    int globalMatIndex = monteCarlo->domain[domainIndex].cell_state[cellIndex]._material;
 
    double atomFraction = monteCarlo->_materialDatabase->_mat[globalMatIndex]._iso[isoIndex]._atomFraction;
-   atomFraction = 1.0;
 
    double microscopicCrossSection = 0.0;
-   // The number density is atoms per cell volume.
+   // The cell number density is the fraction of the atoms in cell
+   // volume of this isotope.  We set this (elsewhere) to 1/nIsotopes.
+   // This is a statement that we treat materials as if all of their
+   // isotopes are present in equal amounts
    double cellNumberDensity = monteCarlo->domain[domainIndex].cell_state[cellIndex]._cellNumberDensity;
 
    int isotopeGid = monteCarlo->_materialDatabase->_mat[globalMatIndex]._iso[isoIndex]._gid;
