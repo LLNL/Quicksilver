@@ -2,8 +2,11 @@
 #define PARTICLEVAULTCONTAINER_HH
 
 #include "DeclareMacro.hh"
+
+#include "portability.hh"
 #include "QS_Vector.hh"
 #include <vector>
+
 //---------------------------------------------------------------
 // ParticleVaultContainer is a container of ParticleVaults. 
 // These Vaults are broken down into user defined chunks that can 
