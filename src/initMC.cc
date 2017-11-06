@@ -45,6 +45,7 @@ namespace
                               int xDom, int yDom, int zDom,
                               vector<MC_Vector>& centers);
    void consistencyCheck(int myRank, const qs_vector<MC_Domain>& domain);
+   void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params);
 
 }
 
@@ -67,7 +68,7 @@ MonteCarlo* initMC(const Parameters& params)
    MC_Base_Particle::Update_Counts();
 
    //   used when debugging cross sections
-   //   checkCrossSections(monteCarlo, params);
+      checkCrossSections(monteCarlo, params);
 
    return monteCarlo;
 }
@@ -393,93 +394,93 @@ namespace
 
 namespace
 {
-  // This function is useful for debugging but is not called in ordinary
-  // use of the code.  Uncomment the call to theis function in initMC()
-  // (main.cc) if you want to get plot data for the cross sections.
-  void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params)
-  {
-    struct XC_Data
-    {
-      XC_Data() : absorption(0.), fission(0.), scatter(0.){}
-      double absorption;
-      double fission;
-      double scatter;
-    };
-  
-    NuclearData* nd = monteCarlo->_nuclearData;
-    int nGroups = nd->_energies.size() - 1;
-    vector<double> energy(nGroups);
-    for (unsigned ii=0; ii<nGroups; ++ii)
-      energy[ii] = (nd->_energies[ii] + nd->_energies[ii+1])/2.0;
-  
-  
-    MaterialDatabase* matDB = monteCarlo->_materialDatabase;
-    unsigned nMaterials = matDB->_mat.size();
-    
-    map<string, vector<XC_Data> > xcTable;
-  
-    
-    // for each material
-    for (unsigned iMat=0; iMat<nMaterials; ++iMat)
-    {
-      const string& materialName = matDB->_mat[iMat]._name;
-      vector<XC_Data>& xcVec = xcTable[materialName];
-      xcVec.resize(nGroups);
-      unsigned nIsotopes = matDB->_mat[iMat]._iso.size();
-      // for each isotope
-      for (unsigned iIso=0; iIso<nIsotopes; ++iIso)
+   // This function is useful for debugging but is not called in ordinary
+   // use of the code.  Uncomment the call to theis function in initMC()
+   // (main.cc) if you want to get plot data for the cross sections.
+   void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params)
+   {
+      struct XC_Data
       {
-        int isotopeGid = monteCarlo->_materialDatabase->_mat[iMat]._iso[iIso]._gid;
-        unsigned nReactions = nd->_isotopes[isotopeGid]._species[0]._reactions.size();
-        // for each reaction
-        for (unsigned iReact=0; iReact<nReactions; ++iReact)
-        {
-      // loop over energies
-      NuclearDataReaction& reaction = nd->_isotopes[isotopeGid]._species[0]._reactions[iReact];
-      // accumulate cross sections by reaction type
-          for (unsigned iGroup=0; iGroup<nGroups; ++iGroup)
+         XC_Data() : absorption(0.), fission(0.), scatter(0.){}
+         double absorption;
+         double fission;
+         double scatter;
+      };
+  
+      NuclearData* nd = monteCarlo->_nuclearData;
+      int nGroups = nd->_energies.size() - 1;
+      vector<double> energy(nGroups);
+      for (unsigned ii=0; ii<nGroups; ++ii)
+         energy[ii] = (nd->_energies[ii] + nd->_energies[ii+1])/2.0;
+  
+  
+      MaterialDatabase* matDB = monteCarlo->_materialDatabase;
+      unsigned nMaterials = matDB->_mat.size();
+    
+      map<string, vector<XC_Data> > xcTable;
+  
+    
+      // for each material
+      for (unsigned iMat=0; iMat<nMaterials; ++iMat)
       {
-        switch (reaction._reactionType)
-        {
-        case NuclearDataReaction::Scatter:
-          xcVec[iGroup].scatter += reaction.getCrossSection(iGroup)/nIsotopes;
-          break;
-        case NuclearDataReaction::Absorption:
-          xcVec[iGroup].absorption += reaction.getCrossSection(iGroup)/nIsotopes;
-          break;
-        case NuclearDataReaction::Fission:
-          xcVec[iGroup].fission += reaction.getCrossSection(iGroup)/nIsotopes;
-          break;
-        }   
+         const string& materialName = matDB->_mat[iMat]._name;
+         vector<XC_Data>& xcVec = xcTable[materialName];
+         xcVec.resize(nGroups);
+         unsigned nIsotopes = matDB->_mat[iMat]._iso.size();
+         // for each isotope
+         for (unsigned iIso=0; iIso<nIsotopes; ++iIso)
+         {
+            int isotopeGid = monteCarlo->_materialDatabase->_mat[iMat]._iso[iIso]._gid;
+            unsigned nReactions = nd->_isotopes[isotopeGid]._species[0]._reactions.size();
+            // for each reaction
+            for (unsigned iReact=0; iReact<nReactions; ++iReact)
+            {
+               // loop over energies
+               NuclearDataReaction& reaction = nd->_isotopes[isotopeGid]._species[0]._reactions[iReact];
+               // accumulate cross sections by reaction type
+               for (unsigned iGroup=0; iGroup<nGroups; ++iGroup)
+               {
+                  switch (reaction._reactionType)
+                  {
+                    case NuclearDataReaction::Scatter:
+                     xcVec[iGroup].scatter += reaction.getCrossSection(iGroup)/nIsotopes;
+                     break;
+                    case NuclearDataReaction::Absorption:
+                     xcVec[iGroup].absorption += reaction.getCrossSection(iGroup)/nIsotopes;
+                     break;
+                    case NuclearDataReaction::Fission:
+                     xcVec[iGroup].fission += reaction.getCrossSection(iGroup)/nIsotopes;
+                     break;
+                  }   
+               }
+            }
+         }
       }
-        }
-      }
-    }
   
-    // print cross section data
-    // first the header
-    cout << endl << endl << "energy";
-    for (auto mapIter=xcTable.begin(); mapIter!=xcTable.end(); ++mapIter)
-    {
-      const string& materialName = mapIter->first;
-      cout << "  " << materialName << "_a"
-       << "  " << materialName << "_f"
-       << "  " << materialName << "_s";
-    }
-    cout << endl;
-  
-    // now the data
-    for (unsigned ii=0; ii<nGroups; ++ii)
-    {
-      cout << energy[ii];
+      // print cross section data
+      // first the header
+      cout << endl << endl << "energy";
       for (auto mapIter=xcTable.begin(); mapIter!=xcTable.end(); ++mapIter)
       {
-        cout << "  " << mapIter->second[ii].absorption
-         << "  " << mapIter->second[ii].fission
-         << "  " << mapIter->second[ii].scatter;
+         const string& materialName = mapIter->first;
+         cout << "  " << materialName << "_a"
+              << "  " << materialName << "_f"
+              << "  " << materialName << "_s";
       }
       cout << endl;
-    }
-    cout << endl << endl;
-  }
+  
+      // now the data
+      for (unsigned ii=0; ii<nGroups; ++ii)
+      {
+         cout << energy[ii];
+         for (auto mapIter=xcTable.begin(); mapIter!=xcTable.end(); ++mapIter)
+         {
+            cout << "  " << mapIter->second[ii].absorption
+                 << "  " << mapIter->second[ii].fission
+                 << "  " << mapIter->second[ii].scatter;
+         }
+         cout << endl;
+      }
+      cout << endl << endl;
+   }
 }
