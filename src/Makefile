@@ -104,14 +104,14 @@ LDFLAGS =
 # This works on a Macbook (if gcc is installed)
 ###############################################################################
 #
-#OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp 
-#OPENMP_LDFLAGS = -fopenmp
-#OPTFLAGS = -g -O2
+OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp 
+OPENMP_LDFLAGS = -fopenmp
+OPTFLAGS = -g -O2
 #
-#CXX=g++
-#CXXFLAGS = -std=c++11  $(OPTFLAGS) -Wpedantic
-#CPPFLAGS = $(OPENMP_FLAGS)
-#LDFLAGS = $(OPENMP_LDFLAGS) 
+CXX=g++
+CXXFLAGS = -std=c++11  $(OPTFLAGS) -Wpedantic
+CPPFLAGS = $(OPENMP_FLAGS)
+LDFLAGS = $(OPENMP_LDFLAGS) 
 
 
 ###############################################################################
