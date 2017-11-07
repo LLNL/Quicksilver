@@ -1,0 +1,103 @@
+Simulation:
+   dt: 1e-08
+   fMax: 0.1
+   boundaryCondition: reflect
+   loadBalance: 0
+   cycleTimers: 0
+   debugThreads: 0
+   lx: 100
+   ly: 100
+   lz: 100
+   nParticles: 1000000
+   batchSize: 0
+   nBatches: 10
+   nSteps: 10
+   nx: 10
+   ny: 10
+   nz: 10
+   seed: 1029384756
+   xDom: 0
+   yDom: 0
+   zDom: 0
+   eMax: 20
+   eMin: 1e-08
+   nGroups: 230
+   lowWeightCutoff: 0.001
+   bTally: 1
+   fTally: 1
+   cTally: 1
+   coralBenchmark: 0
+
+Geometry:
+   material: sourceMaterial
+   shape: brick
+   xMax: 100
+   xMin: 0
+   yMax: 100
+   yMin: 0
+   zMax: 100
+   zMin: 0
+
+Material:
+   name: sourceMaterial
+   mass: 1000.0
+   nIsotopes: 10
+   nReactions: 9
+   sourceRate: 1e+10
+   totalCrossSection: 6
+   absorptionCrossSection: absorb
+   fissionCrossSection: fission
+   scatteringCrossSection: scatter
+   absorptionCrossSectionRatio: 6e-3
+   fissionCrossSectionRatio: 1
+   scatteringCrossSectionRatio: 5
+
+Material:
+   name: flatMaterial
+   nIsotopes: 20
+   nReactions: 9
+   sourceRate: 1e+10
+   totalCrossSection: 1
+   absorptionCrossSection: flat
+   fissionCrossSection: flat
+   scatteringCrossSection: flat
+   absorptionCrossSectionRatio: 1
+   fissionCrossSectionRatio: 1
+   scatteringCrossSectionRatio: 1
+
+CrossSection:
+   name: flat
+   A: 0
+   B: 0
+   C: 0
+   D: 0
+   E: 1
+   nuBar: 2.4
+
+CrossSection:
+   name: absorb
+   A: 0
+   B: 0
+   C: 0
+   D: -0.8446
+   D: -0.5243
+   E: -2.22
+
+CrossSection:
+   name: fission
+   A: 0
+   B: 0
+   C: 0
+   D: -0.342
+   E: 0
+   nuBar: 2.4
+
+CrossSection:
+   name: scatter
+   A: 0
+   B: 0
+   C: 0
+   D: 0
+   E: 0.7
+
+   
