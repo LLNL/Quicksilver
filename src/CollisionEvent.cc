@@ -124,16 +124,18 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
 
       randomNumber = rngSample(&mc_particle.random_number_seed);
       currentParticle->num_mean_free_paths = -1.0*log(randomNumber);
-      if (secondaryIndex > 0)
+      if( energy_angle_size > 1 )
       {
-        currentParticle->random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
-	    currentParticle->identifier = currentParticle->random_number_seed;
-
-        monteCarlo->_particleVaultContainer->addExtraParticle(*currentParticle);
+         if (secondaryIndex > 0)
+         {
+            currentParticle->random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
+	        currentParticle->identifier = currentParticle->random_number_seed;
+         }
+            monteCarlo->_particleVaultContainer->addExtraParticle(*currentParticle);
       }
    }
 
-    return energy_angle_size > 0;
+   return energy_angle_size == 1;
 }
 
 HOST_DEVICE_END

@@ -77,7 +77,11 @@ MonteCarlo::MonteCarlo(const Parameters& params)
               matIter++)
     {
         const MaterialParameters& mp = matIter->second;
-        size_t test_size = params.crossSectionParams.at(mp.fissionCrossSection).nuBar*( batch_size );
+        double nuBar = params.crossSectionParams.at(mp.fissionCrossSection).nuBar;
+        size_t nb = size_t( nuBar );
+        nb = nb + (( double(nb) == nuBar ) ? 0 : 1);
+        size_t test_size = nb*( batch_size );
+
         if( test_size > vector_size )
         {
             vector_size = test_size;
@@ -87,8 +91,6 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     {
         vector_size = 2*( batch_size );
     }
-
-    vector_size*=2;
 
     int num_extra_vaults = ( vector_size / batch_size ) + 1;
     //Previous definition was not enough extra space for some reason? need to determine why still
