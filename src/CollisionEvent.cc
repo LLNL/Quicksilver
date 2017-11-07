@@ -12,12 +12,38 @@
 #include "DeclareMacro.hh"
 #include "AtomicMacro.hh"
 
+#define MAX_PRODUCTION_SIZE 4
+
 //----------------------------------------------------------------------------------------------------------------------
 //  Routine MC_Collision_Event determines the isotope, reaction and secondary (projectile)
 //  particle characteristics for a collision event.
 //
 //  Return true if the particle will continue.
 //----------------------------------------------------------------------------------------------------------------------
+
+HOST_DEVICE
+void updateTrajectory( double energy, double angle, MC_Particle& mc_particle, MC_Particle& secondaryParticle )
+{
+    secondaryParticle.kinetic_energy = energy;
+    secondaryParticle.direction_cosine = mc_particle.direction_cosine;
+    double cosTheta = angle;
+    double randomNumber = rngSample(&mc_particle.random_number_seed);
+    double phi = 2 * 3.14159265 * randomNumber;
+    double sinPhi = sin(phi);
+    double cosPhi = cos(phi);
+    double sinTheta = sqrt((1.0 - (cosTheta*cosTheta)));
+    secondaryParticle.direction_cosine.Rotate3DVector(sinTheta, cosTheta, sinPhi, cosPhi);
+    double speed = (PhysicalConstants::_speedOfLight *
+            sqrt((1.0 - ((PhysicalConstants::_neutronRestMassEnergy *
+            PhysicalConstants::_neutronRestMassEnergy) /
+            ((energy + PhysicalConstants::_neutronRestMassEnergy) *
+            (energy + PhysicalConstants::_neutronRestMassEnergy))))));
+    secondaryParticle.velocity.x = speed * secondaryParticle.direction_cosine.alpha;
+    secondaryParticle.velocity.y = speed * secondaryParticle.direction_cosine.beta;
+    secondaryParticle.velocity.z = speed * secondaryParticle.direction_cosine.gamma;
+    randomNumber = rngSample(&mc_particle.random_number_seed);
+    secondaryParticle.num_mean_free_paths = -1.0*log(randomNumber);
+}
 
 HOST_DEVICE
 
@@ -60,13 +86,13 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    //------------------------------------------------------------------------------------------------------------------
    //    Do the collision.
    //------------------------------------------------------------------------------------------------------------------
-   double energyOut[4];
-   double angleOut[4];
-   int energy_angle_size = 0;
+   double energyOut[MAX_PRODUCTION_SIZE];
+   double angleOut[MAX_PRODUCTION_SIZE];
+   int nOut = 0;
    double mat_mass = monteCarlo->_materialDatabase->_mat[globalMatIndex]._mass;
 
    monteCarlo->_nuclearData->_isotopes[selectedUniqueNumber]._species[0]._reactions[selectedReact].sampleCollision(
-      mc_particle.kinetic_energy, mat_mass, &energyOut[0], &angleOut[0], &energy_angle_size, &(mc_particle.random_number_seed) );
+      mc_particle.kinetic_energy, mat_mass, &energyOut[0], &angleOut[0], nOut, &(mc_particle.random_number_seed), MAX_PRODUCTION_SIZE );
 
    //--------------------------------------------------------------------------------------------------------------
    //  Post-Collision Phase 1:
@@ -87,55 +113,32 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
          break;
       case NuclearDataReaction::Fission:
          ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._fission);
-         ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, energy_angle_size);
+         ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
          break;
       case NuclearDataReaction::Undefined:
          printf("reactionType invalid\n");
          qs_assert(false);
    }
 
-   DirectionCosine referenceDirectionCosine = mc_particle.direction_cosine;
-   for (int secondaryIndex = 0; secondaryIndex < energy_angle_size; secondaryIndex++)
+   if( nOut == 0 ) return false;
+
+   for (int secondaryIndex = 1; secondaryIndex < nOut; secondaryIndex++)
    {
-      // Copy mc_particle into secondaryParticle buffer
-      MC_Particle secondaryParticle = mc_particle;
-      // Assign a pointer to this buffer
-      MC_Particle *currentParticle = &secondaryParticle;
-      // If this is the first particle, just update mc_particle instead and ignore buffer
-      if (secondaryIndex == 0) { currentParticle = &mc_particle; }
+        // Copy mc_particle into secondaryParticle buffer
+        MC_Particle secondaryParticle = mc_particle;
 
-      currentParticle->kinetic_energy = energyOut[secondaryIndex];
-      currentParticle->direction_cosine = referenceDirectionCosine;
-      double cosTheta = angleOut[secondaryIndex];
-      randomNumber = rngSample(&mc_particle.random_number_seed);
-      double phi = 2 * 3.14159265 * randomNumber;
-      double sinPhi = sin(phi);
-      double cosPhi = cos(phi);
-      double sinTheta = sqrt((1.0 - (cosTheta*cosTheta)));
-      currentParticle->direction_cosine.Rotate3DVector(sinTheta, cosTheta, sinPhi, cosPhi);
-      double speed = (PhysicalConstants::_speedOfLight *
-              sqrt((1.0 - ((PhysicalConstants::_neutronRestMassEnergy *
-              PhysicalConstants::_neutronRestMassEnergy) /
-              ((energyOut[secondaryIndex] + PhysicalConstants::_neutronRestMassEnergy) *
-              (energyOut[secondaryIndex] + PhysicalConstants::_neutronRestMassEnergy))))));
-      currentParticle->velocity.x = speed * mc_particle.direction_cosine.alpha;
-      currentParticle->velocity.y = speed * mc_particle.direction_cosine.beta;
-      currentParticle->velocity.z = speed * mc_particle.direction_cosine.gamma;
-
-      randomNumber = rngSample(&mc_particle.random_number_seed);
-      currentParticle->num_mean_free_paths = -1.0*log(randomNumber);
-      if( energy_angle_size > 1 )
-      {
-         if (secondaryIndex > 0)
-         {
-            currentParticle->random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
-	        currentParticle->identifier = currentParticle->random_number_seed;
-         }
-            monteCarlo->_particleVaultContainer->addExtraParticle(*currentParticle);
-      }
+        updateTrajectory( energyOut[secondaryIndex], angleOut[secondaryIndex], mc_particle, secondaryParticle );
+        secondaryParticle.random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
+        secondaryParticle.identifier = secondaryParticle.random_number_seed;
+        monteCarlo->_particleVaultContainer->addExtraParticle(secondaryParticle);
    }
 
-   return energy_angle_size == 1;
+   updateTrajectory( energyOut[0], angleOut[0], mc_particle, mc_particle );
+
+   if( nOut > 1 )
+       monteCarlo->_particleVaultContainer->addExtraParticle(mc_particle);
+
+   return nOut == 1;
 }
 
 HOST_DEVICE_END
