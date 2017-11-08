@@ -123,7 +123,7 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
 
    for (int secondaryIndex = 1; secondaryIndex < nOut; secondaryIndex++)
    {
-        // Copy mc_particle into secondaryParticle buffer
+        // Newly created particles start as copies of their parent
         MC_Particle secondaryParticle = mc_particle;
         secondaryParticle.random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
         secondaryParticle.identifier = secondaryParticle.random_number_seed;
@@ -133,7 +133,11 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
 
    updateTrajectory( energyOut[0], angleOut[0], mc_particle);
 
-   if( nOut > 1 )
+   // If a fission reaction produces secondary particles we also add the original
+   // particle to the "extras" that we will handle later.  This avoids the 
+   // possibility of a particle doing multiple fission reactions in a single
+   // kernel invocation and overflowing the extra storage with secondary particles.
+   if ( nOut > 1 ) 
        monteCarlo->_particleVaultContainer->addExtraParticle(mc_particle);
 
    return nOut == 1;
