@@ -22,27 +22,26 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 HOST_DEVICE
-void updateTrajectory( double energy, double angle, MC_Particle& mc_particle, MC_Particle& secondaryParticle )
+void updateTrajectory( double energy, double angle, MC_Particle& particle )
 {
-    secondaryParticle.kinetic_energy = energy;
-    secondaryParticle.direction_cosine = mc_particle.direction_cosine;
+    particle.kinetic_energy = energy;
     double cosTheta = angle;
-    double randomNumber = rngSample(&mc_particle.random_number_seed);
+    double randomNumber = rngSample(&particle.random_number_seed);
     double phi = 2 * 3.14159265 * randomNumber;
     double sinPhi = sin(phi);
     double cosPhi = cos(phi);
     double sinTheta = sqrt((1.0 - (cosTheta*cosTheta)));
-    secondaryParticle.direction_cosine.Rotate3DVector(sinTheta, cosTheta, sinPhi, cosPhi);
+    particle.direction_cosine.Rotate3DVector(sinTheta, cosTheta, sinPhi, cosPhi);
     double speed = (PhysicalConstants::_speedOfLight *
             sqrt((1.0 - ((PhysicalConstants::_neutronRestMassEnergy *
             PhysicalConstants::_neutronRestMassEnergy) /
             ((energy + PhysicalConstants::_neutronRestMassEnergy) *
             (energy + PhysicalConstants::_neutronRestMassEnergy))))));
-    secondaryParticle.velocity.x = speed * secondaryParticle.direction_cosine.alpha;
-    secondaryParticle.velocity.y = speed * secondaryParticle.direction_cosine.beta;
-    secondaryParticle.velocity.z = speed * secondaryParticle.direction_cosine.gamma;
-    randomNumber = rngSample(&mc_particle.random_number_seed);
-    secondaryParticle.num_mean_free_paths = -1.0*log(randomNumber);
+    particle.velocity.x = speed * particle.direction_cosine.alpha;
+    particle.velocity.y = speed * particle.direction_cosine.beta;
+    particle.velocity.z = speed * particle.direction_cosine.gamma;
+    randomNumber = rngSample(&particle.random_number_seed);
+    particle.num_mean_free_paths = -1.0*log(randomNumber);
 }
 
 HOST_DEVICE
@@ -126,14 +125,13 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    {
         // Copy mc_particle into secondaryParticle buffer
         MC_Particle secondaryParticle = mc_particle;
-
-        updateTrajectory( energyOut[secondaryIndex], angleOut[secondaryIndex], mc_particle, secondaryParticle );
         secondaryParticle.random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
         secondaryParticle.identifier = secondaryParticle.random_number_seed;
+        updateTrajectory( energyOut[secondaryIndex], angleOut[secondaryIndex], secondaryParticle );
         monteCarlo->_particleVaultContainer->addExtraParticle(secondaryParticle);
    }
 
-   updateTrajectory( energyOut[0], angleOut[0], mc_particle, mc_particle );
+   updateTrajectory( energyOut[0], angleOut[0], mc_particle);
 
    if( nOut > 1 )
        monteCarlo->_particleVaultContainer->addExtraParticle(mc_particle);
