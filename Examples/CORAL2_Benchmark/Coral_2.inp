@@ -1,5 +1,5 @@
 Simulation:
-   dt: 1e-08
+   dt: 2e-09
    fMax: 0.1
    boundaryCondition: reflect
    loadBalance: 0
@@ -7,7 +7,7 @@ Simulation:
    debugThreads: 0
    mpiThreadMultiple: 0
    nBatches: 10
-   nSteps: 10 
+   nSteps: 100 
    seed: 1029384756
    eMax: 20
    eMin: 1e-09
@@ -28,10 +28,10 @@ Geometry:
 Material:
    name: sourceMaterial
    mass: 12.011
-   nIsotopes: 10
+   nIsotopes: 20
    nReactions: 9
    sourceRate: 1e+10
-   totalCrossSection: 0.3
+   totalCrossSection: 1.5
    absorptionCrossSection: flat
    fissionCrossSection: flat
    scatteringCrossSection: flat

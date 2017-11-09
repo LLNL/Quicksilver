@@ -1,20 +1,20 @@
 Simulation:
-   dt: 1e-08
+   dt: 2e-09
    fMax: 0.1
    boundaryCondition: reflect
    loadBalance: 0
    cycleTimers: 0
    debugThreads: 0
    mpiThreadMultiple: 0
-   lx: 100
-   ly: 100
-   lz: 100
-   nParticles: 160000
+   lx: 10
+   ly: 10
+   lz: 10
+   nParticles: 100000
    nBatches: 10
-   nSteps: 10 
-   nx: 20
-   ny: 20
-   nz: 20
+   nSteps: 100 
+   nx: 10
+   ny: 10
+   nz: 10
    xDom: 1
    yDom: 1
    zDom: 1
@@ -28,20 +28,20 @@ Simulation:
 Geometry:
    material: sourceMaterial
    shape: brick
-   xMax: 1000
+   xMax: 10000
    xMin: 0
-   yMax: 1000
+   yMax: 10000
    yMin: 0
-   zMax: 1000
+   zMax: 10000
    zMin: 0
 
 Material:
    name: sourceMaterial
    mass: 12.011
-   nIsotopes: 10
+   nIsotopes: 20
    nReactions: 9
    sourceRate: 1e+10
-   totalCrossSection: 0.3
+   totalCrossSection: 1.5
    absorptionCrossSection: flat
    fissionCrossSection: flat
    scatteringCrossSection: flat
