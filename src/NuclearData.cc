@@ -203,7 +203,7 @@ int NuclearData::getNumberReactions(unsigned int isotopeIndex)
 }
 HOST_DEVICE_END
 
-// For this energy, return the group index for a neutron
+// For this energy, return the group index
 HOST_DEVICE
 int NuclearData::getEnergyGroup(double energy)
 {
