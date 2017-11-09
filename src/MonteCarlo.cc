@@ -8,10 +8,12 @@
 #include "MC_Time_Info.hh"
 #include "MC_Particle_Buffer.hh"
 #include "MC_Fast_Timer.hh"
+#include <cmath>
 
 #include "macros.hh" // current location of openMP wrappers.
 #include "cudaUtils.hh"
 
+using std::ceil;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Construct a MonteCarlo object.
@@ -61,7 +63,7 @@ MonteCarlo::MonteCarlo(const Parameters& params)
         num_particles_on_process = 1;
     }
 
-    if( batch_size == 0 ) //batch size unset - use num_batches to get batch_size
+    if ( batch_size == 0 ) //batch size unset - use num_batches to get batch_size
     {
         batch_size = (num_particles_on_process / num_batches) + ((num_particles_on_process%num_batches == 0) ? 0 : 1) ;
     }
@@ -77,18 +79,15 @@ MonteCarlo::MonteCarlo(const Parameters& params)
               matIter++)
     {
         const MaterialParameters& mp = matIter->second;
-        size_t test_size = params.crossSectionParams.at(mp.fissionCrossSection).nuBar*( batch_size );
-        if( test_size > vector_size )
-        {
-            vector_size = test_size;
-        }
-    }
-    if( vector_size == 0 )
-    {
-        vector_size = 2*( batch_size );
-    }
+        double nuBar = params.crossSectionParams.at(mp.fissionCrossSection).nuBar;
+        size_t nb = ceil( nuBar );
+        size_t test_size = nb*( batch_size );
 
-    vector_size*=2;
+        if ( test_size > vector_size )
+            vector_size = test_size;
+    }
+    if ( vector_size == 0 )
+        vector_size = 2*batch_size;
 
     int num_extra_vaults = ( vector_size / batch_size ) + 1;
     //Previous definition was not enough extra space for some reason? need to determine why still

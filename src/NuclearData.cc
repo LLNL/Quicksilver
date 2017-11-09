@@ -53,13 +53,13 @@ HOST_DEVICE
 
 void NuclearDataReaction::sampleCollision(
    double incidentEnergy, double material_mass, double* energyOut,
-   double* angleOut, int *energy_angle_size, uint64_t* seed)
+   double* angleOut, int &nOut, uint64_t* seed, int max_production_size)
 {
    double randomNumber;
    switch(_reactionType)
    {
      case Scatter:
-      energy_angle_size[0] = 1;
+      nOut = 1;
       randomNumber = rngSample(seed);
       energyOut[0] = incidentEnergy * (1.0 - (randomNumber*(1.0/material_mass)));
       randomNumber = rngSample(seed) * 2.0 - 1.0;
@@ -70,7 +70,8 @@ void NuclearDataReaction::sampleCollision(
      case Fission:
       {
          int numParticleOut = (int)(_nuBar + rngSample(seed));
-         energy_angle_size[0] = numParticleOut;
+         qs_assert( numParticleOut <= max_production_size );
+         nOut = numParticleOut;
          for (int outIndex = 0; outIndex < numParticleOut; outIndex++)
          {
             randomNumber = rngSample(seed) / 2.0 + 0.5;

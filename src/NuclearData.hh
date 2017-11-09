@@ -49,7 +49,7 @@ class NuclearDataReaction
    double getCrossSection(unsigned int group);
    HOST_DEVICE_CUDA
    void sampleCollision(double incidentEnergy, double material_mass, double* energyOut,
-                        double* angleOut, int *energy_angle_size, uint64_t* seed);
+                        double* angleOut, int &nOut, uint64_t* seed, int max_production_size);
    
    
    qs_vector<double> _crossSection; //!< tabular data for microscopic cross section
