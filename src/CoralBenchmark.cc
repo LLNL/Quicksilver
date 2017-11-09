@@ -26,9 +26,8 @@ void coralBenchmarkCorrectness( MonteCarlo* monteCarlo, Parameters &params )
         //  withing some tolerance, based on input expectation
         BalanceRatioTest( monteCarlo, params );
 
-        //Test Balance Tallies for relative correctness
-        //  Expected ratios of absorbs,fisisons, scatters are maintained
-        //  withing some tolerance, based on input expectation
+        //Test Balance Tallies for equality in number of Facet Crossing 
+        //and Collision events 
         BalanceEventTest( monteCarlo );
         
         //Test for lost particles during the simulation
