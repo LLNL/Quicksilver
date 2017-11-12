@@ -7,6 +7,7 @@
 #include <cmath>
 
 void BalanceRatioTest( MonteCarlo* monteCarlo, Parameters &params );
+void BalanceEventTest( MonteCarlo *monteCarlo );
 void MissingParticleTest( MonteCarlo* monteCarlo );
 void FluenceTest( MonteCarlo* monteCarlo );
 
@@ -24,6 +25,10 @@ void coralBenchmarkCorrectness( MonteCarlo* monteCarlo, Parameters &params )
         //  Expected ratios of absorbs,fisisons, scatters are maintained
         //  withing some tolerance, based on input expectation
         BalanceRatioTest( monteCarlo, params );
+
+        //Test Balance Tallies for equality in number of Facet Crossing 
+        //and Collision events 
+        BalanceEventTest( monteCarlo );
         
         //Test for lost particles during the simulation
         //  This test should always succeed unless test for 
@@ -99,6 +104,39 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
 
 }
 
+void BalanceEventTest( MonteCarlo *monteCarlo )
+{
+
+    fprintf(stdout,"\n");
+    fprintf(stdout, "Testing balance between number of facet crossings and reactions\n");
+
+    Balance &balTally = monteCarlo->_tallies->_balanceCumulative;
+
+    uint64_t num_segments = balTally._numSegments;
+    uint64_t collisions   = balTally._collision;
+    uint64_t census       = balTally._census;
+
+    uint64_t facetCrossing = num_segments - census - collisions;
+
+    double ratio = std::abs( (double(facetCrossing) / double(collisions)) - 1);
+    
+    double tolerance = 1.0;    
+    bool pass = true;
+    if( ratio > (tolerance/100.0) ) pass = false; 
+    
+    if( pass )
+    {
+        fprintf( stdout, "PASS:: Collision to Facet Crossing Ratio maintained even balanced within %g%% tolerance\n", tolerance );
+    }
+    else
+    {
+        fprintf(stdout, " FAIL:: Collision to Facet Crossing Ratio balanced NOT maintained within %g%% tolerance\n", tolerance );
+        fprintf(stdout, "\tFacet Crossing: %llu\tCollision: %llu\tRatio: %g\n", facetCrossing, collisions, ratio );
+    }
+
+
+}
+
 void MissingParticleTest( MonteCarlo *monteCarlo )
 {
     fprintf(stdout,"\n");
@@ -156,7 +194,7 @@ void FluenceTest( MonteCarlo* monteCarlo )
         }
     }
 
-    double percent_tolerance = 10.0;
+    double percent_tolerance = 5.0;
 
     double max_diff_global = 0.0;
 
@@ -173,7 +211,6 @@ void FluenceTest( MonteCarlo* monteCarlo )
         else
         {
             fprintf( stdout, "PASS:: Fluence is homogenous across cells with %g%% tolerance\n", percent_tolerance );
-            fprintf( stdout, "\tMax Percent Diff: %4.1f%%\n", max_diff_global);
         }
     }
 
