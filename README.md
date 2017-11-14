@@ -55,7 +55,7 @@ Running Quicksilver
 Quicksilver’s behavior is controlled by a combination of command line
 options and an input file.  All of the parameters that can be set on
 the command line can also be set in the input file.  The input file
-values will override the command line.  Run ```$ qs –h``` to see
+values will override the command line.  Run `$ qs –h` to see
 documentation on the available command line switches.  Documentation
 of the input file parameters is in preparation.
 
