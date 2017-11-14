@@ -16,8 +16,8 @@ Performance of Quicksilver is likely to be dominated by latency bound
 table look-ups, a highly branchy/divergent code path, and poor
 vectorization potential.
 
-For more information, visit the [LLNL co-design pages.]
-(https://codesign.llnl.gov/quicksilver.php)
+For more information, visit the
+[LLNL co-design pages.](https://codesign.llnl.gov/quicksilver.php)
 
 
 Building Quicksilver
