@@ -140,6 +140,9 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    if ( nOut > 1 ) 
        monteCarlo->_particleVaultContainer->addExtraParticle(mc_particle);
 
+   //If we are still tracking this particle the update its energy group
+   mc_particle.energy_group = monteCarlo->_nuclearData->getEnergyGroup(mc_particle.kinetic_energy);
+
    return nOut == 1;
 }
 
