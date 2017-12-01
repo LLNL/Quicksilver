@@ -211,13 +211,19 @@ int NuclearData::getEnergyGroup(double energy)
    if (energy <= _energies[0]) return 0;
    if (energy > _energies[numEnergies-1]) return numEnergies-1;
 
-   for( int index = 1; index < numEnergies; index++ )
+   int high = numEnergies-1;
+   int low = 0;
+
+   while( high != low+1 )
    {
-       if( energy < _energies[index] )
-           return index-1;
+       int mid = (high+low)/2;
+       if( energy < _energies[mid] ) 
+           high = mid;
+       else
+           low  = mid;
    }
 
-   return 0;
+   return low;
 }
 HOST_DEVICE_END
 
