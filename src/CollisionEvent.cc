@@ -43,6 +43,7 @@ void updateTrajectory( double energy, double angle, MC_Particle& particle )
     randomNumber = rngSample(&particle.random_number_seed);
     particle.num_mean_free_paths = -1.0*log(randomNumber);
 }
+HOST_DEVICE_END
 
 HOST_DEVICE
 
