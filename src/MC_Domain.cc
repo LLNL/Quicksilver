@@ -377,7 +377,9 @@ MC_Domain::MC_Domain(const MeshPartition& meshPartition, const GlobalFccGrid& gr
       cell_state[ii]._material = materialDatabase.findMaterial(matName);
 
       cell_state[ii]._total = _cachedCrossSectionStorage.getBlock(numEnergyGroups);
-
+      for (unsigned jj=0; jj<numEnergyGroups; ++jj)
+         cell_state[ii]._total[jj] = 0.;
+      
       int numIsos = static_cast<int>(materialDatabase._mat[cell_state[ii]._material]._iso.size());
       //  The cellNumberDensity scales the crossSections so we choose to
       //  set this density to 1.0 so that the totalCrossSection will be
@@ -389,6 +391,13 @@ MC_Domain::MC_Domain(const MeshPartition& meshPartition, const GlobalFccGrid& gr
       cell_state[ii]._sourceTally = 0;
    }
 
+}
+
+void MC_Domain::clearCrossSectionCache(int numEnergyGroups)
+{
+   for (unsigned ii=0; ii<cell_state.size(); ++ii)
+      for (unsigned jj=0; jj<numEnergyGroups; ++jj)
+         cell_state[ii]._total[jj] = 0.;
 }
 
 namespace
@@ -461,3 +470,4 @@ namespace
       return bc;
    }
 }
+

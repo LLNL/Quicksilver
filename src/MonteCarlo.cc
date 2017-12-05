@@ -142,4 +142,10 @@ MonteCarlo::~MonteCarlo()
     #endif
 }
 
+void MonteCarlo::clearCrossSectionCache()
+{
+   int numEnergyGroups = _nuclearData->_numEnergyGroups;
+   for (unsigned ii=0; ii<domain.size(); ++ii)
+      domain[ii].clearCrossSectionCache(numEnergyGroups);
+}
 

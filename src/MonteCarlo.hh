@@ -24,6 +24,8 @@ public:
 
 public:
 
+   void clearCrossSectionCache();
+
    qs_vector<MC_Domain> domain;
 
     Parameters _params;

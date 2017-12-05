@@ -98,6 +98,8 @@ void cycleInit( bool loadBalance )
 
     MC_FASTTIMER_START(MC_Fast_Timer::cycleInit);
 
+    mcco->clearCrossSectionCache();
+       
     mcco->_tallies->CycleInitialize(mcco);
 
     mcco->_particleVaultContainer->swapProcessingProcessedVaults();
