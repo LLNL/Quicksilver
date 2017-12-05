@@ -105,6 +105,7 @@ class NuclearData
    HOST_DEVICE_CUDA
    double getReactionCrossSection(unsigned int reactIndex, unsigned int isotopeIndex, unsigned int group);
 
+   int _numEnergyGroups;
    // Store the cross sections and reactions by isotope, which stores
    // it by species
    qs_vector<NuclearDataIsotope> _isotopes;

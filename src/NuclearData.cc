@@ -105,6 +105,7 @@ void NuclearDataSpecies::addReaction(
 NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh) : _energies( numGroups+1,VAR_MEM)
 {
    qs_assert (energyLow < energyHigh);
+   _numEnergyGroups = numGroups;
    _energies[0] = energyLow;
    _energies[numGroups] = energyHigh;
    double logLow = log(energyLow);

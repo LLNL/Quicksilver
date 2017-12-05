@@ -74,6 +74,7 @@ public:
               const MaterialDatabase& materialDatabase, int numEnergyGroups);
 
 
+   void clearCrossSectionCache(int numEnergyGroups);
 };
 
 #endif
