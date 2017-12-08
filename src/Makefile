@@ -274,6 +274,7 @@ SOURCES= \
     CycleTracking.cc \
     DecompositionObject.cc \
     DirectionCosine.cc \
+    EnergySpectrum.cc \
     GlobalFccGrid.cc \
     GridAssignmentObject.cc \
     InputBlock.cc \

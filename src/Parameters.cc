@@ -81,9 +81,21 @@ Parameters getParameters(int argc, char** argv)
 {
    Parameters params;
    parseCommandLine(argc, argv, params);
-   const string& filename = params.simulationParams.inputFile;
+<<<<<<< HEAD
+   const string& filename  = params.simulationParams.inputFile;
+   const string energyName = params.simulationParams.energySpectrum;
    if (!filename.empty())
       parseInputFile(filename, params);
+   if( energyName != "" )
+       params.simulationParams.energySpectrum = energyName;
+=======
+   const string& filename = params.simulationParams.inputFile;
+   const string xsecOut   = params.simulationParams.crossSectionsOut;
+   if (!filename.empty())
+      parseInputFile(filename, params);
+   if( xsecOut != "" )
+      params.simulationParams.crossSectionsOut = xsecOut;
+>>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
 
    supplyDefaults(params);
 
@@ -117,6 +129,7 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   dt: " << pp.dt << "\n";
    out << "   fMax: " << pp.fMax << "\n";
    out << "   inputFile: " << pp.inputFile << "\n";
+   out << "   energySpectrum: " << pp.energySpectrum << "\n";
    out << "   boundaryCondition: " << pp.boundaryCondition << "\n";
    out << "   loadBalance: " << pp.loadBalance << "\n";
    out << "   cycleTimers: " << pp.cycleTimers << "\n";
@@ -143,6 +156,7 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   fTally: " << pp.fluxTallyReplications << "\n";
    out << "   cTally: " << pp.cellTallyReplications << "\n";
    out << "   coralBenchmark: " << pp.coralBenchmark << "\n";
+   out << "   crossSectionsOut:" << pp.crossSectionsOut << "\n";
    out << endl;
    return out;
 }
@@ -216,11 +230,23 @@ namespace
       int help=0;
       char name[1024];
       name[0] = '\0';
+<<<<<<< HEAD
+      char esName[1024];
+      esName[0] = '\0';
+=======
+      char xsec[1024];
+      xsec[0] = '\0';
+>>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
       
       addArg("help",             'h', 0, 'i', &(help),           0,      "print this message");
       addArg("dt",               'D', 1, 'd', &(sp.dt),          0,      "time step (seconds)");
       addArg("fMax",             'f', 1, 'd', &(sp.fMax),        0,      "max random mesh node displacement");
       addArg("inputFile",        'i', 1, 's', &(name),     sizeof(name), "name of input file");
+<<<<<<< HEAD
+      addArg("energySpectrum",   'e', 1, 's', &(esName),     sizeof(esName), "name of energy spectrum output file");
+=======
+      addArg("crossSectionsOut", 'S', 1, 's', &(xsec),     sizeof(xsec), "name of cross section output file");
+>>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
       addArg("loadBalance",      'l', 0, 'i', &(sp.loadBalance), 0,      "enable/disable load balancing" );
       addArg("cycleTimers",      'c', 1, 'i', &(sp.cycleTimers), 0,      "enable/disable cycle timers" );
       addArg("debugThreads",     't', 1, 'i', &(sp.debugThreads),0,      "set thread debug level to 1, 2, 3" );
@@ -245,6 +271,11 @@ namespace
       processArgs(argc, argv);
 
       sp.inputFile = name;
+<<<<<<< HEAD
+      sp.energySpectrum = esName;
+=======
+      sp.crossSectionsOut = xsec;
+>>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
 
       if (help)
       {
@@ -370,6 +401,11 @@ namespace
    void scanSimulationBlock(const InputBlock& input, Parameters& pp)
    {
       SimulationParameters& sp = pp.simulationParams;
+<<<<<<< HEAD
+      input.getValue<string>("energySpectrum", sp.energySpectrum);
+=======
+      input.getValue<string>("crossSectionsOut",sp.crossSectionsOut);
+>>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
       input.getValue<string>("boundaryCondition", sp.boundaryCondition);
       input.getValue<double>("dt",          sp.dt);
       input.getValue<double>("fMax",        sp.fMax);
