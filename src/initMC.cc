@@ -68,8 +68,7 @@ MonteCarlo* initMC(const Parameters& params)
    MC_Base_Particle::Update_Counts();
 
    //   used when debugging cross sections
-   //   checkCrossSections(monteCarlo, params);
-      
+   checkCrossSections(monteCarlo, params);
    return monteCarlo;
 }
 
@@ -399,6 +398,8 @@ namespace
    // if you want to get plot data for the cross sections.
    void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params)
    {
+      if( monteCarlo->_params.simulationParams.crossSectionsOut == "" ) return;
+
       struct XC_Data
       {
          XC_Data() : absorption(0.), fission(0.), scatter(0.){}
@@ -451,36 +452,41 @@ namespace
                     case NuclearDataReaction::Fission:
                      xcVec[iGroup].fission += reaction.getCrossSection(iGroup)/nIsotopes;
                      break;
+                    case NuclearDataReaction::Undefined:
+                     qs_assert(false);
+                     break;
                   }   
                }
             }
          }
       }
-  
+
+    FILE* xSec;
+
+    std::string fileName = monteCarlo->_params.simulationParams.crossSectionsOut + ".dat";
+
+    xSec = fopen( fileName.c_str(), "w" );
+
       // print cross section data
       // first the header
-      cout << endl << endl << "energy";
+      fprintf(xSec, "#group  energy");
       for (auto mapIter=xcTable.begin(); mapIter!=xcTable.end(); ++mapIter)
       {
          const string& materialName = mapIter->first;
-         cout << "  " << materialName << "_a"
-              << "  " << materialName << "_f"
-              << "  " << materialName << "_s";
+         fprintf(xSec, "  %s_a  %s_f  %s_s", materialName.c_str(), materialName.c_str(), materialName.c_str());
       }
-      cout << endl;
+      fprintf(xSec,"\n");
   
       // now the data
       for (unsigned ii=0; ii<nGroups; ++ii)
       {
-         cout << energy[ii];
+         fprintf(xSec, "%u  %g", ii, energy[ii]);
          for (auto mapIter=xcTable.begin(); mapIter!=xcTable.end(); ++mapIter)
          {
-            cout << "  " << mapIter->second[ii].absorption
-                 << "  " << mapIter->second[ii].fission
-                 << "  " << mapIter->second[ii].scatter;
+            fprintf(xSec, "  %g  %g  %g", mapIter->second[ii].absorption, mapIter->second[ii].fission, mapIter->second[ii].scatter);
          }
-         cout << endl;
+         fprintf(xSec, "\n");
       }
-      cout << endl << endl;
+    fclose( xSec );
    }
 }
