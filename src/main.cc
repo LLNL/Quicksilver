@@ -21,6 +21,7 @@
 #include "qs_assert.hh"
 #include "CycleTracking.hh"
 #include "CoralBenchmark.hh"
+#include "EnergySpectrum.hh"
 
 #include "git_hash.hh"
 #include "git_vers.hh"
@@ -28,7 +29,7 @@
 void gameOver();
 void cycleInit( bool loadBalance );
 void cycleTracking(MonteCarlo* monteCarlo);
-void cycleFinalize();
+void cycleFinalize( uint64_t* censusEnergySpectrum);
 
 using namespace std;
 
@@ -45,17 +46,25 @@ int main(int argc, char** argv)
    // mcco stores just about everything. 
    mcco = initMC(params); 
 
-   int loadBalance = params.simulationParams.loadBalance;
+   int loadBalance    = params.simulationParams.loadBalance;
+   string energySpectrum = params.simulationParams.energySpectrum;
+   uint64_t *censusEnergySpectrum;
+
+   if( energySpectrum != "NONE" )
+   {
+      censusEnergySpectrum = new uint64_t[ mcco->_nuclearData->_energies.size()]();
+   }
 
    MC_FASTTIMER_START(MC_Fast_Timer::main);     // this can be done once mcco exist.
 
    const int nSteps = params.simulationParams.nSteps;
 
+
    for (int ii=0; ii<nSteps; ++ii)
    {
       cycleInit( bool(loadBalance) );
       cycleTracking(mcco);
-      cycleFinalize();
+      cycleFinalize(censusEnergySpectrum);
 
       if (params.simulationParams.cycleTimers == 1)
       {
@@ -72,6 +81,7 @@ int main(int argc, char** argv)
    gameOver();
 
     coralBenchmarkCorrectness(mcco, params);
+    printSpectrum( censusEnergySpectrum, mcco);
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
@@ -99,7 +109,7 @@ void cycleInit( bool loadBalance )
     MC_FASTTIMER_START(MC_Fast_Timer::cycleInit);
 
     mcco->clearCrossSectionCache();
-       
+
     mcco->_tallies->CycleInitialize(mcco);
 
     mcco->_particleVaultContainer->swapProcessingProcessedVaults();
@@ -238,8 +248,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                 }
 
                 particle_count += numParticles;
-                
-                
+
                 // Next, communicate particles that have crossed onto
                 // other MPI ranks.
                 NVTX_Range cleanAndComm("cycleTracking_clean_and_comm");
@@ -302,11 +311,13 @@ void cycleTracking(MonteCarlo *monteCarlo)
 }
 
 
-void cycleFinalize()
+void cycleFinalize( uint64_t *censusEnergySpectrum )
 {
     MC_FASTTIMER_START(MC_Fast_Timer::cycleFinalize);
 
     mcco->_tallies->_balanceTask[0]._end = mcco->_particleVaultContainer->sizeProcessed();
+
+    updateSpectrum( mcco, censusEnergySpectrum );
 
     // Update the cumulative tally data.
     mcco->_tallies->CycleFinalize(mcco); 

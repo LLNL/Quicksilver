@@ -81,12 +81,18 @@ Parameters getParameters(int argc, char** argv)
 {
    Parameters params;
    parseCommandLine(argc, argv, params);
-   const string& filename = params.simulationParams.inputFile;
+
+   const string& filename  = params.simulationParams.inputFile;
+   const string energyName = params.simulationParams.energySpectrum;
    const string xsecOut   = params.simulationParams.crossSectionsOut;
    if (!filename.empty())
       parseInputFile(filename, params);
+   if( energyName != "" )
+       params.simulationParams.energySpectrum = energyName;
+   
    if( xsecOut != "" )
       params.simulationParams.crossSectionsOut = xsecOut;
+
 
    supplyDefaults(params);
 
@@ -120,6 +126,7 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    out << "   dt: " << pp.dt << "\n";
    out << "   fMax: " << pp.fMax << "\n";
    out << "   inputFile: " << pp.inputFile << "\n";
+   out << "   energySpectrum: " << pp.energySpectrum << "\n";
    out << "   boundaryCondition: " << pp.boundaryCondition << "\n";
    out << "   loadBalance: " << pp.loadBalance << "\n";
    out << "   cycleTimers: " << pp.cycleTimers << "\n";
@@ -220,6 +227,8 @@ namespace
       int help=0;
       char name[1024];
       name[0] = '\0';
+      char esName[1024];
+      esName[0] = '\0';
       char xsec[1024];
       xsec[0] = '\0';
       
@@ -227,6 +236,7 @@ namespace
       addArg("dt",               'D', 1, 'd', &(sp.dt),          0,      "time step (seconds)");
       addArg("fMax",             'f', 1, 'd', &(sp.fMax),        0,      "max random mesh node displacement");
       addArg("inputFile",        'i', 1, 's', &(name),     sizeof(name), "name of input file");
+      addArg("energySpectrum",   'e', 1, 's', &(esName),     sizeof(esName), "name of energy spectrum output file");
       addArg("crossSectionsOut", 'S', 1, 's', &(xsec),     sizeof(xsec), "name of cross section output file");
       addArg("loadBalance",      'l', 0, 'i', &(sp.loadBalance), 0,      "enable/disable load balancing" );
       addArg("cycleTimers",      'c', 1, 'i', &(sp.cycleTimers), 0,      "enable/disable cycle timers" );
@@ -252,6 +262,8 @@ namespace
       processArgs(argc, argv);
 
       sp.inputFile = name;
+
+      sp.energySpectrum = esName;
       sp.crossSectionsOut = xsec;
 
       if (help)
@@ -378,6 +390,8 @@ namespace
    void scanSimulationBlock(const InputBlock& input, Parameters& pp)
    {
       SimulationParameters& sp = pp.simulationParams;
+
+      input.getValue<string>("energySpectrum", sp.energySpectrum);
       input.getValue<string>("crossSectionsOut",sp.crossSectionsOut);
       input.getValue<string>("boundaryCondition", sp.boundaryCondition);
       input.getValue<double>("dt",          sp.dt);

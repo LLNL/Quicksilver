@@ -100,6 +100,7 @@ struct SimulationParameters
    : inputFile(),
      crossSectionsOut(""),
      boundaryCondition("reflect"),
+     energySpectrum(""),
      loadBalance(0),
      cycleTimers(0),
      debugThreads(0),
@@ -133,6 +134,7 @@ struct SimulationParameters
    {};
 
    std::string inputFile;        //!< name of input file
+   std::string energySpectrum;   //!< enble computing and printing energy spectrum via of energy spectrum file 
    std::string crossSectionsOut; //!< enable or disable printing cross section data to a file
    std::string boundaryCondition;//!< specifies boundary conditions
    int loadBalance;              //!< enable or disable load balancing
