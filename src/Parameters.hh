@@ -134,11 +134,8 @@ struct SimulationParameters
    {};
 
    std::string inputFile;        //!< name of input file
-<<<<<<< HEAD
    std::string energySpectrum;   //!< enble computing and printing energy spectrum via of energy spectrum file 
-=======
    std::string crossSectionsOut; //!< enable or disable printing cross section data to a file
->>>>>>> 6dbb362... 1) Added printing cross sections as an input parameter. (#17)
    std::string boundaryCondition;//!< specifies boundary conditions
    int loadBalance;              //!< enable or disable load balancing
    int cycleTimers;              //!< enable or disable cycle timers 
