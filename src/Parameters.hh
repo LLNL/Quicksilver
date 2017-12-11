@@ -98,6 +98,7 @@ struct SimulationParameters
 {
    SimulationParameters()
    : inputFile(),
+     crossSectionsOut(""),
      boundaryCondition("reflect"),
      loadBalance(0),
      cycleTimers(0),
@@ -132,6 +133,7 @@ struct SimulationParameters
    {};
 
    std::string inputFile;        //!< name of input file
+   std::string crossSectionsOut; //!< enable or disable printing cross section data to a file
    std::string boundaryCondition;//!< specifies boundary conditions
    int loadBalance;              //!< enable or disable load balancing
    int cycleTimers;              //!< enable or disable cycle timers 
