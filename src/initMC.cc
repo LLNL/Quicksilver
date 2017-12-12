@@ -143,12 +143,14 @@ namespace
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,
-                                                          params.simulationParams.eMax);
+                                                          params.simulationParams.eMax,
+                                                          params.simulationParams.energySpectrum);
          monteCarlo->_materialDatabase = new(ptr2) MaterialDatabase();
      #else
          monteCarlo->_nuclearData = new NuclearData(params.simulationParams.nGroups,
                                                     params.simulationParams.eMin,
-                                                    params.simulationParams.eMax);
+                                                    params.simulationParams.eMax,
+                                                    params.simulationParams.energySpectrum);
          monteCarlo->_materialDatabase = new MaterialDatabase();
      #endif
 

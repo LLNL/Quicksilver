@@ -10,6 +10,8 @@
 #include "qs_assert.hh"
 #include "DeclareMacro.hh"
 
+class EnergySpectrum;
+
 class Polynomial
 {
  public:
@@ -86,7 +88,8 @@ class NuclearData
 {
  public:
    
-   NuclearData(int numGroups, double energyLow, double energyHigh);
+   NuclearData(int numGroups, double energyLow, double energyHigh, std::string spectrumName);
+   ~NuclearData();
 
    int addIsotope(int nReactions,
                   const Polynomial& fissionFunction,
@@ -112,6 +115,8 @@ class NuclearData
    // This is the overall energy layout. If we had more than just
    // neutrons, this array would be a vector of vectors.
    qs_vector<double> _energies;
+
+   EnergySpectrum *_spectrum;
 };
 
 #endif
