@@ -94,6 +94,7 @@ void Tallies::CycleFinalize(MonteCarlo *monteCarlo)
         _cellTallyDomain[domainIndex]._task[0].Reset();
         _scalarFluxDomain[domainIndex]._task[0].Reset();
     }
+    _spectrum.UpdateSpectrum(monteCarlo);
 }
 
 void Fluence::compute( int domainIndex, ScalarFluxDomain &scalarFluxDomain )
@@ -172,9 +173,14 @@ double Tallies::ScalarFluxSum(MonteCarlo *monteCarlo)
 void Tallies::InitializeTallies( MonteCarlo *monteCarlo, 
                         int balance_replications = 1, 
                         int flux_replications = 1, 
-                        int cell_replications = 1 ) 
+                        int cell_replications = 1,
+                        std::string name = "",
+                        int size = 0
+                        ) 
 {
 
+    _spectrum.SetFileName( name );
+    _spectrum.ResizeSpectrum( size );
     //Set num replications from input parameters
     _num_balance_replications   = balance_replications;
     _num_flux_replications      = flux_replications;

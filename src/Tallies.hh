@@ -11,8 +11,8 @@
 #include "utils.hh"
 #include "macros.hh"
 #include "BulkStorage.hh"
-
 #include "DeclareMacro.hh"
+#include "EnergySpectrum.hh"
 
 typedef unsigned long long int uint64_cu;
 
@@ -305,6 +305,7 @@ class Tallies
     qs_vector<ScalarFluxDomain> _scalarFluxDomain;
     qs_vector<CellTallyDomain>  _cellTallyDomain;
     Fluence                     _fluence;
+    EnergySpectrum              _spectrum;
     
     Tallies() : _balanceCumulative(), _balanceTask(),
         _scalarFluxDomain(), _num_balance_replications(1), 
@@ -340,7 +341,9 @@ class Tallies
     void InitializeTallies( MonteCarlo *monteCarlo, 
                             int balance_replications, 
                             int flux_replications, 
-                            int cell_replications);
+                            int cell_replications,
+                            std::string name,
+                            int numGroups);
 
     void CycleInitialize(MonteCarlo* monteCarlo);
 

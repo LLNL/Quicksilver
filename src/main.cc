@@ -73,7 +73,6 @@ int main(int argc, char** argv)
    gameOver();
 
    coralBenchmarkCorrectness(mcco, params);
-   mcco->_nuclearData->_spectrum->PrintSpectrum(mcco);
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
@@ -93,6 +92,7 @@ void gameOver()
                                         mcco->processor_info-> num_processors,
                                         mcco->processor_info->comm_mc_world,
                                         mcco->_tallies->_balanceCumulative._numSegments);
+    mcco->_tallies->_spectrum.PrintSpectrum(mcco);
 }
 
 void cycleInit( bool loadBalance )
@@ -308,8 +308,6 @@ void cycleFinalize()
     MC_FASTTIMER_START(MC_Fast_Timer::cycleFinalize);
 
     mcco->_tallies->_balanceTask[0]._end = mcco->_particleVaultContainer->sizeProcessed();
-
-    mcco->_nuclearData->_spectrum->UpdateSpectrum(mcco);
 
     // Update the cumulative tally data.
     mcco->_tallies->CycleFinalize(mcco); 

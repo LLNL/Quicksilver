@@ -103,7 +103,7 @@ void NuclearDataSpecies::addReaction(
 
 
 // Set up the energies boundaries of the neutron
-NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh, std::string spectrumName) : _energies( numGroups+1,VAR_MEM)
+NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh) : _energies( numGroups+1,VAR_MEM)
 {
    qs_assert (energyLow < energyHigh);
    _numEnergyGroups = numGroups;
@@ -117,17 +117,7 @@ NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh, std
       double logValue = logLow + delta *energyIndex;
       _energies[energyIndex] = exp(logValue);
    }
-   _spectrum = new EnergySpectrum;
-   _spectrum->Allocate( spectrumName, _numEnergyGroups );
 }
-
-NuclearData::~NuclearData()
-{
-    delete _spectrum;
-   _isotopes.~qs_vector();
-   _energies.~qs_vector();
-}
-
 
 int NuclearData::addIsotope(
    int nReactions,
