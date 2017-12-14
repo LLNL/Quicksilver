@@ -67,11 +67,6 @@ GridAssignmentObject::GridAssignmentObject(const vector<MC_Vector>& centers)
 
    _grid.resize( nCells );
 
-   for( int ii=0;ii<nCells;ii++)
-   {
-       _grid[ii]._myCenters.reserve(_centers.size());
-   }
-
    for (int ii=0; ii<_centers.size(); ++ii)
    {
       int iCell = whichCell(_centers[ii]);
