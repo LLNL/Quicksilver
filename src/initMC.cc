@@ -335,9 +335,7 @@ namespace
          monteCarlo,  
          params.simulationParams.balanceTallyReplications,
          params.simulationParams.fluxTallyReplications,
-         params.simulationParams.cellTallyReplications,
-         params.simulationParams.energySpectrum,
-         monteCarlo->_nuclearData->_numEnergyGroups
+         params.simulationParams.cellTallyReplications
       );
    }
 }

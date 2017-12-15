@@ -35,14 +35,18 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
-                                                     params.simulationParams.cellTallyReplications);
+                                                     params.simulationParams.cellTallyReplications, 
+                                                     params.simulationParams.energySpectrum,
+                                                     params.simulationParams.nGroups);
         processor_info          = new(ptr2) MC_Processor_Info();
         time_info               = new(ptr3) MC_Time_Info();
         fast_timer              = new(ptr4) MC_Fast_Timer_Container();
     #else
         _tallies                = new Tallies( params.simulationParams.balanceTallyReplications, 
                                                params.simulationParams.fluxTallyReplications,
-                                               params.simulationParams.cellTallyReplications);
+                                               params.simulationParams.cellTallyReplications,
+                                               params.simulationParams.energySpectrum,
+                                               params.simulationParams.nGroups);
         processor_info          = new MC_Processor_Info();
         time_info               = new MC_Time_Info();
         fast_timer              = new MC_Fast_Timer_Container();

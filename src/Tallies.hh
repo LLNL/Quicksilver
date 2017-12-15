@@ -4,6 +4,7 @@
 #include "portability.hh"
 #include "QS_Vector.hh"
 #include <stdlib.h>
+#include <string>
 #include <vector>
 #include <cinttypes>
 #include "NuclearData.hh"
@@ -307,14 +308,10 @@ class Tallies
     Fluence                     _fluence;
     EnergySpectrum              _spectrum;
     
-    Tallies() : _balanceCumulative(), _balanceTask(),
-        _scalarFluxDomain(), _num_balance_replications(1), 
-        _num_flux_replications(1), _num_cellTally_replications(1)
-    {}
-
-    Tallies( int balRep, int fluxRep, int cellRep ) : _balanceCumulative(), _balanceTask(),
+    Tallies( int balRep, int fluxRep, int cellRep, std::string spectrumName, int spectrumSize ) : _balanceCumulative(), _balanceTask(),
         _scalarFluxDomain(), _num_balance_replications(balRep), 
-        _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep)
+        _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep), 
+        _spectrum(spectrumName, spectrumSize)
     {
     }
 
@@ -341,9 +338,7 @@ class Tallies
     void InitializeTallies( MonteCarlo *monteCarlo, 
                             int balance_replications, 
                             int flux_replications, 
-                            int cell_replications,
-                            std::string name,
-                            int numGroups);
+                            int cell_replications);
 
     void CycleInitialize(MonteCarlo* monteCarlo);
 
