@@ -112,6 +112,7 @@ class NuclearData
    // This is the overall energy layout. If we had more than just
    // neutrons, this array would be a vector of vectors.
    qs_vector<double> _energies;
+
 };
 
 #endif

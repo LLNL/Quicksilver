@@ -21,6 +21,7 @@
 #include "qs_assert.hh"
 #include "CycleTracking.hh"
 #include "CoralBenchmark.hh"
+#include "EnergySpectrum.hh"
 
 #include "git_hash.hh"
 #include "git_vers.hh"
@@ -71,7 +72,7 @@ int main(int argc, char** argv)
 
    gameOver();
 
-    coralBenchmarkCorrectness(mcco, params);
+   coralBenchmarkCorrectness(mcco, params);
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
@@ -91,6 +92,7 @@ void gameOver()
                                         mcco->processor_info-> num_processors,
                                         mcco->processor_info->comm_mc_world,
                                         mcco->_tallies->_balanceCumulative._numSegments);
+    mcco->_tallies->_spectrum.PrintSpectrum(mcco);
 }
 
 void cycleInit( bool loadBalance )
@@ -99,7 +101,7 @@ void cycleInit( bool loadBalance )
     MC_FASTTIMER_START(MC_Fast_Timer::cycleInit);
 
     mcco->clearCrossSectionCache();
-       
+
     mcco->_tallies->CycleInitialize(mcco);
 
     mcco->_particleVaultContainer->swapProcessingProcessedVaults();
@@ -238,8 +240,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                 }
 
                 particle_count += numParticles;
-                
-                
+
                 // Next, communicate particles that have crossed onto
                 // other MPI ranks.
                 NVTX_Range cleanAndComm("cycleTracking_clean_and_comm");

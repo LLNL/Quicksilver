@@ -3,6 +3,7 @@
 #include "MC_RNG_State.hh"
 #include "DeclareMacro.hh"
 #include "qs_assert.hh"
+#include "EnergySpectrum.hh"
 
 using std::log10;
 using std::pow;
@@ -117,7 +118,6 @@ NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh) : _
       _energies[energyIndex] = exp(logValue);
    }
 }
-
 
 int NuclearData::addIsotope(
    int nReactions,

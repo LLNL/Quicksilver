@@ -4,6 +4,7 @@
 #include "portability.hh"
 #include "QS_Vector.hh"
 #include <stdlib.h>
+#include <string>
 #include <vector>
 #include <cinttypes>
 #include "NuclearData.hh"
@@ -11,8 +12,8 @@
 #include "utils.hh"
 #include "macros.hh"
 #include "BulkStorage.hh"
-
 #include "DeclareMacro.hh"
+#include "EnergySpectrum.hh"
 
 typedef unsigned long long int uint64_cu;
 
@@ -305,15 +306,12 @@ class Tallies
     qs_vector<ScalarFluxDomain> _scalarFluxDomain;
     qs_vector<CellTallyDomain>  _cellTallyDomain;
     Fluence                     _fluence;
+    EnergySpectrum              _spectrum;
     
-    Tallies() : _balanceCumulative(), _balanceTask(),
-        _scalarFluxDomain(), _num_balance_replications(1), 
-        _num_flux_replications(1), _num_cellTally_replications(1)
-    {}
-
-    Tallies( int balRep, int fluxRep, int cellRep ) : _balanceCumulative(), _balanceTask(),
+    Tallies( int balRep, int fluxRep, int cellRep, std::string spectrumName, int spectrumSize ) : _balanceCumulative(), _balanceTask(),
         _scalarFluxDomain(), _num_balance_replications(balRep), 
-        _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep)
+        _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep), 
+        _spectrum(spectrumName, spectrumSize)
     {
     }
 
