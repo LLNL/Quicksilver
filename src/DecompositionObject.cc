@@ -32,35 +32,54 @@ DecompositionObject::DecompositionObject(
    int nDomains = nRanks*nDomainsPerRank;
    _rank.resize(nDomains);
    _index.resize(nDomains);
+   _assignedGids.resize(nDomainsPerRank);
 
-   //assign domains to ranks
-   for (unsigned ii=0; ii<nDomains; ++ii)
-      _rank[ii] = ii/nDomainsPerRank;
+   //Directly Computed Domain Assignments
+   if( mode == 0 )
+   {
+      //assign domains to ranks
+      for (unsigned ii=0; ii<nDomains; ++ii)
+      {
+         _rank[ii]  = ii/nDomainsPerRank;
+         _index[ii] = ii%nDomainsPerRank;
+      }
 
-   if (mode == 1)
+      for(unsigned int ii = 0; ii < nDomainsPerRank; ii++)
+      {
+          unsigned int index = nDomainsPerRank*myRank + ii;
+         _assignedGids[ii] = nDomainsPerRank*_rank[index] + _index[index];
+      }
+   }
+   else
+   {
+      //Mode 1 is a debugging mode that performs and O(n^2) algorithm. 
+      //   This will be increadibly slow when nRanks is large
+      qs_assert(nRanks < 1000);
+
+      for (unsigned ii=0; ii<nDomains; ++ii)
+         _rank[ii]  = ii/nDomainsPerRank;
+
       fisherYates(_rank);
 
+      // set up the local domain indices for all ranks
+      for (unsigned iRank=0; iRank<nRanks; ++iRank)
+      {
+         vector<int> localGid;
 
+         for (unsigned jGid=0; jGid<nDomains; ++jGid)
+            if (_rank[jGid] == iRank)
+               localGid.push_back(jGid);
 
-   // set up the local domain indices for all ranks
-   for (unsigned iRank=0; iRank<nRanks; ++iRank)
-   {
-      vector<int> localGid;
-      localGid.reserve(nDomainsPerRank);
-      for (unsigned jGid=0; jGid<nDomains; ++jGid)
-         if (_rank[jGid] == iRank)
-            localGid.push_back(jGid);
-      qs_assert(localGid.size() == nDomainsPerRank);
+         qs_assert(localGid.size() == nDomainsPerRank);
 
-      if (mode == 1)
          fisherYates(localGid);
 
+         for (unsigned ii=0; ii<localGid.size(); ++ii)
+            _index[localGid[ii]] = ii;
 
-      for (unsigned ii=0; ii<localGid.size(); ++ii)
-         _index[localGid[ii]] = ii;
-
-      if (iRank == myRank)
-         _assignedGids = localGid;
+         if (iRank == myRank)
+            _assignedGids = localGid;
+      }
    }
 
    // tests
