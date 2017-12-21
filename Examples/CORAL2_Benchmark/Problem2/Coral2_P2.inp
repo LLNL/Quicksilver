@@ -5,20 +5,10 @@ Simulation:
    loadBalance: 0
    cycleTimers: 0
    debugThreads: 0
-   lx: 16
-   ly: 16
-   lz: 16
-   nParticles: 81920000
    batchSize: 0
    nBatches: 10
    nSteps: 100
-   nx: 176
-   ny: 176
-   nz: 176
    seed: 1029384756
-   xDom: 16
-   yDom: 16
-   zDom: 16
    eMax: 20
    eMin: 1e-08
    nGroups: 230
@@ -26,7 +16,7 @@ Simulation:
    bTally: 1
    fTally: 1
    cTally: 1
-   coralBenchmark: 1
+   coralBenchmark: 2
 
 Geometry:
    material: sourceMaterial

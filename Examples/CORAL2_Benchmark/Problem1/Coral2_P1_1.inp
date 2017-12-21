@@ -6,18 +6,18 @@ Simulation:
    cycleTimers: 0
    debugThreads: 0
    mpiThreadMultiple: 0
-   lx: 160
-   ly: 160
-   lz: 160
-   nParticles: 409600000
+   lx: 16
+   ly: 16
+   lz: 16
+   nParticles: 163840
    nBatches: 10
    nSteps: 100 
-   nx: 160
-   ny: 160
-   nz: 160
-   xDom: 16
-   yDom: 16
-   zDom: 16
+   nx: 16
+   ny: 16
+   nz: 16
+   xDom: 1
+   yDom: 1
+   zDom: 1
    seed: 1029384756
    eMax: 20
    eMin: 1e-09
