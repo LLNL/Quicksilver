@@ -16,7 +16,7 @@ Simulation:
    bTally: 1
    fTally: 1
    cTally: 1
-   coralBenchmark: 1
+   coralBenchmark: 2
 
 Geometry:
    material: sourceMaterial

@@ -55,15 +55,29 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
     uint64_t scatter    = balTally._scatter;
     double absorbRatio, fissionRatio, scatterRatio;
 
-    for (auto matIter = params.materialParams.begin();
-              matIter != params.materialParams.end(); 
-              matIter++)
+    double percent_tolerance = 1.0;
+
+    //Hardcoding Ratios for each specific test
+    if( params.simulationParams.coralBenchmark == 1 )
     {
-        const MaterialParameters& mp = matIter->second;
-        fissionRatio = mp.fissionCrossSectionRatio;
-        scatterRatio = mp.scatteringCrossSectionRatio;
-        absorbRatio  = mp.absorptionCrossSectionRatio;
+        fissionRatio = 0.05; 
+        scatterRatio = 1;
+        absorbRatio  = 0.04;
     }
+    else if( params.simulationParams.coralBenchmark == 2 )
+    {
+        fissionRatio = 0.075; 
+        scatterRatio = 0.830;
+        absorbRatio  = 0.094;
+        percent_tolerance = 1.1;
+    }
+    else
+    {
+        //The input provided for which coral problem is incorrect
+        qs_assert(false);
+    }
+
+    double tolerance = percent_tolerance / 100.0;
 
     double Absorb2Scatter  = std::abs( ( absorb /  absorbRatio  ) * (scatterRatio / scatter) - 1);
     double Absorb2Fission  = std::abs( ( absorb /  absorbRatio  ) * (fissionRatio / fission) - 1);
@@ -72,8 +86,6 @@ void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )
     double Fission2Absorb  = std::abs( ( fission / fissionRatio ) * (absorbRatio  / absorb ) - 1);
     double Fission2Scatter = std::abs( ( fission / fissionRatio ) * (scatterRatio / scatter) - 1);
 
-    double percent_tolerance = 1.0;
-    double tolerance = percent_tolerance / 100.0;
 
     bool pass = true;
 
