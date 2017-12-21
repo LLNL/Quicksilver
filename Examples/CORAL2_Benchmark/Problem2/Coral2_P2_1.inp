@@ -8,7 +8,7 @@ Simulation:
    lx: 1
    ly: 1
    lz: 1
-   nParticles: 20000
+   nParticles: 53240
    batchSize: 0
    nBatches: 10
    nSteps: 100
