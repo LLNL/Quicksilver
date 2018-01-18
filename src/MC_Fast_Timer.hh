@@ -33,7 +33,8 @@ class MC_Fast_Timer
     main = 0,
     cycleInit,
     cycleTracking,
-    cycleTracking_Segment,
+    cycleTracking_Kernel,
+    cycleTracking_MPI,
     cycleTracking_Test_Done,
     cycleFinalize,
     Num_Timers
@@ -75,7 +76,7 @@ extern const char *mc_fast_timer_names[MC_Fast_Timer::Num_Timers];
       #define MC_FASTTIMER_STOP(timerIndex) \
           if ( omp_get_thread_num() == 0 ) { \
               mcco->fast_timer->timers[timerIndex].stopClock = mpiWtime(); \
-              mcco->fast_timer->timers[timerIndex].lastCycleClock   = \
+              mcco->fast_timer->timers[timerIndex].lastCycleClock   += \
 		(long unsigned) ((mcco->fast_timer->timers[timerIndex].stopClock - mcco->fast_timer->timers[timerIndex].startClock) * 1000000.0); \
               mcco->fast_timer->timers[timerIndex].cumulativeClock += \
 		(long unsigned) ((mcco->fast_timer->timers[timerIndex].stopClock - mcco->fast_timer->timers[timerIndex].startClock) * 1000000.0); \
@@ -94,7 +95,7 @@ extern const char *mc_fast_timer_names[MC_Fast_Timer::Num_Timers];
       #define MC_FASTTIMER_STOP(timerIndex) \
           if ( omp_get_thread_num() == 0 ) { \
               mcco->fast_timer->timers[timerIndex].stopClock = std::chrono::high_resolution_clock::now(); \
-              mcco->fast_timer->timers[timerIndex].lastCycleClock = \
+              mcco->fast_timer->timers[timerIndex].lastCycleClock += \
                 std::chrono::duration_cast<std::chrono::microseconds> \
 		(mcco->fast_timer->timers[timerIndex].stopClock - mcco->fast_timer->timers[timerIndex].startClock).count(); \
               mcco->fast_timer->timers[timerIndex].cumulativeClock += \

@@ -10,7 +10,8 @@ const char *mc_fast_timer_names[MC_Fast_Timer::Num_Timers] =
     "main",
     "cycleInit",
     "cycleTracking",
-    "cycleTracking_Segment",
+    "cycleTracking_Kernel",
+    "cycleTracking_MPI",
     "cycleTracking_Test_Done",
     "cycleFinalize"
 };
@@ -118,7 +119,10 @@ void MC_Fast_Timer_Container::Last_Cycle_Report(int mpi_rank, int num_ranks, MPI
     std::vector<uint64_t> std_dev_use(num_ranks);   // used to calculate standard deviation
 
     for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
-    { lastCycleClock[timer_index]  = this->timers[timer_index].lastCycleClock; }
+    {
+        lastCycleClock[timer_index]  = this->timers[timer_index].lastCycleClock;
+        this->timers[timer_index].lastCycleClock = 0;
+    }
 
     mpiReduce(&lastCycleClock[0], &max_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MAX, 0, comm_world);
     mpiReduce(&lastCycleClock[0], &min_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MIN, 0, comm_world);

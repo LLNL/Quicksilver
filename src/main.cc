@@ -156,8 +156,6 @@ void cycleTracking(MonteCarlo *monteCarlo)
 
     do
     {
-        MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_Segment);
-
         int particle_count = 0; // Initialize count of num_particles processed
 
         while ( !done )
@@ -166,6 +164,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
 
             for ( uint64_t processing_vault = 0; processing_vault < my_particle_vault.processingSize(); processing_vault++ )
             {
+                MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_Kernel);
                 uint64_t processed_vault = my_particle_vault.getFirstEmptyProcessedVault();
 
                 ParticleVault *processingVault = my_particle_vault.getTaskProcessingVault(processing_vault);
@@ -241,6 +240,10 @@ void cycleTracking(MonteCarlo *monteCarlo)
 
                 particle_count += numParticles;
 
+                MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking_Kernel);
+
+                MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_MPI);
+
                 // Next, communicate particles that have crossed onto
                 // other MPI ranks.
                 NVTX_Range cleanAndComm("cycleTracking_clean_and_comm");
@@ -271,7 +274,11 @@ void cycleTracking(MonteCarlo *monteCarlo)
                 // receive any particles that have arrived from other ranks
                 monteCarlo->particle_buffer->Receive_Particle_Buffers( fill_vault );
 
+                MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking_MPI);
+
             } // for loop on vaults
+
+            MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_MPI);
 
             NVTX_Range collapseRange("cycleTracking_Collapse_ProcessingandProcessed");
             my_particle_vault.collapseProcessing();
@@ -284,10 +291,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
             done = monteCarlo->particle_buffer->Test_Done_New( new_test_done_method );
             doneRange.endRange();
 
+            MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking_MPI);
 
         } // while not done: Test_Done_New()
-
-        MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking_Segment);
 
         // Everything should be done normally.
         done = monteCarlo->particle_buffer->Test_Done_New( MC_New_Test_Done_Method::Blocking );
