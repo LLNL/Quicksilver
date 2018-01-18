@@ -99,7 +99,7 @@ void MC_Fast_Timer_Container::Cumulative_Report(int mpi_rank, int num_ranks, MPI
         fprintf(stdout, "%-25s %12.3e %-25s\n",
                         "Figure Of Merit",
                         (numSegments / (max_clock[cycleTracking_Index]*1e-6)),
-                        "[Cycle Tracking Time / Num Segments]" );
+                        "[Num Segments / Cycle Tracking Time]" );
     }
 }
 
