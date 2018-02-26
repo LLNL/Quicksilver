@@ -10,7 +10,6 @@ Simulation:
    ly: 256
    lz: 256
    nParticles: 671088640
-   nBatches: 10
    nSteps: 100 
    nx: 256
    ny: 256
