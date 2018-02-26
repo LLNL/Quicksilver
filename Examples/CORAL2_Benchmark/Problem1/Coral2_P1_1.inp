@@ -10,7 +10,6 @@ Simulation:
    ly: 16
    lz: 16
    nParticles: 163840
-   nBatches: 10
    nSteps: 100 
    nx: 16
    ny: 16

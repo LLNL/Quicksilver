@@ -5,8 +5,6 @@ Simulation:
    loadBalance: 0
    cycleTimers: 0
    debugThreads: 0
-   batchSize: 0
-   nBatches: 10
    nSteps: 100
    seed: 1029384756
    eMax: 20
