@@ -206,7 +206,7 @@ void FluenceTest( MonteCarlo* monteCarlo )
         }
     }
 
-    double percent_tolerance = 5.0;
+    double percent_tolerance = 6.0;
 
     double max_diff_global = 0.0;
 
