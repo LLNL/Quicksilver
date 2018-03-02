@@ -46,7 +46,8 @@ class MC_Fast_Timer_Container
 public:
     MC_Fast_Timer_Container() {} ; // constructor
     void Cumulative_Report(int mpi_rank, int num_ranks, MPI_Comm comm_world, uint64_t numSegments);
-    void Last_Cycle_Report(int mpi_rank, int num_ranks, MPI_Comm comm_world);
+    void Last_Cycle_Report(int report_time, int mpi_rank, int num_ranks, MPI_Comm comm_world);
+    void Clear_Last_Cycle_Timers();
     MC_Fast_Timer  timers[MC_Fast_Timer::Num_Timers];  // timers for various routines
 
 private:

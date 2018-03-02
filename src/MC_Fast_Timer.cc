@@ -104,46 +104,58 @@ void MC_Fast_Timer_Container::Cumulative_Report(int mpi_rank, int num_ranks, MPI
     }
 }
 
-void MC_Fast_Timer_Container::Last_Cycle_Report(int mpi_rank, int num_ranks, MPI_Comm comm_world)
+void MC_Fast_Timer_Container::Last_Cycle_Report(int report_time, int mpi_rank, int num_ranks, MPI_Comm comm_world)
 {
 #ifdef DISABLE_TIMERS
   return;
 #endif
 
-    fflush(stdout); mpiBarrier(comm_world);
+  if(report_time == 1)
+  {
+        fflush(stdout); mpiBarrier(comm_world);
 
-    std::vector<uint64_t> lastCycleClock(MC_Fast_Timer::Num_Timers);
-    std::vector<uint64_t> max_clock(MC_Fast_Timer::Num_Timers);
-    std::vector<uint64_t> min_clock(MC_Fast_Timer::Num_Timers);
-    std::vector<uint64_t> sum_clock(MC_Fast_Timer::Num_Timers);
-    std::vector<uint64_t> std_dev_use(num_ranks);   // used to calculate standard deviation
+        std::vector<uint64_t> lastCycleClock(MC_Fast_Timer::Num_Timers);
+        std::vector<uint64_t> max_clock(MC_Fast_Timer::Num_Timers);
+        std::vector<uint64_t> min_clock(MC_Fast_Timer::Num_Timers);
+        std::vector<uint64_t> sum_clock(MC_Fast_Timer::Num_Timers);
+        std::vector<uint64_t> std_dev_use(num_ranks);   // used to calculate standard deviation
 
-    for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
-    {
-        lastCycleClock[timer_index]  = this->timers[timer_index].lastCycleClock;
-        this->timers[timer_index].lastCycleClock = 0;
-    }
+        for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
+        {
+            lastCycleClock[timer_index]  = this->timers[timer_index].lastCycleClock;
+        }
 
-    mpiReduce(&lastCycleClock[0], &max_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MAX, 0, comm_world);
-    mpiReduce(&lastCycleClock[0], &min_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MIN, 0, comm_world);
-    mpiReduce(&lastCycleClock[0], &sum_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_SUM, 0, comm_world);
+        mpiReduce(&lastCycleClock[0], &max_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MAX, 0, comm_world);
+        mpiReduce(&lastCycleClock[0], &min_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_MIN, 0, comm_world);
+        mpiReduce(&lastCycleClock[0], &sum_clock[0], MC_Fast_Timer::Num_Timers, MPI_UINT64_T, MPI_SUM, 0, comm_world);
 
-    this->Print_Last_Cycle_Heading(mpi_rank);
+        this->Print_Last_Cycle_Heading(mpi_rank);
 
-    for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
-    {
-        mpiGather(&lastCycleClock[timer_index], 1, MPI_UINT64_T, &std_dev_use[0], 1, MPI_UINT64_T, 0, comm_world);
+        for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
+        {
+            mpiGather(&lastCycleClock[timer_index], 1, MPI_UINT64_T, &std_dev_use[0], 1, MPI_UINT64_T, 0, comm_world);
 
-        uint64_t  ave_clock =  sum_clock[timer_index] / num_ranks;
-        if (mpi_rank == 0) {
-            fprintf(stdout,"%-25s %12lu %12.3e %12.3e %12.3e %12.3e %12.2f\n",
-                           mc_fast_timer_names[timer_index],
-                           (unsigned long)this->timers[timer_index].numCalls,
-                           (double)min_clock[timer_index],
-                           (double)ave_clock,
-                           (double)max_clock[timer_index],
-                           (double)mc_std_dev(&std_dev_use[0], num_ranks),
-                           (100.0 * ave_clock) / (max_clock[timer_index] + 1.0e-80) );
+            uint64_t  ave_clock =  sum_clock[timer_index] / num_ranks;
+            if (mpi_rank == 0) {
+                fprintf(stdout,"%-25s %12lu %12.3e %12.3e %12.3e %12.3e %12.2f\n",
+                               mc_fast_timer_names[timer_index],
+                               (unsigned long)this->timers[timer_index].numCalls,
+                               (double)min_clock[timer_index],
+                               (double)ave_clock,
+                               (double)max_clock[timer_index],
+                               (double)mc_std_dev(&std_dev_use[0], num_ranks),
+                               (100.0 * ave_clock) / (max_clock[timer_index] + 1.0e-80) );
+            }
         }
     }
+    Clear_Last_Cycle_Timers();
 }
+
+void MC_Fast_Timer_Container::Clear_Last_Cycle_Timers()
+{
+    for ( int timer_index = 0; timer_index < MC_Fast_Timer::Num_Timers; timer_index++ )
+    {
+        this->timers[timer_index].lastCycleClock = 0;
+    }
+}
+
