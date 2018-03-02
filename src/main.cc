@@ -58,13 +58,11 @@ int main(int argc, char** argv)
       cycleTracking(mcco);
       cycleFinalize();
 
-      if (params.simulationParams.cycleTimers == 1)
-      {
-         mcco->fast_timer->Last_Cycle_Report(
+      mcco->fast_timer->Last_Cycle_Report(
+            params.simulationParams.cycleTimers,
             mcco->processor_info->rank,
             mcco->processor_info->num_processors,
             mcco->processor_info->comm_mc_world );
-      }
    }
 
 
