@@ -75,7 +75,6 @@ class qs_vector
    void push_back( const T& dataElem )
    {
       qs_assert( _isOpen );
-      qs_assert( _size < _capacity );
       _data[_size] = dataElem;
       _size++;
    }
@@ -86,16 +85,12 @@ class qs_vector
    HOST_DEVICE_CUDA
    const T& operator[]( int index ) const
    {
-      qs_assert( index < _capacity ); 
-      qs_assert( index >= 0);
       return _data[index];
    }
 
    HOST_DEVICE_CUDA
    T& operator[]( int index )
    {
-      qs_assert( index < _capacity );
-      qs_assert( index >= 0);
       return _data[index];
    }
    
@@ -113,7 +108,6 @@ class qs_vector
    
    T& back()
    {
-       qs_assert( _size > 0 );
       return _data[_size-1];
    }
    
@@ -153,14 +147,11 @@ class qs_vector
 
    void eraseEnd( int NewEnd )
    {
-       qs_assert( NewEnd <= _size );
-       qs_assert( NewEnd >= 0 );
        _size = NewEnd;
    }
 
     void pop_back()
    {
-       qs_assert(_size > 0);
        _size--;
    }
 
@@ -187,7 +178,6 @@ class qs_vector
    HOST_DEVICE_CUDA
    int atomic_Index_Inc( int inc )
    {
-       qs_assert(_size+inc <= _capacity);
        int pos;
 
        ATOMIC_CAPTURE( _size, inc, pos );
