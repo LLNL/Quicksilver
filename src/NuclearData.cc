@@ -3,7 +3,6 @@
 #include "MC_RNG_State.hh"
 #include "DeclareMacro.hh"
 #include "qs_assert.hh"
-#include "EnergySpectrum.hh"
 
 using std::log10;
 using std::pow;

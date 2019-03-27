@@ -50,9 +50,9 @@ void EnergySpectrum::PrintSpectrum(MonteCarlo* monteCarlo)
         FILE* spectrumFile;
         spectrumFile = fopen( _fileName.c_str(), "w" );
 
-        for( int ii = 0; ii < 230; ii++ )
+        for( int ii = 0; ii < count; ii++ )
         {
-            fprintf( spectrumFile, "%d\t%g\t%lu\n", ii, monteCarlo->_nuclearData->_energies[ii], sumHist[ii] );
+            fprintf( spectrumFile, "%d\t%g\t%" PRIu64 "\n", ii, monteCarlo->_nuclearData->_energies[ii], sumHist[ii] );
         }
 
         fclose( spectrumFile );

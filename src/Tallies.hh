@@ -308,7 +308,8 @@ class Tallies
     Fluence                     _fluence;
     EnergySpectrum              _spectrum;
     
-    Tallies( int balRep, int fluxRep, int cellRep, std::string spectrumName, int spectrumSize ) : _balanceCumulative(), _balanceTask(),
+    Tallies( int balRep, int fluxRep, int cellRep, std::string spectrumName, int spectrumSize )
+      : _balanceCumulative(), _balanceTask(),
         _scalarFluxDomain(), _num_balance_replications(balRep), 
         _num_flux_replications(fluxRep), _num_cellTally_replications(cellRep), 
         _spectrum(spectrumName, spectrumSize)

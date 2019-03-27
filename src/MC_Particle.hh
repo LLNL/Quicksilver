@@ -1,6 +1,8 @@
 #ifndef MC_PARTICLE_INCLUDE
 #define MC_PARTICLE_INCLUDE
 
+#include <cinttypes>
+
 #include "DirectionCosine.hh"
 #include "Tallies.hh"
 
@@ -149,7 +151,7 @@ inline void MC_Particle::PrintParticle()
 {
     printf( "coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y, coordinate.z );
     printf( "velocity:            %g\t%g\t%g\n", velocity.x, velocity.y, velocity.z );
-    printf( "direction_cosine:     %g\t%g\t%g\n", direction_cosine.alpha, direction_cosine.beta, direction_cosine.gamma );
+    printf( "direction_cosine:    %g\t%g\t%g\n", direction_cosine.alpha, direction_cosine.beta, direction_cosine.gamma );
     printf( "kinetic_energy:      %g\n", kinetic_energy );
     printf( "Weight:              %g\n", weight);
     printf( "time_to_census:      %g\n", time_to_census);
@@ -158,8 +160,8 @@ inline void MC_Particle::PrintParticle()
     printf( "num_mean_free_paths: %g\n", num_mean_free_paths);
     printf( "mean_free_path:      %g\n", mean_free_path);
     printf( "segment_path_length: %g\n", segment_path_length);
-    printf( "random_number_seed:  %zu\n", random_number_seed);
-    printf( "identifier:          %zu\n", identifier);
+    printf( "random_number_seed:  %" PRIu64 "\n", random_number_seed);
+    printf( "identifier:          %" PRIu64 "\n", identifier);
     printf( "last_event:          %d\n", last_event);
     printf( "num_collision:       %d\n", num_collisions);
     printf( "num_segments:        %g\n", num_segments);
