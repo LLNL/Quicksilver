@@ -85,7 +85,7 @@ void MC_SourceNow(MonteCarlo *monteCarlo)
             //Can Make this parallel - have an optimization from Leopold to add still
             for ( int particle_index = 0; particle_index < cell_num_particles; particle_index++ )
             {
-                MC_Particle particle;
+                MC_Base_Particle particle;
 
                 uint64_t random_number_seed;
 

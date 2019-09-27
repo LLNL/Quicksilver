@@ -4,11 +4,11 @@
 #include "MonteCarlo.hh"
 #include "DeclareMacro.hh"
 
-class MC_Particle;
+class MC_Base_Particle;
 
 HOST_DEVICE
 
-Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Particle &mc_particle, MonteCarlo* monteCarlo)
+Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Base_Particle &mc_particle, MonteCarlo* monteCarlo)
 
 {
    MC_Domain &domain = monteCarlo->domain[location.domain];

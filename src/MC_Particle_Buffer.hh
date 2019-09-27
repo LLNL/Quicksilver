@@ -9,7 +9,7 @@
 
 
 // forward declarations
-class MC_Particle;
+class MC_Base_Particle;
 class MonteCarlo;
 class SendQueue;
 
@@ -127,7 +127,6 @@ class MC_Particle_Buffer
     void Initialize();
     int  Choose_Buffer(int neighbor_rank);
     int  Get_Processor_Buffer_Index(int processor);
-    void Buffer_Particle(MC_Particle *particle_to_buffer, int buffer);
     void Buffer_Particle(MC_Base_Particle &particle_to_buffer, int buffer);
     void Allocate_Send_Buffer(SendQueue& sendQueue);
     void Send_Particle_Buffers();

@@ -408,14 +408,6 @@ int MC_Particle_Buffer::Get_Processor_Buffer_Index(int processor)
     }
 }
 
-//----------------------------------------------------------------------------------------------------------------------
-//  Wrapper routine converts MC_Particle to MC_Base_Particle and calls base Particle version
-//----------------------------------------------------------------------------------------------------------------------
-void MC_Particle_Buffer::Buffer_Particle(MC_Particle *particle, int buffer)
-{
-    MC_Base_Particle base_particle(*particle);
-    this->Buffer_Particle(base_particle, buffer);
-}
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Stores the particle into a particle buffer.  

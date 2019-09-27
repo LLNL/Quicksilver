@@ -3,7 +3,7 @@
 #include "MC_Location.hh"
 #include "MonteCarlo.hh"
 #include "Globals.hh"
-#include "MC_Particle.hh"
+#include "MC_Base_Particle.hh"
 #include "MC_RNG_State.hh"
 #include "MC_Cell_State.hh"
 #include "Tallies.hh"
@@ -28,7 +28,7 @@ HOST_DEVICE_END
 //--------------------------------------------------------------------------------------------------
 
 HOST_DEVICE 
-MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int &flux_tally_index)
+MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Base_Particle &mc_particle, unsigned int &flux_tally_index)
 {
     // initialize distances to large number
     int number_of_events = 3;
@@ -104,7 +104,7 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
     // Get the current winning distance.
     double current_best_distance = PhysicalConstants::_hugeDouble;
 
-    DirectionCosine *direction_cosine = mc_particle.Get_Direction_Cosine();
+    DirectionCosine &direction_cosine = mc_particle.direction_cosine;
 
     bool new_segment =  (mc_particle.num_segments == 0 ||
                          mc_particle.last_event == MC_Tally_Event::Collision);
@@ -114,7 +114,7 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
     // Calculate the minimum distance to each facet of the cell.
     MC_Nearest_Facet nearest_facet;
         nearest_facet = MCT_Nearest_Facet(&mc_particle, location, mc_particle.coordinate,
-                                  direction_cosine, distance_threshold, current_best_distance, new_segment, monteCarlo);
+                                  &direction_cosine, distance_threshold, current_best_distance, new_segment, monteCarlo);
 
     mc_particle.normal_dot = nearest_facet.dot_product;
 

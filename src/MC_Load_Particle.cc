@@ -1,5 +1,5 @@
 #include "ParticleVault.hh"
-#include "MC_Particle.hh"
+#include "MC_Base_Particle.hh"
 #include "MC_Time_Info.hh"
 #include "DeclareMacro.hh"
 
@@ -8,10 +8,32 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 HOST_DEVICE
-void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Particle &mc_particle, ParticleVault *particleVault, int particle_index)
+void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &mc_particle, ParticleVault *particleVault, int particle_index)
 {
     //particleVault.popParticle(mc_particle);
     particleVault->getParticle(mc_particle, particle_index);
+
+
+     double speed = mc_particle.velocity.Length();
+
+     if ( speed > 0 )
+     {
+         double factor = 1.0/speed;
+         mc_particle.direction_cosine.alpha = factor * mc_particle.velocity.x;
+         mc_particle.direction_cosine.beta  = factor * mc_particle.velocity.y;
+         mc_particle.direction_cosine.gamma = factor * mc_particle.velocity.z;
+     }
+     else
+     {
+         qs_assert(false);
+     }
+
+     mc_particle.totalCrossSection = 0.0;
+     mc_particle.mean_free_path = 0;
+     mc_particle.segment_path_length = 0;
+     mc_particle.normal_dot = 0;
+
+
 
     // Time to Census
     if ( mc_particle.time_to_census <= 0.0 )

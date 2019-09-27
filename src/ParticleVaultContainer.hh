@@ -19,7 +19,6 @@
 //--------------------------------------------------------------
 
 class MC_Base_Particle;
-class MC_Particle;
 class ParticleVault;
 class SendQueue;
 
@@ -75,7 +74,7 @@ class ParticleVaultContainer
     void addProcessingParticle( MC_Base_Particle &particle, uint64_t &fill_vault_index );
     //Adds a particle to the extra particle vault
     HOST_DEVICE
-    void addExtraParticle( MC_Particle &particle );
+    void addExtraParticle( MC_Base_Particle &particle );
     HOST_DEVICE_END
  
     //Pushes particles from Extra Vaults onto the Processing 

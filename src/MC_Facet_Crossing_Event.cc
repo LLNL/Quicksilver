@@ -3,7 +3,7 @@
 #include "ParticleVault.hh"
 #include "MC_Domain.hh"
 #include "Tallies.hh"
-#include "MC_Particle.hh"
+#include "MC_Base_Particle.hh"
 #include "MC_Facet_Adjacency.hh"
 #include "Globals.hh"
 #include "MCT.hh"
@@ -22,7 +22,7 @@
 
 HOST_DEVICE
 
-MC_Tally_Event::Enum MC_Facet_Crossing_Event(MC_Particle &mc_particle, MonteCarlo* monteCarlo, int particle_index, ParticleVault* processingVault)
+MC_Tally_Event::Enum MC_Facet_Crossing_Event(MC_Base_Particle &mc_particle, MonteCarlo* monteCarlo, int particle_index, ParticleVault* processingVault)
 {
     MC_Location location = mc_particle.Get_Location();
 
