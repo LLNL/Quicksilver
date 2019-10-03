@@ -28,12 +28,12 @@ void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &mc_particle, Par
          qs_assert(false);
      }
 
-     mc_particle.totalCrossSection = 0.0;
+     mc_particle.totalCrossSection = -1.;
      mc_particle.mean_free_path = 0;
      mc_particle.segment_path_length = 0;
      mc_particle.normal_dot = 0;
-
-
+     mc_particle.species = 0;
+     mc_particle.task = 0;
 
     // Time to Census
     if ( mc_particle.time_to_census <= 0.0 )

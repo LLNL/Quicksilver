@@ -200,17 +200,24 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 {
     coordinate          = particle.coordinate;
     velocity            = particle.velocity;
+    direction_cosine    = particle.direction_cosine; //new
     kinetic_energy      = particle.kinetic_energy;
     weight              = particle.weight;
     time_to_census      = particle.time_to_census;
+    totalCrossSection   = particle.totalCrossSection; //new
     age                 = particle.age;
     num_mean_free_paths = particle.num_mean_free_paths;
+    mean_free_path      = particle.mean_free_path; //new
+    segment_path_length = particle.segment_path_length; //new
     num_segments        = particle.num_segments;
+    normal_dot          = particle.normal_dot; //new
     random_number_seed  = particle.random_number_seed;
     identifier          = particle.identifier;
     last_event          = particle.last_event;
     num_collisions      = particle.num_collisions;
     breed               = particle.breed;
+    energy_group        = particle.energy_group; //new
+    task                = particle.task; //new
     species             = particle.species;
     domain              = particle.domain;
     cell                = particle.cell;
