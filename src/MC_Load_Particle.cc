@@ -8,12 +8,13 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 HOST_DEVICE
-void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &mc_particle, ParticleVault *particleVault, int particle_index)
+//void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &mc_particle, ParticleVault *particleVault, int particle_index)
+MC_Base_Particle& MC_Load_Particle(MonteCarlo *monteCarlo, ParticleVault *particleVault, int particle_index)
 {
     //particleVault.popParticle(mc_particle);
-    particleVault->getParticle(mc_particle, particle_index);
+   //particleVault->getParticle(mc_particle, particle_index);
 
-
+   MC_Base_Particle& mc_particle = (*particleVault)[particle_index];
      double speed = mc_particle.velocity.Length();
 
      if ( speed > 0 )
@@ -48,6 +49,7 @@ void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &mc_particle, Par
     mc_particle.energy_group = monteCarlo->_nuclearData->getEnergyGroup(mc_particle.kinetic_energy);
 //                    printf("file=%s line=%d\n",__FILE__,__LINE__);
 
+    return mc_particle;
 }
 HOST_DEVICE_END
 

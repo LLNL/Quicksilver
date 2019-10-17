@@ -28,7 +28,9 @@ HOST_DEVICE_END
 //--------------------------------------------------------------------------------------------------
 
 HOST_DEVICE 
-MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Base_Particle &mc_particle, unsigned int &flux_tally_index)
+MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo,
+						 MC_Base_Particle &mc_particle,
+						 unsigned int &flux_tally_index)
 {
     // initialize distances to large number
     int number_of_events = 3;
