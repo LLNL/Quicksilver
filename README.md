@@ -10,7 +10,7 @@ particle transport problem.  Quicksilver attempts to replicate the
 memory access patterns, communication patterns, and the branching or
 divergence of Mercury for problems using multigroup cross sections.
 OpenMP and MPI are used for parallelization.  A GPU version is
-available.
+available.  Unified memory is assumed.
 
 Performance of Quicksilver is likely to be dominated by latency bound
 table look-ups, a highly branchy/divergent code path, and poor
