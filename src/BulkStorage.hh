@@ -26,17 +26,16 @@ class BulkStorage
    
    ~BulkStorage()
    {
-      // Check for instances that never allocated memory.
-      // I'm not exactly sure how this can happen, but it does.
-      if (_bulkStorage == 0) 
-         return;
-      
       --(*_refCount);
       if (*_refCount > 0)
          return;
-            
-      MemoryControl::deallocate(_bulkStorage, _capacity, _memPolicy);
+
       delete _refCount;
+
+      // Catch the case that the storage was never allocated.  This
+      // happens when setCapacity is never called on this instance.
+      if (_bulkStorage != 0) 
+         MemoryControl::deallocate(_bulkStorage, _capacity, _memPolicy);
    }
    
    /// Needed for copy-swap idiom
