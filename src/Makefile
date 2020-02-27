@@ -86,6 +86,10 @@
 #                   Define this to run Cycle Tracking with an exponential
 #                   cell-based tally, in order to partially mimic photon
 #                   transport problems.
+#
+# -DHAVE_HIP=1 
+#                   Define this to run using HIP on an AMD GPU. This assumes
+#                   you have ROCm installed.
 #  
 # ------------------------------------------------------------------------------
 
@@ -94,10 +98,55 @@ SHELL = /bin/bash
 # Set your desired C++ compiler and any necessary flags.
 # The interpretation of each of these four variables is described above.
 # A number of examples for machines we regularly run on are given below.
+
+
 CXX = 
-CXXFLAGS =
-CPPFLAGS = 
+CXXFLAGS = 
+CPPFLAGS =
 LDFLAGS =
+
+#####################################################################################
+#hip, no MPI
+#####################################################################################
+CXX = $(HIP)/bin/hipcc
+CXXFLAGS = -I$(HIP)/include/
+CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
+LDFLAGS = -L$(HIP)/lib -L$(HIP)/lib
+
+############################################################################
+#hip + mpi
+#############################################################################
+#CXX = $(HIP)/bin/hipcc
+#CXXFLAGS1 = -I$(HIP)/include/
+#CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
+#CXXFLAGS = $(CXXFLAGS2) -pthread
+#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
+#LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpicxx -lmpi
+########################################################################
+#hip + nvcc
+######################################################################
+#CUDA_PATH = /usr/local/cuda
+#HOST_COMPILER = /usr/bin/mpic++
+#LDFLAGS = -L/opt/rocm/hip/lib -L/opt/rocm/hcc/lib
+#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
+#CXX = ${CUDA_PATH}/bin/nvcc -g -G
+##CXXFLAGS = -DHAVE_HIP=1 -D__HIP_ARCH__=gfx803 -I/opt/rocm/hip/include/ -v
+#CXXFLAGS =  -std=c++11 $(OPTFLAGS) -Xptxas -v
+#CXXFLAGS += -gencode=arch=compute_70,code=\"sm_70,compute_70\"
+#CXXFLAGS += -I/opt/rocm/hip/include/ --compiler-bindir=$(HOST_COMPILER)
+
+##CXXFLAGS = -I/opt/rocm/hip/include/ -std=c++11
+##CXXFLAGS += --compiler-bindir=/usr/bin
+##CXXFLAGS += -gencode=arch=compute_52,code=\"sm_52,compute_52\"
+#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_CUDA -DHAVE_MPI -x cu -dc
+#LDFLAGS  = $(CUDA_LDFLAGS)
+#LDFLAGS += -L/opt/rocm/hip/lib -L/opt/rocm/hcc/lib
+
+
+###############################################################################
+#hip openmp 4.5 not supported yet
+###############################################################################
+
 
 ###############################################################################
 # Very simple GCC build with OpenMP but without MPI.  
@@ -113,6 +162,17 @@ LDFLAGS =
 #CPPFLAGS = $(OPENMP_FLAGS)
 #LDFLAGS = $(OPENMP_LDFLAGS) 
 
+
+###############################################################################
+## GCC -- with MPI 
+###############################################################################
+#MPI_FLAGS = -DHAVE_MPI
+#OPTFLAGS = -g -O2
+##
+#CXX=mpicxx
+#CXXFLAGS = -std=c++11 $(OPTFLAGS) -Wpedantic
+#CPPFLAGS = $(MPI_FLAGS) -I/usr/lib/openmpi/include -I/usr/lib/openmpi/include/openmpi
+#LDFLAGS = -L/usr/lib/openmpi/lib -lmpi_cxx -lmpi
 
 ###############################################################################
 ### GCC -- with MPI and OpenMP 
@@ -269,7 +329,6 @@ Quicksilver_EXE=qs
 
 # For development purposes, what is working now.
 SOURCES= \
-    CollisionEvent.cc \
     CoralBenchmark.cc \
     CycleTracking.cc \
     DecompositionObject.cc \
@@ -278,32 +337,22 @@ SOURCES= \
     GlobalFccGrid.cc \
     GridAssignmentObject.cc \
     InputBlock.cc \
-    MCT.cc \
-    MC_Adjacent_Facet.cc \
     MC_Base_Particle.cc \
     MC_Domain.cc \
-    MC_Facet_Crossing_Event.cc \
     MC_Fast_Timer.cc \
-    MC_Load_Particle.cc \
-    MC_Location.cc \
     MC_Particle_Buffer.cc \
-    MC_RNG_State.cc \
-    MC_Segment_Outcome.cc \
     MC_SourceNow.cc \
-    MacroscopicCrossSection.cc \
     MeshPartition.cc \
     MonteCarlo.cc \
     MpiCommObject.cc \
-    NuclearData.cc \
     Parameters.cc \
     ParticleVault.cc \
     ParticleVaultContainer.cc \
     PopulationControl.cc \
-    SendQueue.cc \
     SharedMemoryCommObject.cc \
     Tallies.cc \
     cmdLineParser.cc \
-    cudaFunctions.cc \
+    hipFunctions.cc \
     initMC.cc \
     main.cc \
     parseUtils.cc \

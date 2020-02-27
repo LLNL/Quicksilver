@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #ifndef MATERIALDATABASE_HH
 #define MATERIALDATABASE_HH
 
@@ -52,7 +67,6 @@ class Material
    
 };
 
-
 // Top level class to store material information
 class MaterialDatabase
 {
@@ -79,6 +93,56 @@ class MaterialDatabase
    qs_vector<Material> _mat;
 
 };
+
+
+// Material information
+class Material_d
+{
+   public:
+   std::string _name;
+   double _mass;
+   int _isosize;
+   Isotope * _iso;
+
+   Material_d()
+   : _name("0"), _mass(1000.0) {}
+
+   Material_d(const std::string &name)
+   :   _name(name), _mass(1000.0){}
+
+   Material_d(const std::string &name, double mass)
+   :   _name(name), _mass(mass){}
+
+   ~Material_d() {}
+
+  
+};
+
+inline void copyMaterialDatabase_device(MonteCarlo * mcco)
+{
+
+   int numMaterials = mcco->_materialDatabase->_mat.size();
+   Material_d * materials_h;
+   hipHostMalloc( (void **) &materials_h,numMaterials*sizeof(Material_d));
+
+   printf("num materials=%d \n",numMaterials);
+
+   for (int j=0;j<numMaterials;j++)
+   {
+      int isosize=mcco->_materialDatabase->_mat[j]._iso.size();
+      Isotope * local_I_d;
+      hipMalloc( (void **) &local_I_d,isosize*sizeof(Isotope));
+      hipMemcpy(local_I_d,mcco->_materialDatabase->_mat[j]._iso.outputPointer(),isosize*sizeof(Isotope),hipMemcpyHostToDevice);
+   
+      materials_h[j]._isosize=isosize;
+      materials_h[j]._iso=local_I_d;
+      materials_h[j]._mass=mcco->_materialDatabase->_mat[j]._mass;
+      materials_h[j]._name=mcco->_materialDatabase->_mat[j]._name;
+   }
+   hipMemcpy(mcco->_material_d,materials_h,numMaterials*sizeof(Material_d),hipMemcpyHostToDevice);
+   hipFree(materials_h);
+};
+
 
 #endif
 

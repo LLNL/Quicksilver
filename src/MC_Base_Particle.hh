@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #ifndef MC_BASE_PARTICLE
 #define MC_BASE_PARTICLE
 
@@ -30,19 +45,19 @@ class MC_Base_Particle
     static void Cycle_Setup();
     static void Update_Counts();
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     MC_Base_Particle();
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     explicit MC_Base_Particle(  const MC_Particle &particle);
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     MC_Base_Particle(  const MC_Base_Particle &particle);
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     MC_Base_Particle&  operator= ( const MC_Particle& );
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     int particle_id_number() const;
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     int invalidate();
 
     // serialize the vault
@@ -51,23 +66,23 @@ class MC_Base_Particle
                   MC_Data_Member_Operation::Enum mode);
 
     // return a location
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     MC_Location Get_Location() const;
 
     // copy contents to a string
     void Copy_Particle_Base_To_String(std::string &output_string) const;
 
     // aliases for the type of particle that we have
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     inline int type() const     { return species; }
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     inline int index() const    { return species; }
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     inline int is_valid() const { return (0 <= species); }
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     inline double Get_Energy() const                     { return kinetic_energy; }
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_HIP
     inline MC_Vector *Get_Velocity() { return &velocity; }
 
 
@@ -102,7 +117,7 @@ class MC_Base_Particle
 //  Return a MC_Location given domain, cell, facet.
 //----------------------------------------------------------------------------------------------------------------------
 
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline MC_Location MC_Base_Particle::Get_Location() const
 {
     return MC_Location(domain, cell, 0);
@@ -118,7 +133,7 @@ inline MC_Location MC_Base_Particle::Get_Location() const
 //
 // return: A value of 1 (true) is returned on success, 0 (false) on failure.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline int MC_Base_Particle::invalidate()
 {
    if (is_valid())
@@ -136,7 +151,7 @@ inline int MC_Base_Particle::invalidate()
 //----------------------------------------------------------------------------------------------------------------------
 // Default constructor.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline MC_Base_Particle::MC_Base_Particle( ) :
         coordinate(),
         velocity(),
@@ -162,7 +177,7 @@ inline MC_Base_Particle::MC_Base_Particle( ) :
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a base particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 {
     coordinate          = particle.coordinate;
@@ -186,7 +201,7 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
 {
     coordinate          = particle.coordinate;
@@ -212,7 +227,7 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
 // The assignment operator.
 // Copies a given (rhs) particle replacing this (lhs) particle..
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particle)
 {
     coordinate = particle.coordinate;
@@ -325,7 +340,7 @@ HOST_DEVICE_END
 //----------------------------------------------------------------------------------------------------------------------
 //  Copy_From_Base copies a particle from a base into this version
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline void MC_Particle::Copy_From_Base( const MC_Base_Particle &from_particle)
 {
     this->coordinate          = from_particle.coordinate;

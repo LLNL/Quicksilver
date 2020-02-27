@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #include "initMC.hh"
 #include <vector>
 #include <set>
@@ -20,8 +35,8 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
-#include "cudaUtils.hh"
-#include "cudaFunctions.hh"
+#include "hipUtils.hh"
+#include "hipFunctions.hh"
 
 using std::vector;
 using std::string;
@@ -54,7 +69,8 @@ MonteCarlo* initMC(const Parameters& params)
    MonteCarlo* monteCarlo;
    #ifdef HAVE_UVM
       void* ptr;
-      cudaMallocManaged( &ptr, sizeof(MonteCarlo), cudaMemAttachGlobal );
+      //in my experiments you need the hipHostMallocNonCoherent flag set to make pcie atomics work.  
+      hipHostMalloc( &ptr, sizeof(MonteCarlo),hipHostMallocNonCoherent);
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -69,6 +85,17 @@ MonteCarlo* initMC(const Parameters& params)
 
    //   used when debugging cross sections
    checkCrossSections(monteCarlo, params);
+
+   void * ptr_dm, * ptr_dn, *ptr_dmesh;
+   hipMalloc( (void **) &(ptr_dm),monteCarlo->_materialDatabase->_mat.size()*sizeof(Material_d));
+   //monteCarlo->_material_d = new(ptr_d) Material_d;
+   monteCarlo->_material_d = (Material_d *)ptr_dm;
+   hipMalloc( (void **) &(ptr_dn),sizeof(NuclearData_d));
+   monteCarlo->_nuclearData_d = (NuclearData_d *) ptr_dn;
+ 
+   hipMalloc( (void **) &(ptr_dmesh),sizeof(MC_Domain_d));
+   monteCarlo->domain_d = (MC_Domain_d *) ptr_dmesh;
+ 
    return monteCarlo;
 }
 
@@ -77,18 +104,19 @@ namespace
 //Init GPU usage information
    void initGPUInfo( MonteCarlo* monteCarlo)
    {
+   
       #if defined(HAVE_OPENMP_TARGET)
          int Ngpus = omp_get_num_devices();
-      #elif defined(HAVE_CUDA)
+      #elif defined(HAVE_HIP)
          int Ngpus;
-         cudaGetDeviceCount(&Ngpus);
+         hipGetDeviceCount(&Ngpus);
       #else
          int Ngpus = 0;
       #endif
 
          if( Ngpus != 0 )
          {
-            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA)
+            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_HIP)
             monteCarlo->processor_info->use_gpu = 1;
             int GPUID = monteCarlo->processor_info->rank%Ngpus;
             monteCarlo->processor_info->gpu_id = GPUID;
@@ -97,7 +125,7 @@ namespace
                 omp_set_default_device(GPUID);
             #endif
 
-            cudaSetDevice(GPUID);
+            hipSetDevice(GPUID);
             //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
             #endif
          }
@@ -105,13 +133,14 @@ namespace
          {
             monteCarlo->processor_info->use_gpu = 0;
             monteCarlo->processor_info->gpu_id = -1;
+            
          }
 #ifdef USE_OPENMP_NO_GPU
          monteCarlo->processor_info->use_gpu = 0;
          monteCarlo->processor_info->gpu_id = -1;
 #endif
 
-#ifdef HAVE_CUDA
+#ifdef HAVE_HIP
     if( monteCarlo->processor_info->use_gpu )
         warmup_kernel();
 #endif
@@ -132,8 +161,10 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         cudaMallocManaged( &ptr1, sizeof(NuclearData), cudaMemAttachGlobal );
-         cudaMallocManaged( &ptr2, sizeof(MaterialDatabase), cudaMemAttachGlobal );
+         //hipHostMalloc( &ptr1, sizeof(NuclearData),hipHostMallocNonCoherent);
+         //hipHostMalloc( &ptr2, sizeof(MaterialDatabase),hipHostMallocNonCoherent);
+         ptr1=calloc( 1, sizeof(NuclearData));
+         ptr2=calloc( 1, sizeof(MaterialDatabase));
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,
@@ -253,6 +284,13 @@ namespace
       int myRank, nRanks;
       mpiComm_rank(MPI_COMM_WORLD, &myRank);
       mpiComm_size(MPI_COMM_WORLD, &nRanks);
+
+      /*
+      if(xDom !=1 || yDom!=1 || zDom!=1)
+      {
+         std::cout<<"We can only handle 1 domain (and mpi rank) at this time"<<std::endl;
+         exit(1);
+      }*/
       
       int nDomainsPerRank = 1; // SAD set this to 1 for some types of tests
       if( xDom == 0 && yDom == 0 && zDom == 0 )
@@ -270,7 +308,6 @@ namespace
          initializeCentersRandomly(nCenters, globalGrid, domainCenter);
       else
          initializeCentersGrid(lx, ly, lz, xDom, yDom, zDom, domainCenter);
-      
       qs_assert(domainCenter.size() == nCenters);
       
       vector<MeshPartition> partition;
@@ -302,7 +339,9 @@ namespace
       mpiBarrier(MPI_COMM_WORLD);
       
       delete comm;
-      
+     
+      printf("here we are %zu %d\n",myDomainGid.size(),myRank);
+ 
       monteCarlo->domain.reserve(myDomainGid.size(),VAR_MEM);
       monteCarlo->domain.Open();
       for (unsigned ii=0; ii<myDomainGid.size(); ++ii)
@@ -311,9 +350,11 @@ namespace
          monteCarlo->domain.push_back(
             MC_Domain(partition[ii], globalGrid, ddc, params, *monteCarlo->_materialDatabase,
                       params.simulationParams.nGroups));
+      printf("this %d\n",myRank);
       }
       monteCarlo->domain.Close();
       
+      printf("this %d %d\n",myRank,monteCarlo->domain.size());
       if (nRanks == 1)
          consistencyCheck(myRank, monteCarlo->domain);
       

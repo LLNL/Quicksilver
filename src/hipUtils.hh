@@ -13,57 +13,43 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 
-#ifndef MC_LOCATION_INCLUDE
-#define MC_LOCATION_INCLUDE
+#ifndef HIPUTILS_HH
+#define HIPUTILS_HH
 
+#if defined(HAVE_HIP) || defined(HAVE_OPENMP_TARGET) 
+#include <cuda.h>
+#include <hip/hip_runtime.h>
+#include <hip/hip_runtime_api.h>
+#endif
 
-// ToDo:  How much chaos would be caused by removing the default constructor?
+#ifdef HAVE_OPENMP_TARGET
+    #ifdef USE_OPENMP_NO_GPU
+        #define VAR_MEM MemoryControl::AllocationPolicy::HOST_MEM
+    #else
+        #define VAR_MEM MemoryControl::AllocationPolicy::UVM_MEM
+        #define HAVE_UVM
+    #endif
+#elif HAVE_HIP
+    #define VAR_MEM MemoryControl::AllocationPolicy::UVM_MEM
+    #define HAVE_UVM
+#else
+    #define VAR_MEM MemoryControl::AllocationPolicy::HOST_MEM
+#endif
 
-#include <string>
-#include "DeclareMacro.hh"
+enum ExecutionPolicy{ cpu, gpuWithHIP, gpuWithOpenMP };
 
-
-class  MC_Domain;
-class  MC_Domain_d;
-class  MC_Cell_State;
-class  MonteCarlo;
-
-HOST_DEVICE_CLASS
-class MC_Location
+inline ExecutionPolicy getExecutionPolicy( int useGPU )
 {
- public:
-   int domain;
-   int cell;
-   int facet;
+    ExecutionPolicy execPolicy = ExecutionPolicy::cpu;
 
-HOST_DEVICE_HIP
-   MC_Location(int adomain, int acell, int afacet)
-   : domain(adomain),
-     cell(acell),
-     facet(afacet)
-   {}
-
-HOST_DEVICE_HIP
-   MC_Location()
-   : domain(-1),
-     cell(-1),
-     facet(-1)
-   {}
-
-   HOST_DEVICE_HIP
-   const MC_Domain& get_domain(MonteCarlo *mcco) const;
-   HOST_DEVICE_HIP
-   const MC_Domain_d& get_domain_d(MonteCarlo *mcco) const;
-};
-HOST_DEVICE_END
-
-HOST_DEVICE_HIP
-inline bool operator==(const MC_Location& a, const MC_Location b)
-{
-   return
-      a.domain == b.domain &&
-      a.cell == b.cell &&
-      a.facet == b.facet;
+    if( useGPU )
+    {
+        #if defined (HAVE_HIP)
+        execPolicy = ExecutionPolicy::gpuWithHIP;
+        #elif defined (HAVE_OPENMP_TARGET)
+        execPolicy = ExecutionPolicy::gpuWithOpenMP;
+        #endif
+    }
+    return execPolicy;
 }
-
 #endif

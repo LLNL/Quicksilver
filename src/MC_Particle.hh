@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #ifndef MC_PARTICLE_INCLUDE
 #define MC_PARTICLE_INCLUDE
 
@@ -87,35 +102,35 @@ class MC_Particle
     double normal_dot;
 
 public:
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    MC_Particle();
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    MC_Particle( const MC_Base_Particle &from_particle );
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    void Copy_From_Base( const MC_Base_Particle &from_particle);
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    MC_Location Get_Location() const;
 
    // format a string with the contents of the particle
    void Copy_Particle_To_String(std::string &output_string) const;
 
    // move a particle a distance in the direction_cosine direction
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    void Move_Particle(const DirectionCosine & direction_cosine, const double distance);
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    void PrintParticle();
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    DirectionCosine *Get_Direction_Cosine()
    {
       return &this->direction_cosine;
    }
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    MC_Vector *Get_Velocity()
    {
       return &this->velocity;
@@ -144,7 +159,7 @@ inline void MC_Particle::Move_Particle( const DirectionCosine &my_direction_cosi
 //----------------------------------------------------------------------------------------------------------------------
 //  Print all of the particles components
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_HIP
 inline void MC_Particle::PrintParticle()
 {
     printf( "coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y, coordinate.z );

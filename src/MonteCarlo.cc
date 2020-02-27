@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #include "MonteCarlo.hh"
 #include "NuclearData.hh"
 #include "MaterialDatabase.hh"
@@ -11,7 +26,7 @@
 #include <cmath>
 
 #include "macros.hh" // current location of openMP wrappers.
-#include "cudaUtils.hh"
+#include "hipUtils.hh"
 
 using std::ceil;
 
@@ -28,10 +43,10 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     #if defined (HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
 
-        cudaMallocManaged( &ptr1, sizeof(Tallies), cudaMemAttachHost );
-        cudaMallocManaged( &ptr2, sizeof(MC_Processor_Info), cudaMemAttachHost );
-        cudaMallocManaged( &ptr3, sizeof(MC_Time_Info), cudaMemAttachHost );
-        cudaMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
+        hipHostMalloc( &ptr1, sizeof(Tallies), hipHostMallocNonCoherent );
+        hipHostMalloc( &ptr2, sizeof(MC_Processor_Info), hipHostMallocNonCoherent );
+        hipHostMalloc( &ptr3, sizeof(MC_Time_Info), hipHostMallocNonCoherent );
+        hipHostMalloc( &ptr4, sizeof(MC_Fast_Timer_Container), hipHostMallocNonCoherent );
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
@@ -41,6 +56,16 @@ MonteCarlo::MonteCarlo(const Parameters& params)
         processor_info          = new(ptr2) MC_Processor_Info();
         time_info               = new(ptr3) MC_Time_Info();
         fast_timer              = new(ptr4) MC_Fast_Timer_Container();
+
+        void * ptr55;
+
+        hipHostMalloc( &ptr55, sizeof(Tallies_d), hipHostMallocNonCoherent );
+        Tallies_d * tall_h                = new(ptr55) Tallies_d( params.simulationParams.balanceTallyReplications, 
+                                                     params.simulationParams.fluxTallyReplications,
+                                                     params.simulationParams.cellTallyReplications);
+        hipMalloc( (void **) &_tallies_d, sizeof(Tallies_d));
+        hipMemcpy(_tallies_d,tall_h,sizeof(Tallies_d),hipMemcpyHostToDevice);
+        hipFree(tall_h);
     #else
         _tallies                = new Tallies( params.simulationParams.balanceTallyReplications, 
                                                params.simulationParams.fluxTallyReplications,
@@ -98,8 +123,8 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
-        cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
-        cudaMallocManaged( &ptr6, sizeof(ParticleVaultContainer), cudaMemAttachHost );
+        hipHostMalloc( &ptr5, sizeof(MC_Particle_Buffer),hipHostMallocNonCoherent );
+        hipHostMalloc( &ptr6, sizeof(ParticleVaultContainer), hipHostMallocNonCoherent );
         particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
@@ -125,14 +150,18 @@ MonteCarlo::~MonteCarlo()
         fast_timer->~MC_Fast_Timer_Container();
         particle_buffer->~MC_Particle_Buffer();
 
-        cudaFree( _nuclearData );
-        cudaFree( _particleVaultContainer);
-        cudaFree( _materialDatabase);
-        cudaFree( _tallies);
-        cudaFree( processor_info);
-        cudaFree( time_info);
-        cudaFree( fast_timer);
-        cudaFree( particle_buffer);
+        hipFree( _nuclearData );
+        hipFree( _particleVaultContainer);
+        hipFree( _materialDatabase);
+        hipFree( _tallies);
+        hipFree( processor_info);
+        hipFree( time_info);
+        hipFree( fast_timer);
+        hipFree( particle_buffer);
+
+        hipFree( domain_d);
+        hipFree(_material_d);
+        hipFree(_nuclearData_d);       
 
     #else
         delete _nuclearData;
@@ -152,4 +181,5 @@ void MonteCarlo::clearCrossSectionCache()
    for (unsigned ii=0; ii<domain.size(); ++ii)
       domain[ii].clearCrossSectionCache(numEnergyGroups);
 }
+
 

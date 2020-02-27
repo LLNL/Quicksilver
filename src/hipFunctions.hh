@@ -13,57 +13,43 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 */
 
 
-#ifndef MC_LOCATION_INCLUDE
-#define MC_LOCATION_INCLUDE
+#ifndef HIPFUNCTIONS_HH
+#define HIPFUNCTIONS_HH
 
-
-// ToDo:  How much chaos would be caused by removing the default constructor?
-
-#include <string>
+#include "hipUtils.hh"
 #include "DeclareMacro.hh"
 
+#if defined (HAVE_HIP)
+void warmup_kernel();
+int ThreadBlockLayout( dim3 &grid, dim3 &block, int num_particles );
+DEVICE 
+#endif
 
-class  MC_Domain;
-class  MC_Domain_d;
-class  MC_Cell_State;
-class  MonteCarlo;
-
-HOST_DEVICE_CLASS
-class MC_Location
+#if defined (HAVE_HIP)
+inline DEVICE
+int getGlobalThreadID()
 {
- public:
-   int domain;
-   int cell;
-   int facet;
+    int blockID  =  hipBlockIdx_x +
+                    hipBlockIdx_y * hipGridDim_x +
+                    hipBlockIdx_z * hipGridDim_x * hipGridDim_y;
 
-HOST_DEVICE_HIP
-   MC_Location(int adomain, int acell, int afacet)
-   : domain(adomain),
-     cell(acell),
-     facet(afacet)
-   {}
-
-HOST_DEVICE_HIP
-   MC_Location()
-   : domain(-1),
-     cell(-1),
-     facet(-1)
-   {}
-
-   HOST_DEVICE_HIP
-   const MC_Domain& get_domain(MonteCarlo *mcco) const;
-   HOST_DEVICE_HIP
-   const MC_Domain_d& get_domain_d(MonteCarlo *mcco) const;
-};
-HOST_DEVICE_END
-
-HOST_DEVICE_HIP
-inline bool operator==(const MC_Location& a, const MC_Location b)
-{
-   return
-      a.domain == b.domain &&
-      a.cell == b.cell &&
-      a.facet == b.facet;
+    int threadID =  blockID * (hipBlockDim_x * hipBlockDim_y * hipBlockDim_z) +
+                    hipThreadIdx_z * ( hipBlockDim_x * hipBlockDim_y ) +
+                    hipThreadIdx_y * hipBlockDim_x +
+                    hipThreadIdx_x;
+    return threadID;
 }
+
+inline DEVICE
+int getLocalThreadID()
+{
+
+    int threadID =  hipThreadIdx_z * ( hipBlockDim_x * hipBlockDim_y ) +
+                    hipThreadIdx_y * hipBlockDim_x +
+                    hipThreadIdx_x;
+    return threadID;
+}
+#endif
+
 
 #endif

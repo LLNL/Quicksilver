@@ -1,8 +1,26 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #ifndef PARTICLEVAULTCONTAINER_HH
 #define PARTICLEVAULTCONTAINER_HH
 
 #include "DeclareMacro.hh"
-
+#include "ParticleVault.hh"
+#include "SendQueue.hh"
+#include "MemoryControl.hh"
+#include "qs_assert.hh"
 #include "portability.hh"
 #include "QS_Vector.hh"
 #include <vector>
@@ -38,15 +56,18 @@ class ParticleVaultContainer
 
     //Basic Getters
     uint64_t getVaultSize(){      return _vaultSize; }
+    
+    HOST_DEVICE
     uint64_t getNumExtraVaults(){ return _numExtraVaults; }
+    HOST_DEVICE_END
 
     uint64_t processingSize(){ return _processingVault.size(); }
     uint64_t processedSize(){ return _processedVault.size(); }
 
     //Returns the ParticleVault that is currently pointed too 
     //by index listed
-    ParticleVault* getTaskProcessingVault(uint64_t vaultIndex);
-    ParticleVault* getTaskProcessedVault( uint64_t vaultIndex);
+    ParticleVault* getTaskProcessingVault(uint64_t tallyArray);
+    ParticleVault* getTaskProcessedVault( uint64_t tallyArray);
 
     //Returns the index to the first empty Processed Vault
     uint64_t getFirstEmptyProcessedVault();
@@ -78,6 +99,15 @@ class ParticleVaultContainer
     void addExtraParticle( MC_Particle &particle );
     HOST_DEVICE_END
  
+    HOST_DEVICE
+    void addExtraParticle( MC_Particle &particle, int * tallyArray,int * particleindex);
+    HOST_DEVICE_END
+
+    uint64_t getextraVaultIndex();
+
+    ParticleVault * getExtraVault(int index);
+
+
     //Pushes particles from Extra Vaults onto the Processing 
     //Vault list
     void cleanExtraVaults();
@@ -110,5 +140,32 @@ class ParticleVaultContainer
     qs_vector<ParticleVault*>   _extraVault;
      
 };
+
+//--------------------------------------------------------------
+//------------getSendQueue--------------------------------------
+//Returns a pointer to the Send Queue
+//--------------------------------------------------------------
+inline HOST_DEVICE
+SendQueue* ParticleVaultContainer::
+getSendQueue()
+{
+    return this->_sendQueue;
+}
+HOST_DEVICE_END
+
+
+
+inline HOST_DEVICE
+void ParticleVaultContainer::
+addExtraParticle( MC_Particle &particle)
+{
+    uint64_cu index = 0;
+    ATOMIC_CAPTURE( this->_extraVaultIndex, 1, index );
+    uint64_t vault = index / this->_vaultSize;
+    _extraVault[vault]->pushParticle( particle );
+}
+HOST_DEVICE_END
+
+
 
 #endif

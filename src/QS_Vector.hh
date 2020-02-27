@@ -1,3 +1,18 @@
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+
 #ifndef QS_VECTOR_HH
 #define QS_VECTOR_HH
 
@@ -66,7 +81,7 @@ class qs_vector
       return *this;
    }
    
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    int get_memPolicy()
    {
 	return _memPolicy;
@@ -82,28 +97,33 @@ class qs_vector
    void Open() { _isOpen = true;  }
    void Close(){ _isOpen = false; }
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    const T& operator[]( int index ) const
    {
       return _data[index];
    }
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    T& operator[]( int index )
    {
       return _data[index];
    }
    
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    int capacity() const
    {
       return _capacity;
    }
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    int size() const
    {
       return _size;
+   }
+
+   void setsize(int size)
+   {
+      _size=size;
    }
    
    T& back()
@@ -174,8 +194,13 @@ class qs_vector
 
    }
 
+   const T * const outputPointer()
+   {
+      return _data;
+   }
+
    //Atomically retrieve an availible index then increment that index some amount
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_HIP
    int atomic_Index_Inc( int inc )
    {
        int pos;
@@ -184,6 +209,7 @@ class qs_vector
 
        return pos;
    }
+
 
  private:
    T* _data;
