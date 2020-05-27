@@ -25,13 +25,19 @@ MonteCarlo::MonteCarlo(const Parameters& params)
    _nuclearData            = 0;
    _materialDatabase       = 0;
 
-    #if defined (HAVE_UVM)
+#if defined(HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
-
+#ifdef HAVE_SYCL
+        ptr1 = (void *)sycl::malloc_shared(sizeof(Tallies), q);
+        ptr2 = (void *)sycl::malloc_shared(sizeof(MC_Processor_Info), q);
+        ptr3 = (void *)sycl::malloc_shared(sizeof(MC_Time_Info), q);
+        ptr4 = (void *)sycl::malloc_shared(sizeof(MC_Fast_Timer_Container), q);
+#else
         cudaMallocManaged( &ptr1, sizeof(Tallies), cudaMemAttachHost );
         cudaMallocManaged( &ptr2, sizeof(MC_Processor_Info), cudaMemAttachHost );
         cudaMallocManaged( &ptr3, sizeof(MC_Time_Info), cudaMemAttachHost );
         cudaMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
+#endif
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
@@ -98,8 +104,13 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
+#ifdef HAVE_SYCL
+        ptr5 = (void *)sycl::malloc_shared(sizeof(MC_Particle_Buffer), q);
+        ptr6 = (void *)sycl::malloc_shared(sizeof(ParticleVaultContainer), q);
+#else
         cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
         cudaMallocManaged( &ptr6, sizeof(ParticleVaultContainer), cudaMemAttachHost );
+#endif
         particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
@@ -125,6 +136,16 @@ MonteCarlo::~MonteCarlo()
         fast_timer->~MC_Fast_Timer_Container();
         particle_buffer->~MC_Particle_Buffer();
 
+#ifdef HAVE_SYCL
+        sycl::free(_nuclearData, q);
+        sycl::free(_particleVaultContainer, q);
+        sycl::free(_materialDatabase, q);
+        sycl::free(_tallies, q);
+        sycl::free(processor_info, q);
+        sycl::free(time_info, q);
+        sycl::free(fast_timer, q);
+        sycl::free(particle_buffer, q);
+#else
         cudaFree( _nuclearData );
         cudaFree( _particleVaultContainer);
         cudaFree( _materialDatabase);
@@ -133,8 +154,9 @@ MonteCarlo::~MonteCarlo()
         cudaFree( time_info);
         cudaFree( fast_timer);
         cudaFree( particle_buffer);
+#endif
 
-    #else
+#else
         delete _nuclearData;
         delete _particleVaultContainer;
         delete _materialDatabase;
@@ -143,7 +165,7 @@ MonteCarlo::~MonteCarlo()
         delete time_info;
         delete fast_timer;
         delete particle_buffer;
-    #endif
+#endif
 }
 
 void MonteCarlo::clearCrossSectionCache()

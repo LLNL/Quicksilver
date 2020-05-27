@@ -18,6 +18,7 @@
 #include "AtomicMacro.hh"
 #include "NVTX_Range.hh"
 #include <vector>
+#include "mathHelp.hh"
 
 namespace
 {
@@ -116,7 +117,7 @@ void MC_SourceNow(MonteCarlo *monteCarlo)
                 particle.weight = source_particle_weight;
 
                 double randomNumber = rngSample(&particle.random_number_seed);
-                particle.num_mean_free_paths = -1.0*log(randomNumber);
+                particle.num_mean_free_paths = -1.0*LOG(randomNumber);
 
                 randomNumber = rngSample(&particle.random_number_seed);
                 particle.time_to_census = monteCarlo->time_info->time_step * randomNumber;
@@ -172,7 +173,7 @@ namespace
       static const double speed_of_light  = PhysicalConstants::_speedOfLight;
 
 
-      return speed_of_light * sqrt(energy * (energy + 2.0*(rest_mass_energy)) /
+      return speed_of_light * std::sqrt(energy * (energy + 2.0*(rest_mass_energy)) /
                                    ((energy + rest_mass_energy) * (energy + rest_mass_energy)));
    }
 }

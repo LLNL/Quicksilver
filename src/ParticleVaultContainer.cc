@@ -337,7 +337,7 @@ addProcessingParticle( MC_Base_Particle &particle, uint64_t &fill_vault_index )
 //------------addExtraParticle----------------------------------
 //adds a particle to the extra particle vaults (used in kernel)
 //--------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void ParticleVaultContainer::
 addExtraParticle( MC_Particle &particle)
 {

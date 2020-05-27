@@ -33,12 +33,12 @@ HOST_DEVICE_CUDA
      facet(-1)
    {}
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_CUDA SYCL_EXTERNAL
    const MC_Domain& get_domain(MonteCarlo *mcco) const;
 };
 HOST_DEVICE_END
 
-HOST_DEVICE_CUDA
+HOST_DEVICE_CUDA SYCL_EXTERNAL
 inline bool operator==(const MC_Location& a, const MC_Location b)
 {
    return

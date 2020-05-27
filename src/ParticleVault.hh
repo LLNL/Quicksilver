@@ -171,6 +171,7 @@ getParticle( MC_Particle &particle, int index )
 }
 
 // -----------------------------------------------------------------------
+   HOST_DEVICE_CUDA
 inline bool ParticleVault::
 putParticle(MC_Particle particle, int index)
 {
@@ -185,6 +186,7 @@ putParticle(MC_Particle particle, int index)
 }
 
 // -----------------------------------------------------------------------
+   HOST_DEVICE_CUDA
 inline void ParticleVault::
 invalidateParticle( int index )
 {
@@ -205,7 +207,7 @@ eraseSwapParticle(int index)
 }
 
 // -----------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void MC_Load_Particle(MonteCarlo *mcco, MC_Particle &mc_particle, ParticleVault *particleVault, int particle_index);
 HOST_DEVICE_END
 

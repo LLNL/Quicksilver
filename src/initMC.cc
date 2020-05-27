@@ -54,7 +54,11 @@ MonteCarlo* initMC(const Parameters& params)
    MonteCarlo* monteCarlo;
    #ifdef HAVE_UVM
       void* ptr;
+#ifdef HAVE_SYCL
+      ptr = (void *)sycl::malloc_shared(sizeof(MonteCarlo), q);
+#else
       cudaMallocManaged( &ptr, sizeof(MonteCarlo), cudaMemAttachGlobal );
+#endif
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -77,28 +81,32 @@ namespace
 //Init GPU usage information
    void initGPUInfo( MonteCarlo* monteCarlo)
    {
+      int Ngpus = 0;
       #if defined(HAVE_OPENMP_TARGET)
-         int Ngpus = omp_get_num_devices();
+         Ngpus = omp_get_num_devices();
       #elif defined(HAVE_CUDA)
-         int Ngpus;
          cudaGetDeviceCount(&Ngpus);
-      #else
-         int Ngpus = 0;
+      #elif defined(HAVE_SYCL)
+         Ngpus = 1;
       #endif
 
          if( Ngpus != 0 )
          {
-            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA)
+            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA) || defined(HAVE_SYCL)
+
             monteCarlo->processor_info->use_gpu = 1;
             int GPUID = monteCarlo->processor_info->rank%Ngpus;
             monteCarlo->processor_info->gpu_id = GPUID;
-            
+
             #if defined(HAVE_OPENMP_TARGET)
                 omp_set_default_device(GPUID);
             #endif
 
-            cudaSetDevice(GPUID);
-            //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+            #ifndef HAVE_SYCL
+                cudaSetDevice(GPUID);
+                //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+            #endif
+
             #endif
          }
          else
@@ -132,8 +140,13 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
+#ifdef HAVE_SYCL
+         ptr1 = (void *)sycl::malloc_shared(sizeof(NuclearData), q);
+         ptr2 = (void *)sycl::malloc_shared(sizeof(MaterialDatabase), q);
+#else
          cudaMallocManaged( &ptr1, sizeof(NuclearData), cudaMemAttachGlobal );
          cudaMallocManaged( &ptr2, sizeof(MaterialDatabase), cudaMemAttachGlobal );
+#endif
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,

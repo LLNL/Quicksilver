@@ -14,7 +14,7 @@ namespace MemoryControl
    {
       if (size == 0) { return NULL;}
       T* tmp = NULL;
-      
+
       switch (policy)
       {
         case AllocationPolicy::HOST_MEM:
@@ -22,9 +22,13 @@ namespace MemoryControl
          break;
 #ifdef HAVE_UVM
         case AllocationPolicy::UVM_MEM:
-         void *ptr;
+         void * ptr;
+#ifdef HAVE_SYCL
+         ptr = (void *)sycl::malloc_shared(size * sizeof(T), q);
+#else
          cudaMallocManaged(&ptr, size*sizeof(T), cudaMemAttachGlobal);
-         tmp = new(ptr) T[size]; 
+#endif
+         tmp = new(ptr) T[size];
          break;
 #endif
         default:
@@ -40,15 +44,18 @@ namespace MemoryControl
       switch (policy)
       {
         case MemoryControl::AllocationPolicy::HOST_MEM:
-         delete[] data; 
+         delete[] data;
          break;
 #ifdef HAVE_UVM
         case UVM_MEM:
-         for (int i=0; i < size; ++i)
-            data[i].~T();
+         for (int i=0; i < size; ++i) data[i].~T();
+#ifdef HAVE_SYCL
+         sycl::free(data, q);
+#else
          cudaFree(data);
+#endif
          break;
-#endif         
+#endif
         default:
          qs_assert(false);
          break;

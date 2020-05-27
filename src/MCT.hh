@@ -14,7 +14,7 @@ class Subfacet_Adjacency;
 class MonteCarlo;
 
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 MC_Nearest_Facet MCT_Nearest_Facet(
    MC_Particle *mc_particle,
    MC_Location &location,
@@ -22,12 +22,12 @@ MC_Nearest_Facet MCT_Nearest_Facet(
    const DirectionCosine *direction_cosine,
    double distance_threshold,
    double current_best_distance,
-   bool new_segment, 
+   bool new_segment,
    MonteCarlo* monteCarlo);
 HOST_DEVICE_END
 
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void MCT_Generate_Coordinate_3D_G(
    uint64_t *random_number_seed,
    int domain_num,
@@ -36,17 +36,17 @@ void MCT_Generate_Coordinate_3D_G(
    MonteCarlo* monteCarlo);
 HOST_DEVICE_END
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 MC_Vector MCT_Cell_Position_3D_G(
    const MC_Domain   &domain,
    int cell_index);
 HOST_DEVICE_END
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Particle &mc_particle, MonteCarlo* monteCarlo);
 HOST_DEVICE_END
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void MCT_Reflect_Particle(MonteCarlo *mcco, MC_Particle &particle);
 HOST_DEVICE_END
 
