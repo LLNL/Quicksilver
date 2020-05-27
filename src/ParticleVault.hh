@@ -171,6 +171,7 @@ getParticle( MC_Particle &particle, int index )
 }
 
 // -----------------------------------------------------------------------
+   HOST_DEVICE_CUDA
 inline bool ParticleVault::
 putParticle(MC_Particle particle, int index)
 {
@@ -185,6 +186,7 @@ putParticle(MC_Particle particle, int index)
 }
 
 // -----------------------------------------------------------------------
+   HOST_DEVICE_CUDA
 inline void ParticleVault::
 invalidateParticle( int index )
 {
