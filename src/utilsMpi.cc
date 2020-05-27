@@ -232,11 +232,16 @@ void mpiGather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbu
    }
 }
 
+#include <chrono>
+
 double mpiWtime (void)
 {
-   double value;
-   value = ( double ) clock ( ) / ( double ) CLOCKS_PER_SEC;
-   return value;
+   using t = std::chrono::high_resolution_clock;
+   auto c = t::now().time_since_epoch().count();
+   auto n = t::period::num;
+   auto d = t::period::den;
+   double r = static_cast<double>(c)/static_cast<double>(d)*static_cast<double>(n);
+   return r;
 }
 
 static Handleitem *init_block(int block, Handleitem *b)
