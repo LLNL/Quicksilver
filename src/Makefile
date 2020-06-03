@@ -186,7 +186,9 @@ LDFLAGS = $(OPENMP_LDFLAGS)
 ###############################################################################
 CXX       = dpcpp
 CXXFLAGS  = -std=c++14
-CXXFLAGS += -g -O2
+CXXFLAGS += -O3
+CXXFLAGS += -ffast-math
+#CXXFLAGS += -g
 CXXFLAGS += -ferror-limit=1
 CPPFLAGS  = -DHAVE_SYCL
 LDFLAGS   =
