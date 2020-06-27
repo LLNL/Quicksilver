@@ -14,6 +14,7 @@
 #include "PhysicalConstants.hh"
 #include "DeclareMacro.hh"
 #include "mathHelp.hh"
+#include "cudaUtils.hh"
 
 HOST_DEVICE
 static inline unsigned int MC_Find_Min(const double *array,
@@ -46,12 +47,9 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
 
         if ( mc_particle.num_mean_free_paths > -900.0 )
         {
-#if defined(HAVE_SYCL)
-            // FIXME
-#elif 0
-            std::string output_string;
-            MC_Warning( "Forced Collision: num_mean_free_paths < 0 \n"
-                             "Particle record:\n%s", output_string.c_str());
+#ifdef HAVE_SYCL
+            static const OPENCL_CONSTANT char format[] = " MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n";
+            sycl::intel::experimental::printf(format);
 #else
             printf(" MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n");
 #endif
