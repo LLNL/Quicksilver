@@ -1,4 +1,5 @@
 #include <cstdio>
+#include "cudaUtils.hh"
 
 #ifdef __CUDA_ARCH__
 
@@ -18,6 +19,8 @@
    { \
       if (!(cond)) \
       { \
+          static const OPENCL_CONSTANT char format[] = "file=%s: line=%d ERROR\n"; \
+          sycl::intel::experimental::printf(format,__FILE__,__LINE__); \
       } \
    } while(0)
 
