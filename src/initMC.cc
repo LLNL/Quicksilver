@@ -55,7 +55,7 @@ MonteCarlo* initMC(const Parameters& params)
    #ifdef HAVE_UVM
       void* ptr;
 #ifdef HAVE_SYCL
-      ptr = (void *)sycl::malloc_shared(sizeof(MonteCarlo), q);
+      ptr = (void *)sycl::malloc_shared(sizeof(MonteCarlo), sycl_device_queue);
 #else
       cudaMallocManaged( &ptr, sizeof(MonteCarlo), cudaMemAttachGlobal );
 #endif
@@ -141,8 +141,8 @@ namespace
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
 #ifdef HAVE_SYCL
-         ptr1 = (void *)sycl::malloc_shared(sizeof(NuclearData), q);
-         ptr2 = (void *)sycl::malloc_shared(sizeof(MaterialDatabase), q);
+         ptr1 = (void *)sycl::malloc_shared(sizeof(NuclearData), sycl_device_queue);
+         ptr2 = (void *)sycl::malloc_shared(sizeof(MaterialDatabase), sycl_device_queue);
 #else
          cudaMallocManaged( &ptr1, sizeof(NuclearData), cudaMemAttachGlobal );
          cudaMallocManaged( &ptr2, sizeof(MaterialDatabase), cudaMemAttachGlobal );

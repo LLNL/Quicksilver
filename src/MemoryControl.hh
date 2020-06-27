@@ -24,7 +24,7 @@ namespace MemoryControl
         case AllocationPolicy::UVM_MEM:
          void * ptr;
 #ifdef HAVE_SYCL
-         ptr = (void *)sycl::malloc_shared(size * sizeof(T), q);
+         ptr = (void *)sycl::malloc_shared(size * sizeof(T), sycl_device_queue);
 #else
          cudaMallocManaged(&ptr, size*sizeof(T), cudaMemAttachGlobal);
 #endif
@@ -50,7 +50,7 @@ namespace MemoryControl
         case UVM_MEM:
          for (int i=0; i < size; ++i) data[i].~T();
 #ifdef HAVE_SYCL
-         sycl::free(data, q);
+         sycl::free(data, sycl_device_queue);
 #else
          cudaFree(data);
 #endif

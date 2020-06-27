@@ -28,10 +28,10 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 #if defined(HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
 #ifdef HAVE_SYCL
-        ptr1 = (void *)sycl::malloc_shared(sizeof(Tallies), q);
-        ptr2 = (void *)sycl::malloc_shared(sizeof(MC_Processor_Info), q);
-        ptr3 = (void *)sycl::malloc_shared(sizeof(MC_Time_Info), q);
-        ptr4 = (void *)sycl::malloc_shared(sizeof(MC_Fast_Timer_Container), q);
+        ptr1 = (void *)sycl::malloc_shared(sizeof(Tallies), sycl_device_queue);
+        ptr2 = (void *)sycl::malloc_shared(sizeof(MC_Processor_Info), sycl_device_queue);
+        ptr3 = (void *)sycl::malloc_shared(sizeof(MC_Time_Info), sycl_device_queue);
+        ptr4 = (void *)sycl::malloc_shared(sizeof(MC_Fast_Timer_Container), sycl_device_queue);
 #else
         cudaMallocManaged( &ptr1, sizeof(Tallies), cudaMemAttachHost );
         cudaMallocManaged( &ptr2, sizeof(MC_Processor_Info), cudaMemAttachHost );
@@ -105,8 +105,8 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
 #ifdef HAVE_SYCL
-        ptr5 = (void *)sycl::malloc_shared(sizeof(MC_Particle_Buffer), q);
-        ptr6 = (void *)sycl::malloc_shared(sizeof(ParticleVaultContainer), q);
+        ptr5 = (void *)sycl::malloc_shared(sizeof(MC_Particle_Buffer), sycl_device_queue);
+        ptr6 = (void *)sycl::malloc_shared(sizeof(ParticleVaultContainer), sycl_device_queue);
 #else
         cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
         cudaMallocManaged( &ptr6, sizeof(ParticleVaultContainer), cudaMemAttachHost );
@@ -137,14 +137,14 @@ MonteCarlo::~MonteCarlo()
         particle_buffer->~MC_Particle_Buffer();
 
 #ifdef HAVE_SYCL
-        sycl::free(_nuclearData, q);
-        sycl::free(_particleVaultContainer, q);
-        sycl::free(_materialDatabase, q);
-        sycl::free(_tallies, q);
-        sycl::free(processor_info, q);
-        sycl::free(time_info, q);
-        sycl::free(fast_timer, q);
-        sycl::free(particle_buffer, q);
+        sycl::free(_nuclearData, sycl_device_queue);
+        sycl::free(_particleVaultContainer, sycl_device_queue);
+        sycl::free(_materialDatabase, sycl_device_queue);
+        sycl::free(_tallies, sycl_device_queue);
+        sycl::free(processor_info, sycl_device_queue);
+        sycl::free(time_info, sycl_device_queue);
+        sycl::free(fast_timer, sycl_device_queue);
+        sycl::free(particle_buffer, sycl_device_queue);
 #else
         cudaFree( _nuclearData );
         cudaFree( _particleVaultContainer);

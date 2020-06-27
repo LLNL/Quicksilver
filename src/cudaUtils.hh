@@ -11,7 +11,7 @@
 
 #include <CL/sycl.hpp>
 
-extern sycl::queue q; // global variable for device queue
+extern sycl::queue sycl_device_queue; // global variable for device queue
 
 #ifdef __SYCL_DEVICE_ONLY__
 #define OPENCL_CONSTANT __attribute__((opencl_constant))

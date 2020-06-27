@@ -27,7 +27,7 @@
 #include "git_vers.hh"
 
 #ifdef HAVE_SYCL
-sycl::queue q;
+sycl::queue sycl_device_queue;
 #endif
 
 void gameOver();
@@ -52,15 +52,15 @@ int main(int argc, char** argv)
    char * devchar = std::getenv("QS_DEVICE");
    std::string devname = (devchar==NULL ? "None" : devchar);
    if (devname == "CPU") {
-       q = cl::sycl::cpu_selector{};
+       sycl_device_queue = cl::sycl::cpu_selector{};
    }
    else
    if (devname == "GPU") {
-       q = cl::sycl::gpu_selector{};
+       sycl_device_queue = cl::sycl::gpu_selector{};
    }
    else
    if (devname == "HOST") {
-       q = cl::sycl::host_selector{};
+       sycl_device_queue = cl::sycl::host_selector{};
    }
    else
    {
@@ -69,10 +69,10 @@ int main(int argc, char** argv)
    }
 
    // DEBUG - REMOVE LATER
-   if ( q.get_device().is_cpu() )         std::cout << "is cpu"         << std::endl;
-   if ( q.get_device().is_gpu() )         std::cout << "is gpu"         << std::endl;
-   if ( q.get_device().is_host() )        std::cout << "is host"        << std::endl;
-   if ( q.get_device().is_accelerator() ) std::cout << "is accelerator" << std::endl;
+   if ( sycl_device_queue.get_device().is_cpu() )         std::cout << "is cpu"         << std::endl;
+   if ( sycl_device_queue.get_device().is_gpu() )         std::cout << "is gpu"         << std::endl;
+   if ( sycl_device_queue.get_device().is_host() )        std::cout << "is host"        << std::endl;
+   if ( sycl_device_queue.get_device().is_accelerator() ) std::cout << "is accelerator" << std::endl;
 #endif
 
    // mcco stores just about everything.
@@ -116,7 +116,7 @@ int main(int argc, char** argv)
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
 #ifdef HAVE_SYCL
-   sycl::free(mcco, q);
+   sycl::free(mcco, sycl_device_queue);
 #else
     cudaFree( mcco );
 #endif
@@ -273,13 +273,13 @@ void cycleTracking(MonteCarlo *monteCarlo)
                        {
                           const size_t N = numParticles;
                       #ifdef HAVE_SYCL
-                          q.submit([&](sycl::handler &h) {
+                          sycl_device_queue.submit([&](sycl::handler &h) {
                               h.parallel_for(sycl::range<1>{N},  [=](sycl::item<1> it) {
                                  int particle_index = it[0];
                                  CycleTrackingGuts( monteCarlo, particle_index, processingVault, processedVault );
                               });
                           });
-                          q.wait();
+                          sycl_device_queue.wait();
                       #endif
                        }
                        break;
