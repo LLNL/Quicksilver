@@ -4,6 +4,7 @@
 #include "DeclareMacro.hh"
 #include "qs_assert.hh"
 #include "mathHelp.hh"
+#include "cudaUtils.hh"
 
 // Set the cross section values and reaction type
 // Cross sections are scaled to produce the supplied reactionCrossSection at 1MeV.
@@ -80,7 +81,10 @@ void NuclearDataReaction::sampleCollision(
       }
       break;
      case Undefined:
-#ifndef HAVE_SYCL
+#ifdef HAVE_SYCL
+      static const OPENCL_CONSTANT char format[] = "_reactionType invalid\n";
+      sycl::intel::experimental::printf(format);
+#else
       printf("_reactionType invalid\n");
 #endif
       qs_assert(false);

@@ -12,6 +12,7 @@
 #include "DeclareMacro.hh"
 #include "AtomicMacro.hh"
 #include "mathHelp.hh"
+#include "cudaUtils.hh"
 
 #define MAX_PRODUCTION_SIZE 4
 
@@ -116,7 +117,10 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
          ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
          break;
       case NuclearDataReaction::Undefined:
-#ifndef HAVE_SYCL
+#ifdef HAVE_SYCL
+         static const OPENCL_CONSTANT char format[] = "reactionType invalid\n";
+         sycl::intel::experimental::printf(format);
+#else
          printf("reactionType invalid\n");
 #endif
          qs_assert(false);

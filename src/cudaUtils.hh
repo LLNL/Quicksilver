@@ -8,10 +8,21 @@
 #endif
 
 #if defined(HAVE_SYCL)
+
 #include <CL/sycl.hpp>
+
 extern sycl::queue q; // global variable for device queue
+
+#ifdef __SYCL_DEVICE_ONLY__
+#define OPENCL_CONSTANT __attribute__((opencl_constant))
 #else
+#define OPENCL_CONSTANT
+#endif
+
+#else // not SYCL
+
 #define SYCL_EXTERNAL
+
 #endif
 
 #ifdef HAVE_OPENMP_TARGET
