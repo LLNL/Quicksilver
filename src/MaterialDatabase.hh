@@ -99,19 +99,18 @@ class MaterialDatabase
 class Material_d
 {
    public:
-   std::string _name;
    double _mass;
    int _isosize;
    Isotope * _iso;
 
    Material_d()
-   : _name("0"), _mass(1000.0) {}
+   :  _mass(1000.0) {}
 
    Material_d(const std::string &name)
-   :   _name(name), _mass(1000.0){}
+   :    _mass(1000.0){}
 
    Material_d(const std::string &name, double mass)
-   :   _name(name), _mass(mass){}
+   :    _mass(mass){}
 
    ~Material_d() {}
 
@@ -137,7 +136,6 @@ inline void copyMaterialDatabase_device(MonteCarlo * mcco)
       materials_h[j]._isosize=isosize;
       materials_h[j]._iso=local_I_d;
       materials_h[j]._mass=mcco->_materialDatabase->_mat[j]._mass;
-      materials_h[j]._name=mcco->_materialDatabase->_mat[j]._name;
    }
    hipMemcpy(mcco->_material_d,materials_h,numMaterials*sizeof(Material_d),hipMemcpyHostToDevice);
    hipFree(materials_h);
