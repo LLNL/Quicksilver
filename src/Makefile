@@ -341,7 +341,6 @@ SOURCES= \
     MC_Domain.cc \
     MC_Fast_Timer.cc \
     MC_Particle_Buffer.cc \
-    MC_SourceNow.cc \
     MeshPartition.cc \
     MonteCarlo.cc \
     MpiCommObject.cc \

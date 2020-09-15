@@ -17,7 +17,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #define HIPUTILS_HH
 
 #if defined(HAVE_HIP) || defined(HAVE_OPENMP_TARGET) 
-#include <cuda.h>
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
 #endif

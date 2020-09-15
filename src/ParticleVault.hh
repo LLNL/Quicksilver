@@ -194,6 +194,7 @@ getParticle( MC_Particle &particle, int index )
 }
 
 // -----------------------------------------------------------------------
+HOST_DEVICE_HIP
 inline bool ParticleVault::
 putParticle(MC_Particle particle, int index)
 {
@@ -208,6 +209,7 @@ putParticle(MC_Particle particle, int index)
 }
 
 // -----------------------------------------------------------------------
+HOST_DEVICE_HIP
 inline void ParticleVault::
 invalidateParticle( int index )
 {

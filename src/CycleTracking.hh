@@ -45,7 +45,7 @@ class MC_Particle;
 const int NIt = MaxIt;
 
 
-inline DEVICE
+inline HOST_DEVICE_HIP
 void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault, int * tallyArray)
 {
     bool keepTrackingThisParticle = true;
@@ -162,9 +162,8 @@ void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, in
     }
 
 }
-DEVICE_END
 
-inline DEVICE
+inline HOST_DEVICE_HIP
 void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVault *processingVault, ParticleVault *processedVault, int * tallyArray)
 {
     MC_Particle mc_particle;
@@ -181,12 +180,6 @@ void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVaul
     //Make sure this particle is marked as completed
     processingVault->invalidateParticle( particle_index );
 }
-DEVICE_END
 
-
-
-void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVault *processingVault, ParticleVault *processedVault, int * values);
-
-void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault,int * values);
 
 #endif
