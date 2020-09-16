@@ -140,6 +140,7 @@ public:
 //----------------------------------------------------------------------------------------------------------------------
 //  Return a MC_Location given domain, cell, facet.
 //----------------------------------------------------------------------------------------------------------------------
+HOST_DEVICE_HIP
 inline MC_Location MC_Particle::Get_Location() const
 {
     return MC_Location(domain, cell, facet);
@@ -148,6 +149,7 @@ inline MC_Location MC_Particle::Get_Location() const
 //----------------------------------------------------------------------------------------------------------------------
 //  Move the particle a straight-line distance along a specified cosine.
 //----------------------------------------------------------------------------------------------------------------------
+HOST_DEVICE_HIP
 inline void MC_Particle::Move_Particle( const DirectionCosine &my_direction_cosine,
                                       const double distance)
 {
