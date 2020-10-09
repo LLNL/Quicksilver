@@ -14,15 +14,31 @@
 
 #elif defined(HAVE_SYCL)
 
+#ifdef HAVE_SYCL_PRINTF
+
 #define qs_assert( cond) \
    do \
    { \
       if (!(cond)) \
       { \
           static const OPENCL_CONSTANT char format[] = "file=%s: line=%d ERROR\n"; \
-          sycl::intel::experimental::printf(format,__FILE__,__LINE__); \
+          syclx::printf(format,__FILE__,__LINE__); \
       } \
    } while(0)
+
+#else
+
+#define qs_assert( cond) \
+   do \
+   { \
+      if (!(cond)) \
+      { \
+          /* FIXME eventually...
+           * printf("file=%s: line=%d ERROR\n",__FILE__,__LINE__); */ \
+      } \
+   } while(0)
+
+#endif
 
 #else
 

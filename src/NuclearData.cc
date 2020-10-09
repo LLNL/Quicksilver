@@ -82,8 +82,10 @@ void NuclearDataReaction::sampleCollision(
       break;
      case Undefined:
 #ifdef HAVE_SYCL
+#ifdef HAVE_SYCL_PRINTF
       static const OPENCL_CONSTANT char format[] = "_reactionType invalid\n";
-      sycl::intel::experimental::printf(format);
+      syclx::printf(format);
+#endif
 #else
       printf("_reactionType invalid\n");
 #endif

@@ -19,6 +19,9 @@ extern sycl::queue sycl_device_queue; // global variable for device queue
 #define OPENCL_CONSTANT
 #endif
 
+// printf
+namespace syclx = sycl::ONEAPI::experimental;
+
 #else // not SYCL
 
 #define SYCL_EXTERNAL

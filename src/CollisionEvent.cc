@@ -117,13 +117,18 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
          ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
          break;
       case NuclearDataReaction::Undefined:
+      {
 #ifdef HAVE_SYCL
+#if HAVE_SYCL_PRINTF
          static const OPENCL_CONSTANT char format[] = "reactionType invalid\n";
-         sycl::intel::experimental::printf(format);
+         syclx::printf(format);
+#endif
 #else
          printf("reactionType invalid\n");
 #endif
          qs_assert(false);
+         break;
+      }
    }
 
    if( nOut == 0 ) return false;

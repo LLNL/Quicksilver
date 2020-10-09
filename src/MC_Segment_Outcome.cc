@@ -48,8 +48,10 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
         if ( mc_particle.num_mean_free_paths > -900.0 )
         {
 #ifdef HAVE_SYCL
+#ifdef HAVE_SYCL_PRINTF
             static const OPENCL_CONSTANT char format[] = " MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n";
-            sycl::intel::experimental::printf(format);
+            syclx::printf(format);
+#endif
 #else
             printf(" MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n");
 #endif
