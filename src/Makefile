@@ -184,19 +184,39 @@ LDFLAGS = $(OPENMP_LDFLAGS)
 ###############################################################################
 # SYCL/DPC++
 ###############################################################################
-CXX       = dpcpp
-CXXFLAGS  = -std=c++14
-CXXFLAGS += -O3
-CXXFLAGS += -ffast-math
-#CXXFLAGS += -g
-CXXFLAGS += -ferror-limit=1
-CPPFLAGS  = -DHAVE_SYCL
-LDFLAGS   =
+
+CPPFLAGS	 = -DHAVE_SYCL
+
+CXXFLAGS	 =
+CXXFLAGS	+= -std=c++17
+CXXFLAGS	+= -g
+CXXFLAGS	+= -O3
+CXXFLAGS	+= -ffast-math
+CXXFLAGS	+= -ferror-limit=3
+
+CXXFLAGS	+= -fsycl
+CXXFLAGS	+= -fsycl-unnamed-lambda
+
+# -------------------------------------------------------
+# Intel oneAPI DPC++ compiler that supports Intel devices
+# -------------------------------------------------------
+#CXX		 = dpcpp
+# NVIDIA back-end does not support printf yet...
+#CPPFLAGS	 = -DHAVE_SYCL_PRINTF
 
 # GPU offline compile
 # https://software.intel.com/content/www/us/en/develop/documentation/oneapi-programming-guide/top/programming-interface/gpu-flow/offline-compilation-for-gpu.html
 #CXXFLAGS += -fsycl-targets=spir64_gen-unknown-linux-sycldevice
 #LDFLAGS  += -Xsycl-target-backend=spir64_gen-unknown-linux-sycldevice "-device skl"
+
+# -------------------------------------------------------
+# Intel DPC++ open-source compiler built for NVIDIA
+# -------------------------------------------------------
+DPCPP_DIR	 = /media/disk2/jrhammon/llvm/build
+CXX		 = $(DPCPP_DIR)/bin/clang++
+CXXFLAGS	+= -Wno-unknown-cuda-version
+CXXFLAGS	+= -fsycl-targets=nvptx64-nvidia-cuda-sycldevice
+LDFLAGS		+= -L$(DPCPP_DIR)/lib -Wl,-rpath=$(DPCPP_DIR)/lib
 
 ################################################################################
 ### Below here, it is pitch black.                                           ###
