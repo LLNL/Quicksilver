@@ -205,6 +205,9 @@ CXX		 = dpcpp
 # NVIDIA back-end does not support printf yet...
 CPPFLAGS	+= -DHAVE_SYCL_PRINTF
 
+# works around https://github.com/intel/llvm/issues/2629
+CXXFLAGS	+= -fno-sycl-early-optimizations
+
 # GPU offline compile
 # https://software.intel.com/content/www/us/en/develop/documentation/oneapi-programming-guide/top/programming-interface/gpu-flow/offline-compilation-for-gpu.html
 #CXXFLAGS += -fsycl-targets=spir64_gen-unknown-linux-sycldevice
