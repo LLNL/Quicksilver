@@ -131,14 +131,14 @@ LDFLAGS  += -lstdc++
 # This works on a Macbook (if gcc is installed)
 ###############################################################################
 #
-OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp 
-OPENMP_LDFLAGS = -fopenmp
-OPTFLAGS = -g -O2
+#OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp 
+#OPENMP_LDFLAGS = -fopenmp
+#OPTFLAGS = -g -O2
 #
-CXX=g++
-CXXFLAGS = -std=c++11  $(OPTFLAGS) -Wpedantic
-CPPFLAGS = $(OPENMP_FLAGS)
-LDFLAGS = $(OPENMP_LDFLAGS) 
+#CXX=g++
+#CXXFLAGS = -std=c++11  $(OPTFLAGS) -Wpedantic
+#CPPFLAGS = $(OPENMP_FLAGS)
+#LDFLAGS = $(OPENMP_LDFLAGS) 
 
 
 ###############################################################################
@@ -189,7 +189,6 @@ CPPFLAGS	 = -DHAVE_SYCL
 
 CXXFLAGS	 =
 CXXFLAGS	+= -std=c++17
-CXXFLAGS	+= -g
 CXXFLAGS	+= -O3
 CXXFLAGS	+= -ffast-math
 CXXFLAGS	+= -ferror-limit=3
@@ -197,12 +196,14 @@ CXXFLAGS	+= -ferror-limit=3
 CXXFLAGS	+= -fsycl
 CXXFLAGS	+= -fsycl-unnamed-lambda
 
+#CXXFLAGS	+= -g # SPIR-V backend generates debug output when this is used
+
 # -------------------------------------------------------
 # Intel oneAPI DPC++ compiler that supports Intel devices
 # -------------------------------------------------------
-#CXX		 = dpcpp
+CXX		 = dpcpp
 # NVIDIA back-end does not support printf yet...
-#CPPFLAGS	 = -DHAVE_SYCL_PRINTF
+CPPFLAGS	+= -DHAVE_SYCL_PRINTF
 
 # GPU offline compile
 # https://software.intel.com/content/www/us/en/develop/documentation/oneapi-programming-guide/top/programming-interface/gpu-flow/offline-compilation-for-gpu.html
@@ -212,11 +213,11 @@ CXXFLAGS	+= -fsycl-unnamed-lambda
 # -------------------------------------------------------
 # Intel DPC++ open-source compiler built for NVIDIA
 # -------------------------------------------------------
-DPCPP_DIR	 = /media/disk2/jrhammon/llvm/build
-CXX		 = $(DPCPP_DIR)/bin/clang++
-CXXFLAGS	+= -Wno-unknown-cuda-version
-CXXFLAGS	+= -fsycl-targets=nvptx64-nvidia-cuda-sycldevice
-LDFLAGS		+= -L$(DPCPP_DIR)/lib -Wl,-rpath=$(DPCPP_DIR)/lib
+#DPCPP_DIR	 = /home/jrhammon/ISYCL/llvm/build/install
+#CXX		 = $(DPCPP_DIR)/bin/clang++
+#CXXFLAGS	+= -Wno-unknown-cuda-version
+#CXXFLAGS	+= -fsycl-targets=nvptx64-nvidia-cuda-sycldevice
+#LDFLAGS		+= -L$(DPCPP_DIR)/lib -Wl,-rpath=$(DPCPP_DIR)/lib
 
 ################################################################################
 ### Below here, it is pitch black.                                           ###
