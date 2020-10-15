@@ -52,7 +52,7 @@ class ParticleVaultContainer
     uint64_t getFirstEmptyProcessedVault();
 
     //Returns a pointer to the Send Queue
-    HOST_DEVICE
+    HOST_DEVICE SYCL_EXTERNAL
     SendQueue* getSendQueue();
     HOST_DEVICE_END
 
@@ -74,7 +74,7 @@ class ParticleVaultContainer
     //Adds a particle to the processing particle vault
     void addProcessingParticle( MC_Base_Particle &particle, uint64_t &fill_vault_index );
     //Adds a particle to the extra particle vault
-    HOST_DEVICE
+    HOST_DEVICE SYCL_EXTERNAL
     void addExtraParticle( MC_Particle &particle );
     HOST_DEVICE_END
  

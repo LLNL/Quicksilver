@@ -103,7 +103,7 @@ HOST_DEVICE_END
 //  This routine spawns a "child" random number seed from a "parent" random number seed.
 //----------------------------------------------------------------------------------------------------------------------
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 uint64_t rngSpawn_Random_Number_Seed(uint64_t *parent_seed)
 {
   uint64_t spawned_seed = hash_state(*parent_seed);

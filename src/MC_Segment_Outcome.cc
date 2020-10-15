@@ -13,7 +13,8 @@
 #include "MCT.hh"
 #include "PhysicalConstants.hh"
 #include "DeclareMacro.hh"
-
+#include "mathHelp.hh"
+#include "cudaUtils.hh"
 
 HOST_DEVICE
 static inline unsigned int MC_Find_Min(const double *array,
@@ -27,7 +28,7 @@ HOST_DEVICE_END
 //  (iii) census at the end of the time step.
 //--------------------------------------------------------------------------------------------------
 
-HOST_DEVICE 
+HOST_DEVICE SYCL_EXTERNAL
 MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int &flux_tally_index)
 {
     // initialize distances to large number
@@ -46,12 +47,13 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
 
         if ( mc_particle.num_mean_free_paths > -900.0 )
         {
-#if 1
+#ifdef HAVE_SYCL
+#ifdef HAVE_SYCL_PRINTF
+            static const OPENCL_CONSTANT char format[] = " MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n";
+            syclx::printf(format);
+#endif
+#else
             printf(" MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n");
- #else
-            std::string output_string;
-            MC_Warning( "Forced Collision: num_mean_free_paths < 0 \n"
-                             "Particle record:\n%s", output_string.c_str());
 #endif
         }
 
@@ -80,7 +82,7 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
         // the next collision from an exponential distribution.
         double random_number = rngSample(&mc_particle.random_number_seed);
 
-        mc_particle.num_mean_free_paths = -1.0*log(random_number);
+        mc_particle.num_mean_free_paths = -1.0*LOG(random_number);
     }
 
     // Calculate the distances to collision, nearest facet, and census.

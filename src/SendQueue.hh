@@ -29,7 +29,7 @@ class SendQueue
     sendQueueTuple& getTuple( int index_ );
 
     //Add items to the send queue in a kernel
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_CUDA SYCL_EXTERNAL
     void push( int neighbor_, int vault_index_ );
 
     //Clear send queue before after use

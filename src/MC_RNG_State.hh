@@ -11,7 +11,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 // Generate a new random number seed
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 uint64_t rngSpawn_Random_Number_Seed(uint64_t *parent_seed);
 HOST_DEVICE_END
 
@@ -19,7 +19,7 @@ HOST_DEVICE_END
 //  Sample returns the pseudo-random number produced by a call to a random
 //  number generator.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 inline double rngSample(uint64_t *seed)
 {
    // Reset the state from the previous value.

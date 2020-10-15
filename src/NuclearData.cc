@@ -3,9 +3,8 @@
 #include "MC_RNG_State.hh"
 #include "DeclareMacro.hh"
 #include "qs_assert.hh"
-
-using std::log10;
-using std::pow;
+#include "mathHelp.hh"
+#include "cudaUtils.hh"
 
 // Set the cross section values and reaction type
 // Cross sections are scaled to produce the supplied reactionCrossSection at 1MeV.
@@ -21,7 +20,7 @@ NuclearDataReaction::NuclearDataReaction(
    for (int ii=0; ii<nGroups; ++ii)
    {
       double energy = (energies[ii] + energies[ii+1]) / 2.0;
-      _crossSection[ii] = pow( 10, polynomial(log10( energy)));
+      _crossSection[ii] = std::pow( 10, polynomial(std::log10( energy)));
    }
 
    // Find the normalization value for the polynomial.  This is the
@@ -82,7 +81,14 @@ void NuclearDataReaction::sampleCollision(
       }
       break;
      case Undefined:
+#ifdef HAVE_SYCL
+#ifdef HAVE_SYCL_PRINTF
+      static const OPENCL_CONSTANT char format[] = "_reactionType invalid\n";
+      syclx::printf(format);
+#endif
+#else
       printf("_reactionType invalid\n");
+#endif
       qs_assert(false);
    }
 }
@@ -108,8 +114,8 @@ NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh) : _
    _numEnergyGroups = numGroups;
    _energies[0] = energyLow;
    _energies[numGroups] = energyHigh;
-   double logLow = log(energyLow);
-   double logHigh = log(energyHigh);
+   double logLow = std::log(energyLow);
+   double logHigh = std::log(energyHigh);
    double delta = (logHigh - logLow) / (numGroups + 1.0);
    for (int energyIndex = 1; energyIndex < numGroups; energyIndex++)
    {
@@ -195,7 +201,7 @@ double NuclearDataReaction::getCrossSection(unsigned int group)
 }
 HOST_DEVICE_END
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 int NuclearData::getNumberReactions(unsigned int isotopeIndex)
 {
    qs_assert(isotopeIndex < _isotopes.size());

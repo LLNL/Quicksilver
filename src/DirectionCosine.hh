@@ -1,9 +1,9 @@
 #ifndef DIRECTION_COSINE_INCLUDE
 #define DIRECTION_COSINE_INCLUDE
 
-#include <cmath>
 #include "portability.hh"
 #include "DeclareMacro.hh"
+#include "mathHelp.hh"
 
 HOST_DEVICE_CLASS
 class DirectionCosine
@@ -31,7 +31,7 @@ public:
    void Sample_Isotropic(uint64_t *seed);
 
    // rotate a direction cosine given the sine/cosine of theta and phi
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_CUDA SYCL_EXTERNAL
    inline void Rotate3DVector( double sine_Theta,
                                double cosine_Theta,
                                double sine_Phi,
@@ -119,12 +119,12 @@ HOST_DEVICE_END
 //        direction_cosine.beta =   cos_theta*sin_phi*Alpha + cos_phi*Beta + sin_theta*sin_phi*Gamma;
 //        direction_cosine.gamma = -sin_theta        *Alpha +                cos_theta        *Gamma;
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 inline void DirectionCosine::Rotate3DVector(double sin_Theta, double cos_Theta, double sin_Phi, double cos_Phi)
 {
     // Calculate additional variables in the rotation matrix.
     double cos_theta = this->gamma;
-    double sin_theta = sqrt((1.0 - (cos_theta*cos_theta)));
+    double sin_theta = SQRT((1.0 - (cos_theta*cos_theta)));
 
     double cos_phi;
     double sin_phi;

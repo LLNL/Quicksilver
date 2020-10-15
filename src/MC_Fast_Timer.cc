@@ -25,7 +25,7 @@ static double mc_std_dev(uint64_t const data[], int const nelm)
     for(int ndx=0; ndx<nelm; ++ndx) { mean+=data[ndx]; }
     mean=mean/nelm;
     for(int ndx=0; ndx<nelm; ++ndx) { sum_deviation += (data[ndx]-mean)*(data[ndx]-mean); }
-    return sqrt((double)sum_deviation / nelm);
+    return std::sqrt((double)sum_deviation / nelm);
 }
 
 void MC_Fast_Timer_Container::Print_Last_Cycle_Heading(int mpi_rank)

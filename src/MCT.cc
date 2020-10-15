@@ -397,7 +397,7 @@ namespace
 
 
 ///  Reflects the particle off of a reflection boundary.
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void MCT_Reflect_Particle(MonteCarlo *monteCarlo, MC_Particle &particle)
 {
     DirectionCosine *direction_cosine = particle.Get_Direction_Cosine();

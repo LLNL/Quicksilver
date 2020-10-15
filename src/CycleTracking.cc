@@ -11,7 +11,7 @@
 #include "macros.hh"
 #include "qs_assert.hh"
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVault *processingVault, ParticleVault *processedVault )
 {
     MC_Particle mc_particle;
@@ -30,7 +30,7 @@ void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVaul
 }
 HOST_DEVICE_END
 
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault)
 {
     bool keepTrackingThisParticle = false;

@@ -1,6 +1,10 @@
 #ifndef DECLAREMACRO_HH
 #define DECLAREMACRO_HH
 
+#ifdef HAVE_SYCL
+#include <CL/sycl.hpp>
+#endif
+
 #ifdef HAVE_CUDA
     #define HOST_DEVICE __host__ __device__
     #define HOST_DEVICE_CUDA __host__ __device__

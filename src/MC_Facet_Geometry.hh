@@ -22,7 +22,7 @@ public:
       C = ((r1.x - r0.x)*(r2.y - r0.y)) - ((r1.y - r0.y)*(r2.x - r0.x));
       D = -1.0*(A*r0.x + B*r0.y + C*r0.z);
 
-      double magnitude = sqrt(A * A + B * B + C * C);
+      double magnitude = std::sqrt(A * A + B * B + C * C);
 
       if ( magnitude == 0.0 )
       {
