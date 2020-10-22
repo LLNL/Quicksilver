@@ -108,10 +108,10 @@ LDFLAGS =
 #####################################################################################
 #hip, no MPI
 #####################################################################################
-CXX = $(HIP)/bin/hipcc
-CXXFLAGS = -I$(HIP)/include/
+CXX = $(ROCM_PATH)/bin/hipcc
+CXXFLAGS = -I$(ROCM_PATH)/include/
 CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
-LDFLAGS = -L$(HIP)/lib -L$(HIP)/lib
+LDFLAGS = -L$(ROCM_PATH)/lib -L$(ROCM_PATH)/lib
 
 ############################################################################
 #hip + mpi
