@@ -99,6 +99,12 @@ SHELL = /bin/bash
 # The interpretation of each of these four variables is described above.
 # A number of examples for machines we regularly run on are given below.
 
+ifdef HIP
+	
+else
+	HIP=/opt/rocm
+endif
+
 
 CXX = 
 CXXFLAGS = 
