@@ -125,7 +125,7 @@ namespace
                 omp_set_default_device(GPUID);
             #endif
 
-            hipSetDevice(GPUID);
+            //hipSetDevice(GPUID);
             //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
             #endif
          }
