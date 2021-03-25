@@ -52,6 +52,22 @@ void cycleInit( bool loadBalance );
 void cycleTracking(MonteCarlo* monteCarlo,int*,int*);
 void cycleFinalize();
 
+void setGPU()
+{
+
+    int rank;
+    MPI_Comm  comm_mc_world(MPI_COMM_WORLD);
+
+    int Ngpus;
+    hipGetDeviceCount(&Ngpus);
+
+    mpiComm_rank(comm_mc_world, &rank);
+    int GPUID = rank%Ngpus;
+    hipSetDevice(GPUID);
+
+
+}
+
 using namespace std;
 
 MonteCarlo *mcco  = NULL;
@@ -63,6 +79,8 @@ int main(int argc, char** argv)
 
    Parameters params = getParameters(argc, argv);
    printParameters(params, cout);
+
+   setGPU();
 
    // mcco stores just about everything. 
    mcco = initMC(params); 

@@ -99,6 +99,12 @@ SHELL = /bin/bash
 # The interpretation of each of these four variables is described above.
 # A number of examples for machines we regularly run on are given below.
 
+ifdef HIP
+	
+else
+	HIP=/opt/rocm
+endif
+
 
 CXX = 
 CXXFLAGS = 
@@ -108,20 +114,20 @@ LDFLAGS =
 #####################################################################################
 #hip, no MPI
 #####################################################################################
-CXX = $(HIP)/bin/hipcc
-CXXFLAGS = -I$(HIP)/include/
-CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
-LDFLAGS = -L$(HIP)/lib -L$(HIP)/lib
+#CXX = $(ROCM_PATH)/bin/hipcc
+#CXXFLAGS = -I$(ROCM_PATH)/include/
+#CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
+#LDFLAGS = -L$(ROCM_PATH)/lib -L$(ROCM_PATH)/lib
 
 ############################################################################
 #hip + mpi
 #############################################################################
-#CXX = $(HIP)/bin/hipcc
-#CXXFLAGS1 = -I$(HIP)/include/
-#CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
-#CXXFLAGS = $(CXXFLAGS2) -pthread
-#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
-#LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpicxx -lmpi
+CXX = $(HIP)/bin/hipcc
+CXXFLAGS1 = -I$(HIP)/include/
+CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
+CXXFLAGS = $(CXXFLAGS2) -pthread
+CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
+LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpi
 ########################################################################
 #hip + nvcc
 ######################################################################
