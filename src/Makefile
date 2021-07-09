@@ -106,6 +106,11 @@ else
 endif
 
 
+ifdef ROCM_PATH
+	
+else
+	ROCM_PATH=/opt/rocm
+endif
 CXX = 
 CXXFLAGS = 
 CPPFLAGS =
@@ -114,20 +119,20 @@ LDFLAGS =
 #####################################################################################
 #hip, no MPI
 #####################################################################################
-#CXX = $(ROCM_PATH)/bin/hipcc
-#CXXFLAGS = -I$(ROCM_PATH)/include/
-#CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
-#LDFLAGS = -L$(ROCM_PATH)/lib -L$(ROCM_PATH)/lib
+CXX = $(ROCM_PATH)/bin/hipcc
+CXXFLAGS = -I$(ROCM_PATH)/include/
+CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
+LDFLAGS = -L$(ROCM_PATH)/lib -L$(ROCM_PATH)/lib
 
 ############################################################################
 #hip + mpi
 #############################################################################
-CXX = $(HIP)/bin/hipcc
-CXXFLAGS1 = -I$(HIP)/include/
-CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
-CXXFLAGS = $(CXXFLAGS2) -pthread
-CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
-LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpi
+#CXX = $(HIP)/bin/hipcc
+#CXXFLAGS1 = -I$(HIP)/include/
+#CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
+#CXXFLAGS = $(CXXFLAGS2) -pthread
+#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
+#LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpi
 ########################################################################
 #hip + nvcc
 ######################################################################
