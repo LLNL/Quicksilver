@@ -121,10 +121,8 @@ inline void copyMaterialDatabase_device(MonteCarlo * mcco)
 {
 
    int numMaterials = mcco->_materialDatabase->_mat.size();
-   Material_d * materials_h;
-   hipHostMalloc( (void **) &materials_h,numMaterials*sizeof(Material_d));
+   Material_d * materials_h = (Material_d *) malloc(numMaterials*sizeof(Material_d));
 
-   printf("num materials=%d \n",numMaterials);
 
    for (int j=0;j<numMaterials;j++)
    {
@@ -138,7 +136,7 @@ inline void copyMaterialDatabase_device(MonteCarlo * mcco)
       materials_h[j]._mass=mcco->_materialDatabase->_mat[j]._mass;
    }
    hipMemcpy(mcco->_material_d,materials_h,numMaterials*sizeof(Material_d),hipMemcpyHostToDevice);
-   hipFree(materials_h);
+   free(materials_h);
 };
 
 

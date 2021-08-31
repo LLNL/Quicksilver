@@ -103,8 +103,7 @@ int main(int argc, char** argv)
 
    //allocate arrays to hold counters in pinned memory on the host and on the device.
    int repetitions = mcco->_tallies->GetNumBalanceReplications();
-   int * tallies; 
-   hipHostMalloc( (void **) &tallies, sizeof(int)*8*repetitions);
+   int * tallies = (int *)malloc(sizeof(int)*8*repetitions);
 
    int * tallies_d;
    hipMalloc( (void **) &tallies_d, sizeof(int)*8*repetitions);
@@ -131,9 +130,12 @@ int main(int argc, char** argv)
 
    coralBenchmarkCorrectness(mcco, params);
 
+   free(tallies);
+   hipFree(tallies_d);
+
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
-    hipFree( mcco );
+    gpuFree( mcco );
 #else
    delete mcco;
 #endif
@@ -275,11 +277,7 @@ void cycleTracking(MonteCarlo *monteCarlo, int* tallies, int * tallies_d)
                           dim3 block(1,1,1);
                           int runKernel = ThreadBlockLayout( grid, block, numParticles);
                           //Call Cycle Tracking Kernel
-                          ParticleVault process;
-                          qs_vector<MC_Base_Particle> vector1; 
-                          
-                          //Synchronize the stream
-                          hipDeviceSynchronize();
+
                           if( runKernel)
                           {
                               hipLaunchKernelGGL((CycleTrackingKernel), dim3(grid), dim3(block ), 0, 0,  monteCarlo, numParticles, processingVault, processedVault,tallies_d);
@@ -292,7 +290,6 @@ void cycleTracking(MonteCarlo *monteCarlo, int* tallies, int * tallies_d)
                               }
 
                               //Synchronize the stream
-                              hipDeviceSynchronize();
                           }
                           hipMemcpy(tallies,tallies_d,8*sizeof(int)*repetitions,hipMemcpyDeviceToHost);
 

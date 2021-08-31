@@ -135,9 +135,8 @@ public:
 inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> domain, MC_Domain_d * domain_d, int & domainSize)
 {
     //Create vector of domains that will live on the host, but have pointers to device memory.
-    MC_Domain_d * domain_h;
     domainSize = domain.size();
-    hipHostMalloc((void **) &domain_h,domainSize*sizeof(MC_Domain_d));
+    MC_Domain_d * domain_h = (MC_Domain_d *) malloc(domainSize*sizeof(MC_Domain_d));
 
     //loop over the number of domains creating them one at a time
     for(int i=0;i<domainSize;i++)
@@ -149,8 +148,7 @@ inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> doma
         //Create an array of cell states
         domain_h[i].cell_stateSize = domain[i].cell_state.size();
         
-        MC_Cell_State * cell_state_h;
-        hipHostMalloc((void **) &cell_state_h,domain[i].cell_state.size()*sizeof(MC_Cell_State));
+        MC_Cell_State * cell_state_h = (MC_Cell_State *) malloc(domain[i].cell_state.size()*sizeof(MC_Cell_State));
         hipMemcpy(cell_state_h,domain[i].cell_state.outputPointer(),domain[i].cell_state.size()*sizeof(MC_Cell_State),hipMemcpyHostToHost);
 
 
@@ -165,6 +163,8 @@ inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> doma
         hipMemcpy(domain_h[i].cell_state,cell_state_h,domain[i].cell_state.size()*sizeof(MC_Cell_State),hipMemcpyHostToDevice);
         domain_h[i].mesh._domainGid = domain[i].mesh._domainGid;
 
+	free(cell_state_h);
+
         domain_h[i].mesh._nbrRankSize = domain[i].mesh._nbrRank.size();
         hipMalloc((void **) &domain_h[i].mesh._nbrRank,domain[i].mesh._nbrRank.size()*sizeof(int));
         hipMemcpy(domain_h[i].mesh._nbrRank,domain[i].mesh._nbrRank.outputPointer(),domain[i].mesh._nbrRank.size()*sizeof(int),hipMemcpyHostToDevice);
@@ -175,8 +175,7 @@ inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> doma
 
         int _cellConnectivitySize = domain[i].mesh._cellConnectivity.size(); 
         domain_h[i].mesh._cellConnectivitySize = _cellConnectivitySize;
-        MC_Facet_Adjacency_Cell * cellConnectivity;
-        hipHostMalloc((void **) &cellConnectivity,_cellConnectivitySize*sizeof(MC_Facet_Adjacency_Cell));
+        MC_Facet_Adjacency_Cell * cellConnectivity = (MC_Facet_Adjacency_Cell *) malloc(_cellConnectivitySize*sizeof(MC_Facet_Adjacency_Cell));
         for(int j=0;j<_cellConnectivitySize;j++)
         {
            cellConnectivity[j].num_points=domain[i].mesh._cellConnectivity[j].num_points;
@@ -188,12 +187,11 @@ inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> doma
         }
         hipMalloc((void **) &domain_h[i].mesh._cellConnectivity,_cellConnectivitySize*sizeof(MC_Facet_Adjacency_Cell));
         hipMemcpy(domain_h[i].mesh._cellConnectivity,cellConnectivity,_cellConnectivitySize*sizeof(MC_Facet_Adjacency_Cell),hipMemcpyHostToDevice);
-        hipFree(cellConnectivity);
+        free(cellConnectivity);
 
         int _cellGeometrySize = domain[i].mesh._cellGeometry.size();
         domain_h[i].mesh._cellGeometrySize = _cellGeometrySize;
-        MC_Facet_Geometry_Cell * cellGeometry;
-        hipHostMalloc((void **) &cellGeometry,_cellGeometrySize*sizeof(MC_Facet_Geometry_Cell));
+        MC_Facet_Geometry_Cell * cellGeometry = (MC_Facet_Geometry_Cell *) malloc(_cellGeometrySize*sizeof(MC_Facet_Geometry_Cell));
         for(int j=0;j<_cellGeometrySize;j++)
         {
             cellGeometry[j]._size=domain[i].mesh._cellGeometry[j]._size;
@@ -202,12 +200,12 @@ inline void copyDomainDevice(const int numEnergyGroups,qs_vector<MC_Domain> doma
         }
         hipMalloc((void **) &domain_h[i].mesh._cellGeometry,_cellGeometrySize*sizeof(MC_Facet_Geometry_Cell));
         hipMemcpy(domain_h[i].mesh._cellGeometry,cellGeometry,_cellGeometrySize*sizeof(MC_Facet_Geometry_Cell),hipMemcpyHostToDevice);
-        hipFree(cellGeometry);
+        free(cellGeometry);
 
 
     }
     hipMemcpy(domain_d,domain_h,domainSize*sizeof(MC_Domain_d),hipMemcpyHostToDevice);
-    hipFree(domain_h);
+    free(domain_h);
 } 
 
 #endif

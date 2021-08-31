@@ -123,14 +123,14 @@ double weightedMacroscopicCrossSection(MonteCarlo* monteCarlo, int taskIndex, in
    qs_assert (precomputedCrossSection != NULL);
    if (*precomputedCrossSection > 0.0)
       return *precomputedCrossSection;
-   
+
    #ifdef  __HIP_DEVICE_COMPILE__
    int globalMatIndex = monteCarlo->domain_d[domainIndex].cell_state[cellIndex]._material;
+   int nIsotopes = (int)monteCarlo->_material_d[globalMatIndex]._isosize;
    #else
    int globalMatIndex = monteCarlo->domain[domainIndex].cell_state[cellIndex]._material;
+   int nIsotopes = (int)monteCarlo->_materialDatabase->_mat[globalMatIndex]._iso.size();
    #endif
-   //int nIsotopes = (int)monteCarlo->_materialDatabase->_mat[globalMatIndex]._iso.size();
-   int nIsotopes = (int)monteCarlo->_material_d[globalMatIndex]._isosize;
    double sum = 0.0;
    for (int isoIndex = 0; isoIndex < nIsotopes; isoIndex++)
    {

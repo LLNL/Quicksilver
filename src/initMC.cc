@@ -70,7 +70,7 @@ MonteCarlo* initMC(const Parameters& params)
    #ifdef HAVE_UVM
       void* ptr;
       //in my experiments you need the hipHostMallocNonCoherent flag set to make pcie atomics work.  
-      hipHostMalloc( &ptr, sizeof(MonteCarlo),hipHostMallocNonCoherent);
+      gpuMallocManaged( &ptr, sizeof(MonteCarlo),hipHostMallocNonCoherent);
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -93,7 +93,7 @@ MonteCarlo* initMC(const Parameters& params)
    hipMalloc( (void **) &(ptr_dn),sizeof(NuclearData_d));
    monteCarlo->_nuclearData_d = (NuclearData_d *) ptr_dn;
  
-   hipMalloc( (void **) &(ptr_dmesh),sizeof(MC_Domain_d));
+   hipMalloc( (void **) &(ptr_dmesh),monteCarlo->domain.size()*sizeof(MC_Domain_d));
    monteCarlo->domain_d = (MC_Domain_d *) ptr_dmesh;
  
    return monteCarlo;
@@ -161,8 +161,6 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         //hipHostMalloc( &ptr1, sizeof(NuclearData),hipHostMallocNonCoherent);
-         //hipHostMalloc( &ptr2, sizeof(MaterialDatabase),hipHostMallocNonCoherent);
          ptr1=calloc( 1, sizeof(NuclearData));
          ptr2=calloc( 1, sizeof(MaterialDatabase));
 
