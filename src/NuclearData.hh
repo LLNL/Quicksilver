@@ -139,7 +139,9 @@ class NuclearDataReaction
          }
          break;
         case Undefined:
+         #ifdef DEBUG
          printf("_reactionType invalid\n");
+         #endif
          qs_assert(false);
       }
    };
@@ -441,7 +443,9 @@ class NuclearDataReaction_d
          }
          break;
         case Undefined:
+         #ifdef DEBUG
          printf("_reactionType invalid\n");
+         #endif
          qs_assert(false);
       }
    };
@@ -582,21 +586,18 @@ void NuclearDataReaction::sampleCollision(
 
 inline void copyNuclearData_device(NuclearData * nuclearData, NuclearData_d * NuclearData_h_o)
 {
-   NuclearData_d * NuclearData_h;
-   hipHostMalloc((void **) &NuclearData_h,sizeof(NuclearData_d));
+   NuclearData_d * NuclearData_h = (NuclearData_d *) malloc(sizeof(NuclearData_d));
    
    int isotopesSize=nuclearData->_isotopes.size();
    NuclearDataIsotope_d * nuclearIsotope_I_d;
    hipMalloc( (void **) &nuclearIsotope_I_d, isotopesSize*sizeof(NuclearDataIsotope_d)); 
-   NuclearDataIsotope_d *nuclearIsotope_h;
-   hipHostMalloc( (void **) &nuclearIsotope_h, isotopesSize*sizeof(NuclearDataIsotope_d)); 
+   NuclearDataIsotope_d *nuclearIsotope_h = (NuclearDataIsotope_d *)malloc(isotopesSize*sizeof(NuclearDataIsotope_d)); 
 
 
    int energiesSize=nuclearData->_energies.size();
    double * nuclearEnergy_I_d;
    hipMalloc( (void **) &nuclearEnergy_I_d, energiesSize*sizeof(double)); 
-   double *nuclearEnergy_h;
-   hipHostMalloc( (void **) &nuclearEnergy_h, energiesSize*sizeof(double)); 
+   double *nuclearEnergy_h = (double *) malloc(energiesSize*sizeof(double)); 
 
    for (int j=0;j<isotopesSize;j++)
    {
@@ -604,8 +605,7 @@ inline void copyNuclearData_device(NuclearData * nuclearData, NuclearData_d * Nu
 
       NuclearDataSpecies_d * nuclearSpecies_I_d;
       hipMalloc( (void**) &nuclearSpecies_I_d, speciesSize*sizeof(NuclearDataSpecies_d));
-      NuclearDataSpecies_d *nuclearSpecies_h;
-      hipHostMalloc( (void**) &nuclearSpecies_h, speciesSize*sizeof(NuclearDataSpecies_d));
+      NuclearDataSpecies_d *nuclearSpecies_h = (NuclearDataSpecies_d *) malloc(speciesSize*sizeof(NuclearDataSpecies_d));
       for (int k=0;k<speciesSize;k++)
       {
 
@@ -614,8 +614,7 @@ inline void copyNuclearData_device(NuclearData * nuclearData, NuclearData_d * Nu
          NuclearDataReaction_d * nuclear_I_d;
          hipMalloc( (void**) &nuclear_I_d, reactionsSize*sizeof(NuclearDataReaction_d));
          
-         NuclearDataReaction_d *nuclear_h;
-         hipHostMalloc( (void**) &nuclear_h, reactionsSize*sizeof(NuclearDataReaction_d));
+         NuclearDataReaction_d *nuclear_h = (NuclearDataReaction_d *) malloc(reactionsSize*sizeof(NuclearDataReaction_d));
          for (int l=0;l<reactionsSize;l++)
          {
             double * crossSections_I_d;
@@ -629,32 +628,32 @@ inline void copyNuclearData_device(NuclearData * nuclearData, NuclearData_d * Nu
             nuclear_h[l]._nuBar=nuclearData->_isotopes[j]._species[k]._reactions[l]._nuBar;
          }
          hipMemcpy( nuclear_I_d,nuclear_h,reactionsSize*sizeof(NuclearDataReaction_d),hipMemcpyHostToDevice);
-         hipFree(nuclear_h);
+         free(nuclear_h);
          nuclearSpecies_h[k]._reactionsSize=reactionsSize;
          nuclearSpecies_h[k]._reactions=nuclear_I_d;
       }
 
       hipMemcpy( nuclearSpecies_I_d,nuclearSpecies_h,speciesSize*sizeof(NuclearDataSpecies_d),hipMemcpyHostToDevice);
-      hipFree(nuclearSpecies_h);
+      free(nuclearSpecies_h);
       nuclearIsotope_h[j]._speciesSize=speciesSize;
       nuclearIsotope_h[j]._species=nuclearSpecies_I_d;
    }
 
    hipMemcpy(nuclearIsotope_I_d,nuclearIsotope_h, isotopesSize*sizeof(NuclearDataIsotope_d),hipMemcpyHostToDevice);
-   hipFree(nuclearIsotope_h);
+   free(nuclearIsotope_h);
    NuclearData_h->_isotopesSize=isotopesSize;
    NuclearData_h->_isotopes=nuclearIsotope_I_d;
 
    hipMemcpy(nuclearEnergy_I_d,nuclearData->_energies.outputPointer(),energiesSize*sizeof(double),hipMemcpyHostToDevice);
    //hipMemcpy(nuclearEnergy_I_d,nuclearEnergy_h,energiesSize*sizeof(double),hipMemcpyHostToDevice);
-   hipFree(nuclearEnergy_h);
+   free(nuclearEnergy_h);
    NuclearData_h->_energiesSize=energiesSize;
    NuclearData_h->_energies=nuclearEnergy_I_d;
    
    NuclearData_h->_numEnergyGroups=nuclearData->_numEnergyGroups;
 
    hipMemcpy(NuclearData_h_o,NuclearData_h,sizeof(NuclearData_d),hipMemcpyHostToDevice);
-   hipFree(NuclearData_h);
+   free(NuclearData_h);
 
 };
 

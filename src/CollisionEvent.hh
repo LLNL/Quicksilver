@@ -155,7 +155,9 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
          ATOMIC_ADD( tallyArray[tally_index*8+7],nOut);
          break;
       case NuclearDataReaction::Undefined:
+         #ifdef DEBUG
          printf("reactionType invalid\n");
+         #endif
          qs_assert(false);
    }
 

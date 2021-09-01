@@ -93,7 +93,9 @@ MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Part
         if ( mc_particle.num_mean_free_paths > -900.0 )
         {
 #if 1
+	    #ifdef DEBUG
             printf(" MC_Segment_Outcome: mc_particle.num_mean_free_paths > -900.0 \n");
+            #endif
  #else
             std::string output_string;
             MC_Warning( "Forced Collision: num_mean_free_paths < 0 \n"
