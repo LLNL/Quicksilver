@@ -184,7 +184,7 @@ void cycleInit( bool loadBalance )
 
 #if defined (HAVE_HIP)
 
-__global__ void CycleTrackingKernel(MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault, int * tallies )
+__launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault, int * tallies )
 {
    int global_index = getGlobalThreadID(); 
    int local_index = getLocalThreadID();

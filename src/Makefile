@@ -131,28 +131,16 @@ LDFLAGS = -L$(ROCM_PATH)/lib -L$(ROCM_PATH)/lib
 #CXXFLAGS1 = -I$(HIP)/include/
 #CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
 #CXXFLAGS = $(CXXFLAGS2) -pthread
-#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
+#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DHAVE_ASYNC_MPI -DMaxIt=15
 #LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpi
 ########################################################################
 #hip + nvcc
 ######################################################################
-#CUDA_PATH = /usr/local/cuda
-#HOST_COMPILER = /usr/bin/mpic++
-#LDFLAGS = -L/opt/rocm/hip/lib -L/opt/rocm/hcc/lib
-#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
-#CXX = ${CUDA_PATH}/bin/nvcc -g -G
-##CXXFLAGS = -DHAVE_HIP=1 -D__HIP_ARCH__=gfx803 -I/opt/rocm/hip/include/ -v
-#CXXFLAGS =  -std=c++11 $(OPTFLAGS) -Xptxas -v
-#CXXFLAGS += -gencode=arch=compute_70,code=\"sm_70,compute_70\"
-#CXXFLAGS += -I/opt/rocm/hip/include/ --compiler-bindir=$(HOST_COMPILER)
-
-##CXXFLAGS = -I/opt/rocm/hip/include/ -std=c++11
-##CXXFLAGS += --compiler-bindir=/usr/bin
-##CXXFLAGS += -gencode=arch=compute_52,code=\"sm_52,compute_52\"
-#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_CUDA -DHAVE_MPI -x cu -dc
-#LDFLAGS  = $(CUDA_LDFLAGS)
-#LDFLAGS += -L/opt/rocm/hip/lib -L/opt/rocm/hcc/lib
-
+###export HIP_PLATFORM=nvidia
+#CXX = $(ROCM_PATH)/bin/hipcc
+#CXXFLAGS = -I$(ROCM_PATH)/include/ -I$(CUDA_PATH)/include -I${MPIPATH}/include
+#CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DHAVE_ASYNC_MPI -DMaxIt=15 -DHAVE_CUDA=1 -arch=compute_80
+#LDFLAGS = -L$(CUDA_PATH)/lib64 -lcuda -lcudart -L${MPIPATH}/lib -lmpi
 
 ###############################################################################
 #hip openmp 4.5 not supported yet
