@@ -49,7 +49,7 @@ namespace
 
 
 
-inline HOST_DEVICE_HIP
+inline 
 void MC_SourceNow(MonteCarlo *monteCarlo)
 {
     NVTX_Range range("MC_Source_Now");
