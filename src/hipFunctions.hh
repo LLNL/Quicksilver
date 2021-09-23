@@ -29,14 +29,14 @@ DEVICE
 inline DEVICE
 int getGlobalThreadID()
 {
-    int blockID  =  hipBlockIdx_x +
-                    hipBlockIdx_y * hipGridDim_x +
-                    hipBlockIdx_z * hipGridDim_x * hipGridDim_y;
+    int blockID  =  blockIdx.x +
+                    blockIdx.y * gridDim.x +
+                    blockIdx.z * gridDim.x * gridDim.y;
 
-    int threadID =  blockID * (hipBlockDim_x * hipBlockDim_y * hipBlockDim_z) +
-                    hipThreadIdx_z * ( hipBlockDim_x * hipBlockDim_y ) +
-                    hipThreadIdx_y * hipBlockDim_x +
-                    hipThreadIdx_x;
+    int threadID =  blockID * (blockDim.x * blockDim.y * blockDim.z) +
+                    threadIdx.z * ( blockDim.x * blockDim.y ) +
+                    threadIdx.y * blockDim.x +
+                    threadIdx.x;
     return threadID;
 }
 
