@@ -53,7 +53,7 @@ inline
 void MC_SourceNow(MonteCarlo *monteCarlo)
 {
     NVTX_Range range("MC_Source_Now");
-    //#ifndef __HIP_DEVICE_COMPILE__
+    #ifndef __HIP_DEVICE_COMPILE__
   
     std::vector<double> source_rate(monteCarlo->_materialDatabase->_mat.size());  // Get this from user input
 
@@ -157,7 +157,7 @@ void MC_SourceNow(MonteCarlo *monteCarlo)
             }
         }
     }
-//#endif
+  #endif
 
 #if 0 
     // Check for duplicate particle random number seeds.
