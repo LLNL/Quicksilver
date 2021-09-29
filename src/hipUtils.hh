@@ -58,9 +58,17 @@ inline void gpuMallocManaged(T** ptr, size_t size, unsigned int flags = hipHostM
      #if defined (HAVE_CUDA)
           hipMallocManaged(ptr,size);
      #elif defined (HAVE_HIP)
-          //hipHostMalloc(ptr,size,flags);
+       #ifdef UNIFIED_HOST
+          hipHostMalloc(ptr,size,flags);
+       #endif
+       #ifdef UNIFIED_MANAGED
           hipMallocManaged(ptr,size);
+       #endif
+       #ifdef UNIFIED_DEVICE
+          hipMalloc(ptr,size);
+       #endif
      #endif
+
 }
 
 template <class T>
