@@ -60,12 +60,10 @@ inline void gpuMallocManaged(T** ptr, size_t size, unsigned int flags = hipHostM
      #elif defined (HAVE_HIP)
        #ifdef UNIFIED_HOST
           hipHostMalloc(ptr,size,flags);
-       #endif
-       #ifdef UNIFIED_MANAGED
-          hipMallocManaged(ptr,size);
-       #endif
-       #ifdef UNIFIED_DEVICE
+       #elif defined(UNIFIED_DEVICE)
           hipMalloc(ptr,size);
+       #else
+          hipMallocManaged(ptr,size);
        #endif
      #endif
 
