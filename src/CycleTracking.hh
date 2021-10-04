@@ -49,9 +49,9 @@ inline HOST_DEVICE_HIP
 void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault, int * tallyArray)
 {
     bool keepTrackingThisParticle = true;
-    unsigned int tally_index =      (particle_index) % monteCarlo->_tallies_d->GetNumBalanceReplications();
-    unsigned int flux_tally_index = (particle_index) % monteCarlo->_tallies_d->GetNumFluxReplications();
-    unsigned int cell_tally_index = (particle_index) % monteCarlo->_tallies_d->GetNumCellTallyReplications();
+    unsigned int tally_index =      (particle_index) % monteCarlo->_tallies->GetNumBalanceReplications();
+    unsigned int flux_tally_index = (particle_index) % monteCarlo->_tallies->GetNumFluxReplications();
+    unsigned int cell_tally_index = (particle_index) % monteCarlo->_tallies->GetNumCellTallyReplications();
 
     int i1=0;
     //The while loop will exit after a particle reaches census or goes through MaxIters iterations, whichever comes first. If a particle reaches MaxIters it will be added to the ExtraVaults and processed in a later kernel. MaxIt can be defined in the makefile, otherwise it defaults to a large number that should ensure that it is never reached. 

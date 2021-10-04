@@ -57,15 +57,6 @@ MonteCarlo::MonteCarlo(const Parameters& params)
         time_info               = new(ptr3) MC_Time_Info();
         fast_timer              = new(ptr4) MC_Fast_Timer_Container();
 
-        void * ptr55;
-
-        gpuMallocManaged( &ptr55, sizeof(Tallies_d), hipHostMallocNonCoherent );
-        Tallies_d * tall_h                = new(ptr55) Tallies_d( params.simulationParams.balanceTallyReplications, 
-                                                     params.simulationParams.fluxTallyReplications,
-                                                     params.simulationParams.cellTallyReplications);
-        hipMalloc( (void **) &_tallies_d, sizeof(Tallies_d));
-        hipMemcpy(_tallies_d,tall_h,sizeof(Tallies_d),hipMemcpyHostToDevice);
-        gpuFree(tall_h);
     #else
         _tallies                = new Tallies( params.simulationParams.balanceTallyReplications, 
                                                params.simulationParams.fluxTallyReplications,

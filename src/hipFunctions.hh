@@ -44,9 +44,9 @@ inline DEVICE
 int getLocalThreadID()
 {
 
-    int threadID =  hipThreadIdx_z * ( hipBlockDim_x * hipBlockDim_y ) +
-                    hipThreadIdx_y * hipBlockDim_x +
-                    hipThreadIdx_x;
+    int threadID =  threadIdx.z * ( blockDim.x * blockDim.y ) +
+                    threadIdx.y * blockDim.x +
+                    threadIdx.x;
     return threadID;
 }
 #endif
