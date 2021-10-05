@@ -132,7 +132,12 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    //--------------------------------------------------------------------------------------------------------------
 
    // Set the reaction for this particle.
+   #ifdef __HIP_DEVICE_COMPILE__
    ATOMIC_UPDATE( tallyArray[tally_index*8+3]);
+   #else
+   ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._collision );
+   #endif
+
 
    #ifdef  __HIP_DEVICE_COMPILE__
    NuclearDataReaction::Enum reactionType = (NuclearDataReaction::Enum)monteCarlo->_nuclearData_d->_isotopes[selectedUniqueNumber]._species[0].\
@@ -145,14 +150,27 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    switch (reactionType)
    {
       case NuclearDataReaction::Scatter:
+	 #ifdef __HIP_DEVICE_COMPILE__
          ATOMIC_UPDATE( tallyArray[tally_index*8+4]);
+         #else
+         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._scatter);
+         #endif
          break;
       case NuclearDataReaction::Absorption:
+	 #ifdef __HIP_DEVICE_COMPILE__
          ATOMIC_UPDATE( tallyArray[tally_index*8+5]);
+         #else
+         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._absorb);
+         #endif
          break;
       case NuclearDataReaction::Fission:
+	 #ifdef __HIP_DEVICE_COMPILE__
          ATOMIC_UPDATE( tallyArray[tally_index*8+6]);
          ATOMIC_ADD( tallyArray[tally_index*8+7],nOut);
+         #else
+         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._fission);
+         ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
+         #endif
          break;
       case NuclearDataReaction::Undefined:
          #ifdef DEBUG
