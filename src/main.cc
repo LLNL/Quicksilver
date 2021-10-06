@@ -102,12 +102,12 @@ int main(int argc, char** argv)
    const int nSteps = params.simulationParams.nSteps;
 
    //allocate arrays to hold counters in pinned memory on the host and on the device.
-   int repetitions = mcco->_tallies->GetNumBalanceReplications();
+   int replications = mcco->_tallies->GetNumBalanceReplications();
    int64_t * tallies;
-   hipHostMalloc( (void **) &tallies,sizeof(int64_t)*8*repetitions); 
+   hipHostMalloc( (void **) &tallies,sizeof(int64_t)*NUM_TALLIES*replications); 
 
    int64_t * tallies_d;
-   hipMalloc( (void **) &tallies_d, sizeof(int64_t)*8*repetitions);
+   hipMalloc( (void **) &tallies_d, sizeof(int64_t)*NUM_TALLIES*replications);
 
 
    for (int ii=0; ii<nSteps; ++ii)
@@ -191,30 +191,28 @@ __launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarl
    int local_index = getLocalThreadID();
    int replications = monteCarlo->_tallies->GetNumBalanceReplications();
 
-   __shared__ int values_l[8];
-
-   if(local_index<replications*8)
+   extern __shared__ int values_l[];
+   if(local_index<replications*NUM_TALLIES)
    { 
       values_l[local_index]=0;
    }
    __syncthreads();
 
-   if (global_index<replications*8)
+   if (global_index<replications*NUM_TALLIES)
    {
       tallies[global_index]=0;
    }
-    if( global_index < num_particles )
-    {
-        CycleTrackingGuts( monteCarlo, global_index, processingVault, processedVault, &values_l[0] );
-    }
+   if( global_index < num_particles )
+   {
+       CycleTrackingGuts( monteCarlo, global_index, processingVault, processedVault, &values_l[0] );
+   }
 
-    __syncthreads();
-    if(local_index<replications*8)
-    { 
-       __atomic_fetch_add(&(tallies[local_index]), (int64_t)values_l[local_index], __ATOMIC_RELAXED);
-    }
+   __syncthreads();
+   if(local_index<replications*NUM_TALLIES)
+   { 
+      __atomic_fetch_add(&(tallies[local_index]), (int64_t)values_l[local_index], __ATOMIC_RELAXED);
+   }
 }
-
 #endif
 
 void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d)
@@ -236,7 +234,7 @@ void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d
  
     int l5=0;
     
-    int repetitions = monteCarlo->_tallies->GetNumBalanceReplications();
+    const int replications = monteCarlo->_tallies->GetNumBalanceReplications();
  
     do
     {
@@ -281,7 +279,8 @@ void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d
 
                           if( runKernel)
                           {
-                              hipLaunchKernelGGL((CycleTrackingKernel), dim3(grid), dim3(block ), 0, 0,  monteCarlo, numParticles, processingVault, processedVault,tallies_d);
+                              hipLaunchKernelGGL((CycleTrackingKernel), dim3(grid), dim3(block ), NUM_TALLIES*replications*sizeof(int), 0,  monteCarlo, numParticles, processingVault, processedVault,tallies_d);
+
                               hipError_t errorchk = hipPeekAtLastError();
 
                               if (errorchk != hipSuccess)
@@ -292,7 +291,7 @@ void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d
 
                               //Synchronize the stream
                           }
-                          hipMemcpy(tallies,tallies_d,8*sizeof(int64_t)*repetitions,hipMemcpyDeviceToHost);
+                          hipMemcpy(tallies,tallies_d,NUM_TALLIES*sizeof(int64_t)*replications,hipMemcpyDeviceToHost);
 
                           #endif
                        }
@@ -318,16 +317,16 @@ void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d
                     } // end switch
 
                     //Add in counters from GPU kernel
-                    for (int il=0;il<repetitions;il++)
+                    for (int il=0;il<replications;il++)
                     {
-                     monteCarlo->_tallies->_balanceTask[il]._numSegments+=tallies[8*il+0];
-                     monteCarlo->_tallies->_balanceTask[il]._escape+=tallies[8*il+1];
-                     monteCarlo->_tallies->_balanceTask[il]._census+=tallies[8*il+2];
-                     monteCarlo->_tallies->_balanceTask[il]._collision+=tallies[8*il+3];
-                     monteCarlo->_tallies->_balanceTask[il]._scatter+=tallies[8*il+4];
-                     monteCarlo->_tallies->_balanceTask[il]._absorb+=tallies[8*il+5];
-                     monteCarlo->_tallies->_balanceTask[il]._fission+=tallies[8*il+6];
-                     monteCarlo->_tallies->_balanceTask[il]._produce+=tallies[8*il+7];
+                     monteCarlo->_tallies->_balanceTask[il]._numSegments+=tallies[NUM_TALLIES*il+0];
+                     monteCarlo->_tallies->_balanceTask[il]._escape+=tallies[NUM_TALLIES*il+1];
+                     monteCarlo->_tallies->_balanceTask[il]._census+=tallies[NUM_TALLIES*il+2];
+                     monteCarlo->_tallies->_balanceTask[il]._collision+=tallies[NUM_TALLIES*il+3];
+                     monteCarlo->_tallies->_balanceTask[il]._scatter+=tallies[NUM_TALLIES*il+4];
+                     monteCarlo->_tallies->_balanceTask[il]._absorb+=tallies[NUM_TALLIES*il+5];
+                     monteCarlo->_tallies->_balanceTask[il]._fission+=tallies[NUM_TALLIES*il+6];
+                     monteCarlo->_tallies->_balanceTask[il]._produce+=tallies[NUM_TALLIES*il+7];
                     }
 
                 }

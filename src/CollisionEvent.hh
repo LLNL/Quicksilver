@@ -133,7 +133,7 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
 
    // Set the reaction for this particle.
    #ifdef __HIP_DEVICE_COMPILE__
-   ATOMIC_UPDATE( tallyArray[tally_index*8+3]);
+   ATOMIC_UPDATE( tallyArray[tally_index*NUM_TALLIES+3]);
    #else
    ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._collision );
    #endif
@@ -151,22 +151,22 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    {
       case NuclearDataReaction::Scatter:
 	 #ifdef __HIP_DEVICE_COMPILE__
-         ATOMIC_UPDATE( tallyArray[tally_index*8+4]);
+         ATOMIC_UPDATE( tallyArray[tally_index*NUM_TALLIES+4]);
          #else
          ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._scatter);
          #endif
          break;
       case NuclearDataReaction::Absorption:
 	 #ifdef __HIP_DEVICE_COMPILE__
-         ATOMIC_UPDATE( tallyArray[tally_index*8+5]);
+         ATOMIC_UPDATE( tallyArray[tally_index*NUM_TALLIES+5]);
          #else
          ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._absorb);
          #endif
          break;
       case NuclearDataReaction::Fission:
 	 #ifdef __HIP_DEVICE_COMPILE__
-         ATOMIC_UPDATE( tallyArray[tally_index*8+6]);
-         ATOMIC_ADD( tallyArray[tally_index*8+7],nOut);
+         ATOMIC_UPDATE( tallyArray[tally_index*NUM_TALLIES+6]);
+         ATOMIC_ADD( tallyArray[tally_index*NUM_TALLIES+7],nOut);
          #else
          ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._fission);
          ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
