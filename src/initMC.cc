@@ -333,12 +333,10 @@ namespace
       }
       
       mpiBarrier(MPI_COMM_WORLD);
-      if (myRank ==0 ) { cout << "done building" << endl; }
       mpiBarrier(MPI_COMM_WORLD);
       
       delete comm;
      
-      printf("here we are %zu %d\n",myDomainGid.size(),myRank);
  
       monteCarlo->domain.reserve(myDomainGid.size(),VAR_MEM);
       monteCarlo->domain.Open();
@@ -348,11 +346,9 @@ namespace
          monteCarlo->domain.push_back(
             MC_Domain(partition[ii], globalGrid, ddc, params, *monteCarlo->_materialDatabase,
                       params.simulationParams.nGroups));
-      printf("this %d\n",myRank);
       }
       monteCarlo->domain.Close();
       
-      printf("this %d %d\n",myRank,monteCarlo->domain.size());
       if (nRanks == 1)
          consistencyCheck(myRank, monteCarlo->domain);
       
