@@ -49,7 +49,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 void gameOver();
 void cycleInit( bool loadBalance );
-void cycleTracking(MonteCarlo* monteCarlo,int64_t*,int64_t*);
+void cycleTracking(MonteCarlo* monteCarlo,uint64_cu*,uint64_cu*);
 void cycleFinalize();
 
 void setGPU()
@@ -103,11 +103,11 @@ int main(int argc, char** argv)
 
    //allocate arrays to hold counters in pinned memory on the host and on the device.
    int replications = mcco->_tallies->GetNumBalanceReplications();
-   int64_t * tallies;
-   hipHostMalloc( (void **) &tallies,sizeof(int64_t)*NUM_TALLIES*replications); 
+   uint64_cu * tallies;
+   hipHostMalloc( (void **) &tallies,sizeof(uint64_cu)*NUM_TALLIES*replications); 
 
-   int64_t * tallies_d;
-   hipMalloc( (void **) &tallies_d, sizeof(int64_t)*NUM_TALLIES*replications);
+   uint64_cu * tallies_d;
+   hipMalloc( (void **) &tallies_d, sizeof(uint64_cu)*NUM_TALLIES*replications);
 
 
    for (int ii=0; ii<nSteps; ++ii)
@@ -185,7 +185,7 @@ void cycleInit( bool loadBalance )
 
 #if defined (HAVE_HIP)
 
-__launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault, int64_t * tallies )
+__launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault, uint64_cu * tallies )
 {
    int global_index = getGlobalThreadID(); 
    int local_index = getLocalThreadID();
@@ -210,12 +210,16 @@ __launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarl
    __syncthreads();
    if(local_index<replications*NUM_TALLIES)
    { 
-      __atomic_fetch_add(&(tallies[local_index]), (int64_t)values_l[local_index], __ATOMIC_RELAXED);
+      #if defined (HAVE_CUDA)
+      ATOMIC_ADD(tallies[local_index], (uint64_cu)values_l[local_index]);
+      #else
+      __atomic_fetch_add(&(tallies[local_index]), (uint64_t)values_l[local_index], __ATOMIC_RELAXED);
+      #endif
    }
 }
 #endif
 
-void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d)
+void cycleTracking(MonteCarlo *monteCarlo, uint64_cu* tallies, uint64_cu * tallies_d)
 {
     MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking);
 
@@ -291,7 +295,7 @@ void cycleTracking(MonteCarlo *monteCarlo, int64_t* tallies, int64_t * tallies_d
 
                               //Synchronize the stream
                           }
-                          hipMemcpy(tallies,tallies_d,NUM_TALLIES*sizeof(int64_t)*replications,hipMemcpyDeviceToHost);
+                          hipMemcpy(tallies,tallies_d,NUM_TALLIES*sizeof(uint64_cu)*replications,hipMemcpyDeviceToHost);
 
                           #endif
                        }
