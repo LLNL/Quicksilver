@@ -82,7 +82,6 @@ inline HOST_DEVICE
       const int NITER = 2;
       //const uint32_t c1[] = { 0xbaa96887L, 0x1e17d32cL, 0x03bcdc3cL, 0x0f33d1b2L };
       //const uint32_t c2[] = { 0x4b0f3b58L, 0xe874f0c3L, 0x6955c5a6L, 0x55a7ca46L};
-      //For some reason random number generator doesnt work on GPU unless we declare c1, c2 like this....
       uint32_t c1[4];
       c1[0]=0xbaa96887L;
       c1[1]=0x1e17d32cL;

@@ -25,7 +25,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include <mutex>
 #include <algorithm>
 #ifdef HAVE_HIP
-   #include <hip/hcc_detail/hip_runtime.h>
+   #include <hip/hip_runtime.h>
 #endif
 
 

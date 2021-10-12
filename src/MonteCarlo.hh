@@ -27,7 +27,6 @@ class NuclearData_d;
 class MaterialDatabase;
 class ParticleVaultContainer;
 class Tallies;
-class Tallies_d;
 class MC_Processor_Info;
 class MC_Time_Info;
 class MC_Particle_Buffer;
@@ -61,7 +60,6 @@ public:
     MC_Particle_Buffer *particle_buffer;
     Material_d * _material_d;
     NuclearData_d* _nuclearData_d;
-    Tallies_d *_tallies_d;
 
     double source_particle_weight;
 

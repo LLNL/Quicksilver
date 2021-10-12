@@ -51,4 +51,31 @@ inline ExecutionPolicy getExecutionPolicy( int useGPU )
     }
     return execPolicy;
 }
+
+template <class T>
+inline void gpuMallocManaged(T** ptr, size_t size, unsigned int flags = hipHostMallocDefault)
+{
+     #if defined (HAVE_CUDA)
+          hipMallocManaged(ptr,size);
+     #elif defined (HAVE_HIP)
+       #ifdef UNIFIED_HOST
+          hipHostMalloc(ptr,size,flags);
+       #elif defined(UNIFIED_DEVICE)
+          hipMalloc(ptr,size);
+       #else
+          hipMallocManaged(ptr,size);
+       #endif
+     #endif
+
+}
+
+template <class T>
+inline void gpuFree(T* ptr)
+{
+     #if defined (HAVE_CUDA)
+          hipFree(ptr);
+     #elif defined (HAVE_HIP)
+          hipHostFree(ptr);
+     #endif
+}
 #endif

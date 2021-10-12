@@ -43,10 +43,10 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     #if defined (HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
 
-        hipHostMalloc( &ptr1, sizeof(Tallies), hipHostMallocNonCoherent );
-        hipHostMalloc( &ptr2, sizeof(MC_Processor_Info), hipHostMallocNonCoherent );
-        hipHostMalloc( &ptr3, sizeof(MC_Time_Info), hipHostMallocNonCoherent );
-        hipHostMalloc( &ptr4, sizeof(MC_Fast_Timer_Container), hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr1, sizeof(Tallies), hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr2, sizeof(MC_Processor_Info), hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr3, sizeof(MC_Time_Info), hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container), hipHostMallocNonCoherent );
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
@@ -57,15 +57,6 @@ MonteCarlo::MonteCarlo(const Parameters& params)
         time_info               = new(ptr3) MC_Time_Info();
         fast_timer              = new(ptr4) MC_Fast_Timer_Container();
 
-        void * ptr55;
-
-        hipHostMalloc( &ptr55, sizeof(Tallies_d), hipHostMallocNonCoherent );
-        Tallies_d * tall_h                = new(ptr55) Tallies_d( params.simulationParams.balanceTallyReplications, 
-                                                     params.simulationParams.fluxTallyReplications,
-                                                     params.simulationParams.cellTallyReplications);
-        hipMalloc( (void **) &_tallies_d, sizeof(Tallies_d));
-        hipMemcpy(_tallies_d,tall_h,sizeof(Tallies_d),hipMemcpyHostToDevice);
-        hipFree(tall_h);
     #else
         _tallies                = new Tallies( params.simulationParams.balanceTallyReplications, 
                                                params.simulationParams.fluxTallyReplications,
@@ -123,8 +114,8 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
-        hipHostMalloc( &ptr5, sizeof(MC_Particle_Buffer),hipHostMallocNonCoherent );
-        hipHostMalloc( &ptr6, sizeof(ParticleVaultContainer), hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr5, sizeof(MC_Particle_Buffer),hipHostMallocNonCoherent );
+        gpuMallocManaged( &ptr6, sizeof(ParticleVaultContainer), hipHostMallocNonCoherent );
         particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
@@ -151,13 +142,13 @@ MonteCarlo::~MonteCarlo()
         particle_buffer->~MC_Particle_Buffer();
 
         hipFree( _nuclearData );
-        hipFree( _particleVaultContainer);
+        gpuFree( _particleVaultContainer);
         hipFree( _materialDatabase);
-        hipFree( _tallies);
-        hipFree( processor_info);
-        hipFree( time_info);
-        hipFree( fast_timer);
-        hipFree( particle_buffer);
+        gpuFree( _tallies);
+        gpuFree( processor_info);
+        gpuFree( time_info);
+        gpuFree( fast_timer);
+        gpuFree( particle_buffer);
 
         hipFree( domain_d);
         hipFree(_material_d);

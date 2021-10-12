@@ -47,9 +47,9 @@ void warmup_kernel()
 int ThreadBlockLayout( dim3 &grid, dim3 &block, int num_particles )
 {
     int run_kernel = 1;
-    const uint64_t max_block_size = 65535;
+    const uint64_t max_block_size = 2147483647;
     //const uint64_t threads_per_block = 128;
-    const uint64_t threads_per_block = 64;
+    const uint64_t threads_per_block = 256;
     
     block.x = threads_per_block;
     block.y = 1;

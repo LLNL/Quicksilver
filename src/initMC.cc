@@ -70,7 +70,7 @@ MonteCarlo* initMC(const Parameters& params)
    #ifdef HAVE_UVM
       void* ptr;
       //in my experiments you need the hipHostMallocNonCoherent flag set to make pcie atomics work.  
-      hipHostMalloc( &ptr, sizeof(MonteCarlo),hipHostMallocNonCoherent);
+      gpuMallocManaged( &ptr, sizeof(MonteCarlo),hipHostMallocNonCoherent);
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -93,7 +93,7 @@ MonteCarlo* initMC(const Parameters& params)
    hipMalloc( (void **) &(ptr_dn),sizeof(NuclearData_d));
    monteCarlo->_nuclearData_d = (NuclearData_d *) ptr_dn;
  
-   hipMalloc( (void **) &(ptr_dmesh),sizeof(MC_Domain_d));
+   hipMalloc( (void **) &(ptr_dmesh),monteCarlo->domain.size()*sizeof(MC_Domain_d));
    monteCarlo->domain_d = (MC_Domain_d *) ptr_dmesh;
  
    return monteCarlo;
@@ -161,8 +161,6 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         //hipHostMalloc( &ptr1, sizeof(NuclearData),hipHostMallocNonCoherent);
-         //hipHostMalloc( &ptr2, sizeof(MaterialDatabase),hipHostMallocNonCoherent);
          ptr1=calloc( 1, sizeof(NuclearData));
          ptr2=calloc( 1, sizeof(MaterialDatabase));
 
@@ -335,12 +333,10 @@ namespace
       }
       
       mpiBarrier(MPI_COMM_WORLD);
-      if (myRank ==0 ) { cout << "done building" << endl; }
       mpiBarrier(MPI_COMM_WORLD);
       
       delete comm;
      
-      printf("here we are %zu %d\n",myDomainGid.size(),myRank);
  
       monteCarlo->domain.reserve(myDomainGid.size(),VAR_MEM);
       monteCarlo->domain.Open();
@@ -350,11 +346,9 @@ namespace
          monteCarlo->domain.push_back(
             MC_Domain(partition[ii], globalGrid, ddc, params, *monteCarlo->_materialDatabase,
                       params.simulationParams.nGroups));
-      printf("this %d\n",myRank);
       }
       monteCarlo->domain.Close();
       
-      printf("this %d %d\n",myRank,monteCarlo->domain.size());
       if (nRanks == 1)
          consistencyCheck(myRank, monteCarlo->domain);
       

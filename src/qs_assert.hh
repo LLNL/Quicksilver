@@ -15,6 +15,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 #include <cstdio>
 
+#ifdef DEBUG
 #define qs_assert( cond)                        \
    do \
    { \
@@ -23,3 +24,12 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
         printf("file=%s: line=%d ERROR\n",__FILE__,__LINE__); \
       } \
    } while(0)
+#else
+#define qs_assert( cond)                        \
+   do \
+   { \
+      if (!(cond)) \
+      { \
+      } \
+   } while(0)
+#endif

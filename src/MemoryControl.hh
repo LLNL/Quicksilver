@@ -39,7 +39,7 @@ namespace MemoryControl
         case AllocationPolicy::UVM_MEM:
          void *ptr;
          //in my experiments you need the hipHostMallocNonCoherent flag set to make pcie atomics work
-         hipHostMalloc(&ptr, size*sizeof(T),hipHostMallocNonCoherent);
+         gpuMallocManaged(&ptr, size*sizeof(T),hipHostMallocNonCoherent);
          tmp = new(ptr) T[size]; 
          break;
 #endif
@@ -62,7 +62,7 @@ namespace MemoryControl
         case UVM_MEM:
          for (int i=0; i < size; ++i)
             data[i].~T();
-         hipFree(data);
+         gpuFree(data);
          break;
 #endif         
         default:
