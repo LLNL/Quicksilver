@@ -109,6 +109,14 @@ int main(int argc, char** argv)
    uint64_cu * tallies_d;
    hipMalloc( (void **) &tallies_d, sizeof(uint64_cu)*NUM_TALLIES*replications);
 
+   for (int il=0;il<replications;il++)
+   {
+       for (int j1=0;j1<NUM_TALLIES;j1++)
+       {
+            tallies[NUM_TALLIES*il+j1]=0;
+       }
+   }
+   hipMemcpy(tallies_d,tallies,sizeof(uint64_cu)*NUM_TALLIES*replications,hipMemcpyHostToDevice);
 
    for (int ii=0; ii<nSteps; ++ii)
    {
@@ -198,10 +206,6 @@ __launch_bounds__(256) __global__ void CycleTrackingKernel(MonteCarlo* monteCarl
    }
    __syncthreads();
 
-   if (global_index<replications*NUM_TALLIES)
-   {
-      tallies[global_index]=0;
-   }
    if( global_index < num_particles )
    {
        CycleTrackingGuts( monteCarlo, global_index, processingVault, processedVault, &values_l[0] );
@@ -324,14 +328,24 @@ void cycleTracking(MonteCarlo *monteCarlo, uint64_cu* tallies, uint64_cu * talli
                     for (int il=0;il<replications;il++)
                     {
                      monteCarlo->_tallies->_balanceTask[il]._numSegments+=tallies[NUM_TALLIES*il+0];
+                     tallies[NUM_TALLIES*il+0]=0;
                      monteCarlo->_tallies->_balanceTask[il]._escape+=tallies[NUM_TALLIES*il+1];
+                     tallies[NUM_TALLIES*il+1]=0;
                      monteCarlo->_tallies->_balanceTask[il]._census+=tallies[NUM_TALLIES*il+2];
+                     tallies[NUM_TALLIES*il+2]=0;
                      monteCarlo->_tallies->_balanceTask[il]._collision+=tallies[NUM_TALLIES*il+3];
+                     tallies[NUM_TALLIES*il+3]=0;
                      monteCarlo->_tallies->_balanceTask[il]._scatter+=tallies[NUM_TALLIES*il+4];
+                     tallies[NUM_TALLIES*il+4]=0;
                      monteCarlo->_tallies->_balanceTask[il]._absorb+=tallies[NUM_TALLIES*il+5];
+                     tallies[NUM_TALLIES*il+5]=0;
                      monteCarlo->_tallies->_balanceTask[il]._fission+=tallies[NUM_TALLIES*il+6];
+                     tallies[NUM_TALLIES*il+6]=0;
                      monteCarlo->_tallies->_balanceTask[il]._produce+=tallies[NUM_TALLIES*il+7];
+                     tallies[NUM_TALLIES*il+7]=0;
                     }
+                    hipMemcpy(tallies_d,tallies,sizeof(uint64_cu)*NUM_TALLIES*replications,hipMemcpyHostToDevice);
+
 
                 }
 
