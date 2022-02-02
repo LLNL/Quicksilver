@@ -29,11 +29,15 @@ class MC_Base_Particle
 
     static void Cycle_Setup();
     static void Update_Counts();
-
+    
+    HOST_DEVICE
     HOST_DEVICE_CUDA
     MC_Base_Particle();
+    
     HOST_DEVICE_CUDA
     explicit MC_Base_Particle(  const MC_Particle &particle);
+    HOST_DEVICE_END
+    
     HOST_DEVICE_CUDA
     MC_Base_Particle(  const MC_Base_Particle &particle);
 
@@ -42,6 +46,7 @@ class MC_Base_Particle
 
     HOST_DEVICE_CUDA
     int particle_id_number() const;
+    
     HOST_DEVICE_CUDA
     int invalidate();
 
@@ -162,6 +167,7 @@ inline MC_Base_Particle::MC_Base_Particle( ) :
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a base particle type.
 //----------------------------------------------------------------------------------------------------------------------
+HOST_DEVICE
 HOST_DEVICE_CUDA
 inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 {
@@ -182,10 +188,12 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
     domain              = particle.domain;
     cell                = particle.cell;
 }
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a particle type.
 //----------------------------------------------------------------------------------------------------------------------
+HOST_DEVICE
 HOST_DEVICE_CUDA
 inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
 {
@@ -206,7 +214,7 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
     domain              = particle.domain;
     cell                = particle.cell;
 }
-
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 // The assignment operator.
