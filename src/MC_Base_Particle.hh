@@ -102,12 +102,13 @@ class MC_Base_Particle
 //  Return a MC_Location given domain, cell, facet.
 //----------------------------------------------------------------------------------------------------------------------
 
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline MC_Location MC_Base_Particle::Get_Location() const
 {
     return MC_Location(domain, cell, 0);
 
 }  // End Get_Location
+HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -118,7 +119,7 @@ inline MC_Location MC_Base_Particle::Get_Location() const
 //
 // return: A value of 1 (true) is returned on success, 0 (false) on failure.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline int MC_Base_Particle::invalidate()
 {
    if (is_valid())
@@ -128,6 +129,7 @@ inline int MC_Base_Particle::invalidate()
    }
    else return 0;
 }
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Base information for a particle.
@@ -136,7 +138,7 @@ inline int MC_Base_Particle::invalidate()
 //----------------------------------------------------------------------------------------------------------------------
 // Default constructor.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline MC_Base_Particle::MC_Base_Particle( ) :
         coordinate(),
         velocity(),
@@ -157,12 +159,13 @@ inline MC_Base_Particle::MC_Base_Particle( ) :
         cell(0)
 {
 }
+HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a base particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 {
     coordinate          = particle.coordinate;
@@ -182,11 +185,12 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
     domain              = particle.domain;
     cell                = particle.cell;
 }
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
 {
     coordinate          = particle.coordinate;
@@ -206,13 +210,14 @@ inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
     domain              = particle.domain;
     cell                = particle.cell;
 }
+HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
 // The assignment operator.
 // Copies a given (rhs) particle replacing this (lhs) particle..
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particle)
 {
     coordinate = particle.coordinate;
@@ -234,6 +239,7 @@ inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particl
 
     return *this;
 }
+HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -325,7 +331,7 @@ HOST_DEVICE_END
 //----------------------------------------------------------------------------------------------------------------------
 //  Copy_From_Base copies a particle from a base into this version
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE
 inline void MC_Particle::Copy_From_Base( const MC_Base_Particle &from_particle)
 {
     this->coordinate          = from_particle.coordinate;
@@ -349,6 +355,7 @@ inline void MC_Particle::Copy_From_Base( const MC_Base_Particle &from_particle)
     this->domain              = from_particle.domain;
     this->cell                = from_particle.cell;
 }
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Print the input particle to a string.
