@@ -3,10 +3,6 @@
 
 #define USE_MACRO_FUNCTIONS 1
 
-//Determine which atomics to use based on platform being compiled for
-//
-//If compiling with CUDA
-
 #ifdef HAVE_OPENMP
     #define USE_OPENMP_ATOMICS
 #elif HAVE_OPENMP_TARGET
