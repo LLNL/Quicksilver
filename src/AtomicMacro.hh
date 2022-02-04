@@ -89,7 +89,7 @@
             }
 
         #else
-            #error Your supposedly C++20 compiler doesn't support atomic_ref<double>.
+            #error Your supposedly C++20 compiler does not support atomic_ref<double>.
         #endif
 
     #else
