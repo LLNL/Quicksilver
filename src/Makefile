@@ -115,6 +115,18 @@ LDFLAGS =
 
 
 ###############################################################################
+### C++ parallelism
+###############################################################################
+
+#OPTFLAGS = -g -O3
+
+#CXX=clang++-12
+#CXXFLAGS = -std=c++20  $(OPTFLAGS) -Wpedantic
+#CPPFLAGS = -DHAVE_STDPAR
+## Sometimes GCC and Clang do not link this automatically.
+#LDFLAGS  = -ltbb
+
+###############################################################################
 ### GCC -- with MPI and OpenMP 
 ###############################################################################
 #OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp

@@ -9,6 +9,10 @@
     #define USE_OPENMP_ATOMICS
 #endif
 
+#ifdef HAVE_STDPAR
+    #define USE_CXX20_ATOMICS
+#endif
+
 // --------------------------------------------------
 // Original Names            -> Inline function names
 // --------------------------------------------------
