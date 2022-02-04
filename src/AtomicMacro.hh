@@ -23,7 +23,76 @@
 #define ATOMIC_CAPTURE( x, v, p )  ATOMIC_FETCH_ADD((x),(v),(p))
 #define ATOMIC_UPDATE( x )         ATOMIC_INCREMENT((x))
 
-#if defined(HAVE_CUDA) && defined(__CUDA_ARCH__)
+#if defined(USE_CXX20_ATOMICS)
+
+    #if (__cplusplus > 201703L)
+
+        #include <atomic>
+
+        #if defined(__cpp_lib_atomic_float) && defined(__cpp_lib_atomic_ref)
+
+            template <typename T>
+            inline void ATOMIC_WRITE(T & x, T v) {
+                //x = v;
+                std::atomic_ref<T> r{x};
+                r = v;
+            }
+
+            template <typename T>
+            inline void ATOMIC_INCREMENT(T& x) {
+                //atomicAdd( &x, 1 );
+                std::atomic_ref<T> r{x};
+                r++;
+            }
+
+            template <typename T>
+            inline void ATOMIC_ADD(T& x, T v) {
+                //atomicAdd( &x, v );
+                std::atomic_ref<T> r{x};
+                r+=v;
+            }
+
+            template <typename T1, typename T2>
+            inline void ATOMIC_ADD(T1& x, T2 v) {
+                static_assert( sizeof(T1) >= sizeof(T2), "Unsafe: small += large");
+                //atomicAdd( &x, v );
+                std::atomic_ref<T1> r{x};
+                r+=v;
+            }
+
+            template <typename T>
+            inline void ATOMIC_FETCH_ADD(T& x, T v, T& p) {
+                //p = atomicAdd( &x, v );
+                std::atomic_ref<T> r{x};
+                p = r.fetch_add(v);
+            }
+
+            template <typename T1, typename T2>
+            inline void ATOMIC_FETCH_ADD(T1& x, T2 v, T1& p) {
+                static_assert( sizeof(T1) >= sizeof(T2), "Unsafe: small += large");
+                //p = atomicAdd( &x, v );
+                std::atomic_ref<T1> r{x};
+                p = r.fetch_add(v);
+            }
+
+            template <typename T1, typename T2, typename T3>
+            inline void ATOMIC_FETCH_ADD(T1& x, T2 v, T3& p) {
+                static_assert( sizeof(T1) >= sizeof(T2), "Unsafe: small += large");
+                static_assert( sizeof(T3) >= sizeof(T1), "Unsafe: small := large");
+                //p = atomicAdd( &x, v );
+                std::atomic_ref<T1> r{x};
+                p = r.fetch_add(v);
+            }
+
+        #else
+            #error Your supposedly C++20 compiler doesn't support atomic_ref<double>.
+        #endif
+
+    #else
+        #error Sorry, you need C++20.
+    #endif
+
+#elif defined(HAVE_CUDA) && defined(__CUDA_ARCH__)
 
 template <typename T>
 inline void ATOMIC_WRITE(T & x, T v) {
@@ -65,6 +134,8 @@ inline void ATOMIC_FETCH_ADD(T1& x, T2 v, T3& p) {
 }
 
 #elif defined(USE_OPENMP_ATOMICS)
+
+#warning Should not be here
 
 template <typename T>
 inline void ATOMIC_WRITE(T & x, T v) {
