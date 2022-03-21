@@ -296,9 +296,9 @@ void cycleTracking(MonteCarlo *monteCarlo, uint64_cu* tallies, uint64_cu * talli
                                    std::cout << "error: #" << errorchk << " (" << hipGetErrorString(errorchk) << std::endl;
                                    abort();
                               }
-
-                              //Synchronize the stream
+                              
                           }
+                          hipDeviceSynchronize();
                           hipMemcpy(tallies,tallies_d,NUM_TALLIES*sizeof(uint64_cu)*replications,hipMemcpyDeviceToHost);
 
                           #endif
