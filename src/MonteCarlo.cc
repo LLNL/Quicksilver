@@ -141,9 +141,9 @@ MonteCarlo::~MonteCarlo()
         fast_timer->~MC_Fast_Timer_Container();
         particle_buffer->~MC_Particle_Buffer();
 
-        hipFree( _nuclearData );
+        free( _nuclearData );
         gpuFree( _particleVaultContainer);
-        hipFree( _materialDatabase);
+        free( _materialDatabase);
         gpuFree( _tallies);
         gpuFree( processor_info);
         gpuFree( time_info);
