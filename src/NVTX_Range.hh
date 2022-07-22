@@ -28,8 +28,7 @@ class NVTX_Range
    {
       #ifdef USE_NVTX
       char *result = strdup(rangeName.c_str());
-      _rangeId = nvtxRangeStartA(result);
-      _isOpen = true;
+      nvtxRangePushA(result);
       free(result);
       #endif
    }
@@ -37,24 +36,9 @@ class NVTX_Range
    ~NVTX_Range()
    {
       #ifdef USE_NVTX
-      if (_isOpen)
-	 nvtxRangeEnd(_rangeId);
+      nvtxRangePop();
       #endif
    }
-
- private:
-  void endRange()
-  {
-      #ifdef USE_NVTX
-      nvtxRangeEnd(_rangeId);
-      _isOpen = false;
-      #endif
-  }
-  
-   #ifdef USE_NVTX
-   nvtxRangeId_t _rangeId;
-   bool _isOpen;
-   #endif
 };
 
 #endif
