@@ -42,6 +42,7 @@ class NVTX_Range
       #endif
    }
 
+ private:
   void endRange()
   {
       #ifdef USE_NVTX
@@ -50,7 +51,6 @@ class NVTX_Range
       #endif
   }
   
- private:
    #ifdef USE_NVTX
    nvtxRangeId_t _rangeId;
    bool _isOpen;

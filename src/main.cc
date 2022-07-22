@@ -392,16 +392,18 @@ void cycleTracking(MonteCarlo *monteCarlo, uint64_cu* tallies, uint64_cu * talli
 
             MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_MPI);
 
-            NVTX_Range collapseRange("cycleTracking_Collapse_ProcessingandProcessed");
-            my_particle_vault.collapseProcessing();
-            my_particle_vault.collapseProcessed();
-            collapseRange.endRange();
+            {
+                NVTX_Range collapseRange("cycleTracking_Collapse_ProcessingandProcessed");
+                my_particle_vault.collapseProcessing();
+                my_particle_vault.collapseProcessed();
+            }
 
 
             //Test for done - blocking on all MPI ranks
-            NVTX_Range doneRange("cycleTracking_Test_Done_New");
-            done = monteCarlo->particle_buffer->Test_Done_New( new_test_done_method );
-            doneRange.endRange();
+            {
+                NVTX_Range doneRange("cycleTracking_Test_Done_New");
+                done = monteCarlo->particle_buffer->Test_Done_New( new_test_done_method );
+            }
 
             MC_FASTTIMER_STOP(MC_Fast_Timer::cycleTracking_MPI);
             
