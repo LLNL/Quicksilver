@@ -30,6 +30,7 @@ class NVTX_Range
       char *result = strdup(rangeName.c_str());
       _rangeId = nvtxRangeStartA(result);
       _isOpen = true;
+      free(result);
       #endif
    }
    
