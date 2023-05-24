@@ -195,7 +195,7 @@ CXX=$(CUDA_PATH)/bin/nvcc
 CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) 
 CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
 CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
-CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI -DHAVE_VARIORUM ${CUDA_FLAGS}
+CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI ${CUDA_FLAGS}
 #LDFLAGS  =   -L/g/g92/namankul/local/jansson_lassen/lib/libjansson.so -L/usr/global/tools/hwloc/blueos_3_ppc64le_ib/hwloc-1.11.10-cuda/lib/libhwloc.so -L/g/g92/namankul/variorum/install_lassen_both/lib/libvariorum.so
 RANKSTR_FLAGS= -Xlinker=-rpath,${RANKSTR_DIR}/lib64 -L${RANKSTR_DIR}/lib64 -lrankstr
 LDFLAGS  = $(CUDA_LDFLAGS) -Xlinker=-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FLAGS} ${RANKSTR_FLAGS} 

@@ -172,7 +172,6 @@ __global__ void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, 
 
 void cycleTracking(MonteCarlo *monteCarlo)
 {
-   VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
  
   #ifdef HAVE_VARIORUM 
   VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
