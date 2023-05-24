@@ -86,7 +86,8 @@
 #                   Define this to run Cycle Tracking with an exponential
 #                   cell-based tally, in order to partially mimic photon
 #                   transport problems.
-#  
+# -DHAVE_VARIORUM 
+#  									Define this to enbale power tracking through Variorum.
 # ------------------------------------------------------------------------------
 
 SHELL = /bin/bash
@@ -172,26 +173,34 @@ LDFLAGS =
 ## Choose one Cuda path
 ##CUDA_PATH = /usr/local/cuda-8.0
 #CUDA_PATH = /usr/tcetmp/packages/cuda-9.0.176
-#CUDA_PATH =/usr/tce/packages/cuda/cuda-10.1.243
+CUDA_PATH =/usr/tce/packages/cuda/cuda-10.1.243
 
-#HOST_COMPILER =/usr/tce/packages/spectrum-mpi/spectrum-mpi-rolling-release-xl-2022.08.19/bin/mpixlC
+HOST_COMPILER =/usr/tce/packages/spectrum-mpi/spectrum-mpi-rolling-release-xl-2022.08.19/bin/mpixlC
 ##HOST_COMPILER = /usr/tce/packages/spectrum-mpi/spectrum-mpi-2017.04.03-xl-beta-2017.09.13/bin/mpixlC
 
-#OPTFLAGS = -O2 
+#Variorum Path
+VARIORUM_DIR=/g/g92/namankul/variorum/install_lassen_both
+include ${VARIORUM_DIR}/share/variorum/variorum_config.mk
+
+#Rankstr 
+RANKSTR_DIR=/g/g92/namankul/local/rankstr_lassen
+OPTFLAGS = -O2 
 ## Version below for debugging
 ##OPTFLAGS = -DUSE_NVTX -g -G -lineinfo -O0
 
-#CUDA_FLAGS = -I${CUDA_PATH}/include/
-#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
+CUDA_FLAGS = -I${CUDA_PATH}/include/ ${VARIORUM_INCLUDE_FLAGS} -I${RANKSTR_DIR}/include
+CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
 #
-#CXX=$(CUDA_PATH)/bin/nvcc
-#CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) -Xptxas -v 
-#CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
-#CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
-#CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI
-#LDFLAGS  = $(CUDA_LDFLAGS) 
+CXX=$(CUDA_PATH)/bin/nvcc
+CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) 
+CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
+CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
+CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI -DHAVE_VARIORUM ${CUDA_FLAGS}
+#LDFLAGS  =   -L/g/g92/namankul/local/jansson_lassen/lib/libjansson.so -L/usr/global/tools/hwloc/blueos_3_ppc64le_ib/hwloc-1.11.10-cuda/lib/libhwloc.so -L/g/g92/namankul/variorum/install_lassen_both/lib/libvariorum.so
+RANKSTR_FLAGS= -Xlinker=-rpath,${RANKSTR_DIR}/lib64 -L${RANKSTR_DIR}/lib64 -lrankstr
+LDFLAGS  = $(CUDA_LDFLAGS) -Xlinker=-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FLAGS} ${RANKSTR_FLAGS} 
+#LDFLAGS  = $(CUDA_LDFLAGS) --shared -Xcompiler ${VARIORUM_LIB_FLAGS}
 ##LDFLAGS += ${CUDA_PATH}/lib64/libnvToolsExt.so
-
 
 
 
@@ -310,7 +319,8 @@ SOURCES= \
     main.cc \
     parseUtils.cc \
     utils.cc \
-    utilsMpi.cc 
+    utilsMpi.cc \
+		variorum_annotation.cc
 
 CC_OBJECTS=$(SOURCES:.cc=.o)
 

@@ -1,0 +1,1435 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+A	MC_Facet_Geometry.hh	/^    double A;$/;"	m	class:MC_General_Plane
+AB_CROSS_AC	MCT.cc	338;"	d	file:
+ATOMIC_ADD	AtomicMacro.hh	21;"	d
+ATOMIC_ADD	AtomicMacro.hh	35;"	d
+ATOMIC_ADD	AtomicMacro.hh	55;"	d
+ATOMIC_ADD	AtomicMacro.hh	69;"	d
+ATOMIC_ADD	AtomicMacro.hh	89;"	d
+ATOMIC_CAPTURE	AtomicMacro.hh	27;"	d
+ATOMIC_CAPTURE	AtomicMacro.hh	43;"	d
+ATOMIC_CAPTURE	AtomicMacro.hh	58;"	d
+ATOMIC_CAPTURE	AtomicMacro.hh	77;"	d
+ATOMIC_CAPTURE	AtomicMacro.hh	92;"	d
+ATOMIC_UPDATE	AtomicMacro.hh	24;"	d
+ATOMIC_UPDATE	AtomicMacro.hh	39;"	d
+ATOMIC_UPDATE	AtomicMacro.hh	52;"	d
+ATOMIC_UPDATE	AtomicMacro.hh	73;"	d
+ATOMIC_UPDATE	AtomicMacro.hh	86;"	d
+ATOMIC_WRITE	AtomicMacro.hh	18;"	d
+ATOMIC_WRITE	AtomicMacro.hh	31;"	d
+ATOMIC_WRITE	AtomicMacro.hh	49;"	d
+ATOMIC_WRITE	AtomicMacro.hh	65;"	d
+ATOMIC_WRITE	AtomicMacro.hh	83;"	d
+Absorption	NuclearData.hh	/^      Absorption,$/;"	e	enum:NuclearDataReaction::Enum
+Add	Tallies.hh	/^    void Add(CellTallyTask &cellTallyTask)$/;"	f	class:CellTallyTask
+Add	Tallies.hh	/^   void Add(Balance &bal)$/;"	f	class:Balance
+Add	Tallies.hh	/^   void Add(ScalarFluxTask &scalarFluxTask)$/;"	f	class:ScalarFluxTask
+Adjacency_Undefined	MC_Facet_Adjacency.hh	/^      Adjacency_Undefined = 0,$/;"	e	enum:MC_Subfacet_Adjacency_Event::Enum
+AllProcessorTree	MC_Particle_Buffer.hh	/^            AllProcessorTree,$/;"	e	enum:MC_New_Test_Done_Method::Enum
+Allocate	MC_Particle_Buffer.cc	/^void particle_buffer_base_type::Allocate(int buffer_size)$/;"	f	class:particle_buffer_base_type
+Allocate_Send_Buffer	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Allocate_Send_Buffer( SendQueue &sendQueue )$/;"	f	class:MC_Particle_Buffer
+AllocationPolicy	MemoryControl.hh	/^   enum AllocationPolicy {HOST_MEM, UVM_MEM, UNDEFINED_POLICY};$/;"	g	namespace:MemoryControl
+Allreduce_ParticleCounts	MC_Particle_Buffer.cc	/^bool MC_Particle_Buffer::Allreduce_ParticleCounts()$/;"	f	class:MC_Particle_Buffer
+B	MC_Facet_Geometry.hh	/^    double B;$/;"	m	class:MC_General_Plane
+BRICK	Parameters.hh	/^   enum Shape{UNDEFINED, BRICK, SPHERE};$/;"	e	enum:GeometryParameters::Shape
+BULK_STORAGE_HH	BulkStorage.hh	2;"	d
+Balance	Tallies.hh	/^   Balance() :$/;"	f	class:Balance
+Balance	Tallies.hh	/^class Balance$/;"	c
+BalanceEventTest	CoralBenchmark.cc	/^void BalanceEventTest( MonteCarlo *monteCarlo )$/;"	f
+BalanceRatioTest	CoralBenchmark.cc	/^void BalanceRatioTest( MonteCarlo *monteCarlo, Parameters &params )$/;"	f
+Blocking	MC_Particle_Buffer.hh	/^            Blocking,$/;"	e	enum:MC_New_Test_Done_Method::Enum
+BlockingSum	MC_Particle_Buffer.hh	/^    int BlockingSum;$/;"	m	class:mcp_test_done_class
+Boundary_Escape	MC_Facet_Adjacency.hh	/^      Boundary_Escape,$/;"	e	enum:MC_Subfacet_Adjacency_Event::Enum
+Boundary_Reflection	MC_Facet_Adjacency.hh	/^      Boundary_Reflection,$/;"	e	enum:MC_Subfacet_Adjacency_Event::Enum
+Bsend	MC_Particle_Buffer.hh	/^    Bsend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+Buffer_Particle	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Buffer_Particle(MC_Base_Particle &particle, int buffer)$/;"	f	class:MC_Particle_Buffer
+Buffer_Particle	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Buffer_Particle(MC_Particle *particle, int buffer)$/;"	f	class:MC_Particle_Buffer
+BulkStorage	BulkStorage.hh	/^   BulkStorage()$/;"	f	class:BulkStorage
+BulkStorage	BulkStorage.hh	/^   BulkStorage(const BulkStorage& aa)$/;"	f	class:BulkStorage
+BulkStorage	BulkStorage.hh	/^class BulkStorage$/;"	c
+C	MC_Facet_Geometry.hh	/^    double C;$/;"	m	class:MC_General_Plane
+CC_OBJECTS	Makefile	/^CC_OBJECTS=$(SOURCES:.cc=.o)$/;"	m
+CMDLINEPARSER_H_	cmdLineParser.hh	8;"	d
+COLLISION_EVENT_HH	CollisionEvent.hh	2;"	d
+COMM_OBJECT_HH	CommObject.hh	2;"	d
+CORALBENCHMARK_HH	CoralBenchmark.hh	2;"	d
+CPPFLAGS	Makefile	/^CPPFLAGS = $/;"	m
+CUDAFUNCTIONS_HH	cudaFunctions.hh	2;"	d
+CUDAUTILS_HH	cudaUtils.hh	2;"	d
+CXX	Makefile	/^CXX = $/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS =$/;"	m
+Cancel_Receive_Buffer_Requests	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Cancel_Receive_Buffer_Requests()$/;"	f	class:MC_Particle_Buffer
+CellInfo	MeshPartition.hh	/^   CellInfo()$/;"	f	struct:CellInfo
+CellInfo	MeshPartition.hh	/^   CellInfo(int domainGid, int foreman, int domainIndex, int cellIndex)$/;"	f	struct:CellInfo
+CellInfo	MeshPartition.hh	/^struct CellInfo$/;"	s
+CellTallyDomain	Tallies.hh	/^   CellTallyDomain() : _task() {}$/;"	f	class:CellTallyDomain
+CellTallyDomain	Tallies.hh	/^   CellTallyDomain(MC_Domain* domain, int cellTally_replications)$/;"	f	class:CellTallyDomain
+CellTallyDomain	Tallies.hh	/^class CellTallyDomain$/;"	c
+CellTallyTask	Tallies.hh	/^    CellTallyTask() : _cell() {}$/;"	f	class:CellTallyTask
+CellTallyTask	Tallies.hh	/^    CellTallyTask(MC_Domain* domain)$/;"	f	class:CellTallyTask
+CellTallyTask	Tallies.hh	/^class CellTallyTask$/;"	c
+Census	MC_Segment_Outcome.hh	/^        Census                        = 2,$/;"	e	enum:MC_Segment_Outcome_type::Enum
+Census	Tallies.hh	/^      Census,$/;"	e	enum:MC_Tally_Event::Enum
+Choose_Buffer	MC_Particle_Buffer.cc	/^int MC_Particle_Buffer::Choose_Buffer(int processor)$/;"	f	class:MC_Particle_Buffer
+Clear_Last_Cycle_Timers	MC_Fast_Timer.cc	/^void MC_Fast_Timer_Container::Clear_Last_Cycle_Timers()$/;"	f	class:MC_Fast_Timer_Container
+Close	QS_Vector.hh	/^   void Close(){ _isOpen = false; }$/;"	f	class:qs_vector
+Collision	MC_Segment_Outcome.hh	/^        Collision                     = 0,$/;"	e	enum:MC_Segment_Outcome_type::Enum
+Collision	Tallies.hh	/^      Collision,$/;"	e	enum:MC_Tally_Event::Enum
+CollisionEvent	CollisionEvent.cc	/^bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int tally_index)$/;"	f
+Comm	mpi_stubs_internal.hh	/^} Comm;$/;"	t	typeref:struct:__anon55
+CommObject	CommObject.hh	/^class CommObject$/;"	c
+Continue_Collision	MC_Segment_Outcome.hh	/^        Continue_Collision = 2$/;"	e	enum:MC_Collision_Event_Return::Enum
+Continue_Tracking	MC_Segment_Outcome.hh	/^        Continue_Tracking = 1,$/;"	e	enum:MC_Collision_Event_Return::Enum
+Copy_From_Base	MC_Base_Particle.hh	/^inline void MC_Particle::Copy_From_Base( const MC_Base_Particle &from_particle)$/;"	f	class:MC_Particle
+Copy_Particle_Base_To_String	MC_Base_Particle.hh	/^inline void MC_Base_Particle::Copy_Particle_Base_To_String(std::string &output_string) const$/;"	f	class:MC_Base_Particle
+Count	MC_Base_Particle.hh	/^        Count   = 0,$/;"	e	enum:MC_Data_Member_Operation::Enum
+Cross	MC_Vector.hh	/^   inline MC_Vector Cross(const MC_Vector &v) const$/;"	f	class:MC_Vector
+CrossSectionParameters	Parameters.hh	/^   CrossSectionParameters()$/;"	f	struct:CrossSectionParameters
+CrossSectionParameters	Parameters.hh	/^struct CrossSectionParameters$/;"	s
+Cumulative_Report	MC_Fast_Timer.cc	/^void MC_Fast_Timer_Container::Cumulative_Report(int mpi_rank, int num_ranks, MPI_Comm comm_world, uint64_t numSegments)$/;"	f	class:MC_Fast_Timer_Container
+CycleFinalize	Tallies.cc	/^void Tallies::CycleFinalize(MonteCarlo *monteCarlo)$/;"	f	class:Tallies
+CycleInitialize	Tallies.cc	/^void Tallies::CycleInitialize(MonteCarlo* monteCarlo)$/;"	f	class:Tallies
+CycleTrackingFunction	CycleTracking.cc	/^void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault)$/;"	f
+CycleTrackingGuts	CycleTracking.cc	/^void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVault *processingVault, ParticleVault *processedVault )$/;"	f
+CycleTrackingKernel	main.cc	/^__global__ void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault )$/;"	f
+D	MC_Facet_Geometry.hh	/^    double D;$/;"	m	class:MC_General_Plane
+DECLAREMACRO_HH	DeclareMacro.hh	2;"	d
+DECOMPOSITION_OBJECT_HH	DecompositionObject.hh	2;"	d
+DEVICE	DeclareMacro.hh	31;"	d
+DEVICE	DeclareMacro.hh	9;"	d
+DEVICE_END	DeclareMacro.hh	10;"	d
+DEVICE_END	DeclareMacro.hh	32;"	d
+DIFFSQ	GridAssignmentObject.cc	7;"	d	file:
+DIRECTION_COSINE_INCLUDE	DirectionCosine.hh	2;"	d
+DecompositionObject	DecompositionObject.cc	/^DecompositionObject::DecompositionObject($/;"	f	class:DecompositionObject
+DecompositionObject	DecompositionObject.hh	/^class DecompositionObject$/;"	c
+Delete_Completed_Extra_Send_Buffers	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Delete_Completed_Extra_Send_Buffers()$/;"	f	class:MC_Particle_Buffer
+DirectionCosine	DirectionCosine.hh	/^class DirectionCosine$/;"	c
+DirectionCosine	DirectionCosine.hh	/^inline DirectionCosine::DirectionCosine()$/;"	f	class:DirectionCosine
+DirectionCosine	DirectionCosine.hh	/^inline DirectionCosine::DirectionCosine(double a_alpha, double a_beta, double a_gamma)$/;"	f	class:DirectionCosine
+Distance	MC_Vector.hh	/^   inline double Distance(const MC_Vector& vv) const$/;"	f	class:MC_Vector
+Dot	MC_Vector.hh	/^   inline double Dot(const MC_Vector &tmp) const$/;"	f	class:MC_Vector
+ENERGYSPECTRUM_HH	EnergySpectrum.hh	2;"	d
+EnergySpectrum	EnergySpectrum.hh	/^        EnergySpectrum(std::string name, uint64_t size) : _fileName(name), _censusEnergySpectrum(size,0) {};$/;"	f	class:EnergySpectrum
+EnergySpectrum	EnergySpectrum.hh	/^class EnergySpectrum$/;"	c
+Enum	MC_Base_Particle.hh	/^    enum Enum$/;"	g	struct:MC_Data_Member_Operation
+Enum	MC_Facet_Adjacency.hh	/^   enum Enum$/;"	g	struct:MC_Subfacet_Adjacency_Event
+Enum	MC_Fast_Timer.hh	/^  enum Enum$/;"	g	class:MC_Fast_Timer
+Enum	MC_Particle_Buffer.hh	/^    enum Enum$/;"	g	struct:MC_MPI_Send_Mode
+Enum	MC_Particle_Buffer.hh	/^    enum Enum$/;"	g	struct:MC_New_Test_Done_Method
+Enum	MC_Segment_Outcome.hh	/^    enum Enum$/;"	g	struct:MC_Collision_Event_Return
+Enum	MC_Segment_Outcome.hh	/^    enum Enum$/;"	g	struct:MC_Segment_Outcome_type
+Enum	NuclearData.hh	/^   enum Enum$/;"	g	class:NuclearDataReaction
+Enum	Tallies.hh	/^   enum Enum$/;"	g	struct:MC_Tally_Event
+ExecutionPolicy	cudaUtils.hh	/^enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };$/;"	g
+FACET_PAIR_HH	FacetPair.hh	2;"	d
+FaceInfo	MC_Domain.cc	/^   struct FaceInfo$/;"	s	namespace:__anon12	file:
+FacetPair	FacetPair.hh	/^   FacetPair(){};$/;"	f	class:FacetPair
+FacetPair	FacetPair.hh	/^   FacetPair(int domainGid1, const MC_Location& location1,$/;"	f	class:FacetPair
+FacetPair	FacetPair.hh	/^class FacetPair$/;"	c
+Facet_Crossing	MC_Segment_Outcome.hh	/^        Facet_Crossing                = 1,$/;"	e	enum:MC_Segment_Outcome_type::Enum
+Facet_Crossing_Communication	Tallies.hh	/^      Facet_Crossing_Communication$/;"	e	enum:MC_Tally_Event::Enum
+Facet_Crossing_Escape	Tallies.hh	/^      Facet_Crossing_Escape,$/;"	e	enum:MC_Tally_Event::Enum
+Facet_Crossing_Reflection	Tallies.hh	/^      Facet_Crossing_Reflection,$/;"	e	enum:MC_Tally_Event::Enum
+Facet_Crossing_Tracking_Error	Tallies.hh	/^      Facet_Crossing_Tracking_Error,$/;"	e	enum:MC_Tally_Event::Enum
+Facet_Crossing_Transit_Exit	Tallies.hh	/^      Facet_Crossing_Transit_Exit,$/;"	e	enum:MC_Tally_Event::Enum
+Fission	NuclearData.hh	/^      Fission$/;"	e	enum:NuclearDataReaction::Enum
+Fluence	Tallies.hh	/^    Fluence() {};$/;"	f	class:Fluence
+Fluence	Tallies.hh	/^class Fluence$/;"	c
+FluenceDomain	Tallies.hh	/^    FluenceDomain( int numCells) : _cell(numCells, 0.0)$/;"	f	class:FluenceDomain
+FluenceDomain	Tallies.hh	/^class FluenceDomain$/;"	c
+FluenceTest	CoralBenchmark.cc	/^void FluenceTest( MonteCarlo* monteCarlo )$/;"	f
+Free_Buffers	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Free_Buffers()$/;"	f	class:MC_Particle_Buffer
+Free_Memory	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Free_Memory()$/;"	f	class:MC_Particle_Buffer
+Free_Memory	MC_Particle_Buffer.cc	/^void mcp_test_done_class::Free_Memory()$/;"	f	class:mcp_test_done_class
+Free_Memory	MC_Particle_Buffer.cc	/^void particle_buffer_base_type::Free_Memory()$/;"	f	class:particle_buffer_base_type
+GITHASH	Makefile	/^GITHASH := "$(shell git log -n 1 |  grep commit | awk -F " " '{print $$2}')"$/;"	m
+GITVERS	Makefile	/^GITVERS := "$(shell git log -n 1 |  grep Date   | awk -F " " '{print $$6 "-" $$3 "-" $$4 "-" $$5}')"$/;"	m
+GLOBAL	DeclareMacro.hh	13;"	d
+GLOBAL	DeclareMacro.hh	25;"	d
+GLOBAL	DeclareMacro.hh	35;"	d
+GLOBALS_HH	Globals.hh	2;"	d
+GLOBAL_FCC_GRID_HH	GlobalFccGrid.hh	2;"	d
+GRID_ASSIGNMENT_OBJECT_HH	GridAssignmentObject.hh	2;"	d
+GeometryParameters	Parameters.hh	/^   GeometryParameters()$/;"	f	struct:GeometryParameters
+GeometryParameters	Parameters.hh	/^struct GeometryParameters$/;"	s
+GetNumBalanceReplications	Tallies.hh	/^    int GetNumBalanceReplications()$/;"	f	class:Tallies
+GetNumCellTallyReplications	Tallies.hh	/^    int GetNumCellTallyReplications()$/;"	f	class:Tallies
+GetNumFluxReplications	Tallies.hh	/^    int GetNumFluxReplications()$/;"	f	class:Tallies
+Get_Direction_Cosine	MC_Particle.hh	/^   DirectionCosine *Get_Direction_Cosine()$/;"	f	class:MC_Particle
+Get_Energy	MC_Base_Particle.hh	/^    inline double Get_Energy() const                     { return kinetic_energy; }$/;"	f	class:MC_Base_Particle
+Get_Local_Gains_And_Losses	MC_Particle_Buffer.cc	/^void mcp_test_done_class::Get_Local_Gains_And_Losses(MonteCarlo *monteCarlo, int64_t sent_recv[2])$/;"	f	class:mcp_test_done_class
+Get_Location	MC_Base_Particle.hh	/^inline MC_Location MC_Base_Particle::Get_Location() const$/;"	f	class:MC_Base_Particle
+Get_Location	MC_Particle.hh	/^inline MC_Location MC_Particle::Get_Location() const$/;"	f	class:MC_Particle
+Get_Processor_Buffer_Index	MC_Particle_Buffer.cc	/^int MC_Particle_Buffer::Get_Processor_Buffer_Index(int processor)$/;"	f	class:MC_Particle_Buffer
+Get_Speed_From_Energy	MC_SourceNow.cc	/^   double Get_Speed_From_Energy(double energy)$/;"	f	namespace:__anon24
+Get_Velocity	MC_Base_Particle.hh	/^    inline MC_Vector *Get_Velocity() { return &velocity; }$/;"	f	class:MC_Base_Particle
+Get_Velocity	MC_Particle.hh	/^   MC_Vector *Get_Velocity()$/;"	f	class:MC_Particle
+GlobalFccGrid	GlobalFccGrid.cc	/^GlobalFccGrid::GlobalFccGrid(int nx, int ny, int nz,$/;"	f	class:GlobalFccGrid
+GlobalFccGrid	GlobalFccGrid.hh	/^class GlobalFccGrid$/;"	c
+GridAssignmentObject	GridAssignmentObject.cc	/^GridAssignmentObject::GridAssignmentObject(const vector<MC_Vector>& centers)$/;"	f	class:GridAssignmentObject
+GridAssignmentObject	GridAssignmentObject.hh	/^class GridAssignmentObject$/;"	c
+GridCell	GridAssignmentObject.hh	/^      GridCell() : _burned(false) {};$/;"	f	struct:GridAssignmentObject::GridCell
+GridCell	GridAssignmentObject.hh	/^   struct GridCell$/;"	s	class:GridAssignmentObject
+HAVE_UVM	cudaUtils.hh	15;"	d
+HAVE_UVM	cudaUtils.hh	19;"	d
+HOST_DEVICE	DeclareMacro.hh	15;"	d
+HOST_DEVICE	DeclareMacro.hh	27;"	d
+HOST_DEVICE	DeclareMacro.hh	5;"	d
+HOST_DEVICE_CLASS	DeclareMacro.hh	17;"	d
+HOST_DEVICE_CLASS	DeclareMacro.hh	29;"	d
+HOST_DEVICE_CLASS	DeclareMacro.hh	7;"	d
+HOST_DEVICE_CUDA	DeclareMacro.hh	16;"	d
+HOST_DEVICE_CUDA	DeclareMacro.hh	28;"	d
+HOST_DEVICE_CUDA	DeclareMacro.hh	6;"	d
+HOST_DEVICE_END	DeclareMacro.hh	18;"	d
+HOST_DEVICE_END	DeclareMacro.hh	30;"	d
+HOST_DEVICE_END	DeclareMacro.hh	8;"	d
+HOST_END	DeclareMacro.hh	12;"	d
+HOST_END	DeclareMacro.hh	24;"	d
+HOST_END	DeclareMacro.hh	34;"	d
+HOST_MEM	MemoryControl.hh	/^   enum AllocationPolicy {HOST_MEM, UVM_MEM, UNDEFINED_POLICY};$/;"	e	enum:MemoryControl::AllocationPolicy
+Handleitem	mpi_stubs_internal.hh	/^} Handleitem;$/;"	t	typeref:struct:_Handleitem
+IF_POINT_ABOVE_CONTINUE	MCT.cc	321;"	d	file:
+IF_POINT_BELOW_CONTINUE	MCT.cc	316;"	d	file:
+INDEX_TO_TUPLE4_HH	IndexToTuple4.hh	2;"	d
+INDEX_TO_TUPLE_HH	IndexToTuple.hh	2;"	d
+INIT_MC_HH	initMC.hh	2;"	d
+INPUT_BLOCK_HH	InputBlock.hh	2;"	d
+IallreduceRequest	MC_Particle_Buffer.hh	/^    MPI_Request IallreduceRequest;$/;"	m	class:mcp_test_done_class
+Iallreduce_ParticleCounts	MC_Particle_Buffer.cc	/^bool MC_Particle_Buffer::Iallreduce_ParticleCounts()$/;"	f	class:MC_Particle_Buffer
+Ibsend	MC_Particle_Buffer.hh	/^    Ibsend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+IndexToTuple	IndexToTuple.hh	/^   IndexToTuple(int nx, int ny, int nz)$/;"	f	class:IndexToTuple
+IndexToTuple	IndexToTuple.hh	/^class IndexToTuple$/;"	c
+IndexToTuple4	IndexToTuple4.hh	/^   IndexToTuple4(int nx, int ny, int nz, int nb)$/;"	f	class:IndexToTuple4
+IndexToTuple4	IndexToTuple4.hh	/^class IndexToTuple4$/;"	c
+Initialize	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Initialize()$/;"	f	class:MC_Particle_Buffer
+Initialize	MC_Segment_Outcome.hh	/^        Initialize                    = -1,$/;"	e	enum:MC_Segment_Outcome_type::Enum
+InitializeTallies	Tallies.cc	/^void Tallies::InitializeTallies( MonteCarlo *monteCarlo, $/;"	f	class:Tallies
+Initialize_Buffer	MC_Particle_Buffer.cc	/^void particle_buffer_base_type::Initialize_Buffer()$/;"	f	class:particle_buffer_base_type
+Initialize_Map	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Initialize_Map()$/;"	f	class:MC_Particle_Buffer
+InputBlock	InputBlock.cc	/^InputBlock::InputBlock(const string& blockName)$/;"	f	class:InputBlock
+InputBlock	InputBlock.hh	/^class InputBlock$/;"	c
+Instantiate	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Instantiate()$/;"	f	class:MC_Particle_Buffer
+Irsend	MC_Particle_Buffer.hh	/^    Irsend$/;"	e	enum:MC_MPI_Send_Mode::Enum
+Isend	MC_Particle_Buffer.hh	/^    Isend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+Isotope	MaterialDatabase.hh	/^   Isotope()$/;"	f	class:Isotope
+Isotope	MaterialDatabase.hh	/^   Isotope(int isotopeGid, double atomFraction) $/;"	f	class:Isotope
+Isotope	MaterialDatabase.hh	/^class Isotope$/;"	c
+Issend	MC_Particle_Buffer.hh	/^    Issend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+LDFLAGS	Makefile	/^LDFLAGS =$/;"	m
+LONG64_H	Long64.hh	2;"	d
+Last_Cycle_Report	MC_Fast_Timer.cc	/^void MC_Fast_Timer_Container::Last_Cycle_Report(int report_time, int mpi_rank, int num_ranks, MPI_Comm comm_world)$/;"	f	class:MC_Fast_Timer_Container
+Length	MC_Vector.hh	/^   inline double Length() const { return std::sqrt(x*x + y*y + z*z); }$/;"	f	class:MC_Vector
+List	mpi_stubs_internal.hh	/^} List;$/;"	t	typeref:struct:_List
+Listitem	mpi_stubs_internal.hh	/^} Listitem;$/;"	t	typeref:struct:_Listitem
+Long64	Long64.hh	/^typedef uint64_t Long64;$/;"	t
+MACROSCOPIC_CROSS_SECTION_HH	MacroscopicCrossSection.hh	2;"	d
+MACROS_HH	macros.hh	2;"	d
+MATERIALDATABASE_HH	MaterialDatabase.hh	2;"	d
+MAX_PRODUCTION_SIZE	CollisionEvent.cc	15;"	d	file:
+MCP_Cancel_Request	MC_Particle_Buffer.cc	/^void MCP_Cancel_Request(MPI_Request *request)$/;"	f
+MCP_DATA_MEMBER_CAST_OLD	MC_Base_Particle.cc	9;"	d	file:
+MCP_DATA_MEMBER_LONG_TO_CHAR8	MC_Base_Particle.cc	15;"	d	file:
+MCP_DATA_MEMBER_OLD	MC_Base_Particle.cc	3;"	d	file:
+MCP_Test	MC_Particle_Buffer.cc	/^int MCP_Test(MPI_Request *request)$/;"	f
+MCT_Adjacent_Facet	MC_Adjacent_Facet.cc	/^Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Particle &mc_particle, MonteCarlo* monteCarlo)$/;"	f
+MCT_Cell_Position_3D_G	MCT.cc	/^MC_Vector MCT_Cell_Position_3D_G(const MC_Domain &domain,$/;"	f
+MCT_Cell_Volume_3D_G_vector_tetDet	MCT.cc	/^  double MCT_Cell_Volume_3D_G_vector_tetDet(const MC_Vector &v0_,$/;"	f	namespace:__anon10
+MCT_DISTANCE_INCLUDE	MC_Distance_To_Facet.hh	2;"	d
+MCT_FACET_ADJACENCY_INCLUDE	MC_Facet_Adjacency.hh	2;"	d
+MCT_FACET_GEOMETRY_3D_INCLUDE	MC_Facet_Geometry.hh	2;"	d
+MCT_Facet_Points_3D_G	MCT.cc	/^   void MCT_Facet_Points_3D_G(const MC_Domain    &domain,               \/\/ input$/;"	f	namespace:__anon5
+MCT_Generate_Coordinate_3D_G	MCT.cc	/^void MCT_Generate_Coordinate_3D_G(uint64_t *random_number_seed,$/;"	f
+MCT_HH	MCT.hh	2;"	d
+MCT_NEAREST_FACET_INCLUDE	MC_Nearest_Facet.hh	2;"	d
+MCT_Nearest_Facet	MCT.cc	/^MC_Nearest_Facet MCT_Nearest_Facet(MC_Particle *mc_particle,$/;"	f
+MCT_Nearest_Facet_3D_G	MCT.cc	/^   MC_Nearest_Facet MCT_Nearest_Facet_3D_G($/;"	f	namespace:__anon9
+MCT_Nearest_Facet_3D_G_Distance_To_Segment	MCT.cc	/^   double MCT_Nearest_Facet_3D_G_Distance_To_Segment(double plane_tolerance,$/;"	f	namespace:__anon6
+MCT_Nearest_Facet_3D_G_Move_Particle	MCT.cc	/^   void MCT_Nearest_Facet_3D_G_Move_Particle(MC_Domain &domain, \/\/ input: domain$/;"	f	namespace:__anon11
+MCT_Nearest_Facet_Find_Nearest	MCT.cc	/^   MC_Nearest_Facet MCT_Nearest_Facet_Find_Nearest(MC_Particle *mc_particle,$/;"	f	namespace:__anon8
+MCT_Nearest_Facet_Find_Nearest	MCT.cc	/^   MC_Nearest_Facet MCT_Nearest_Facet_Find_Nearest(int num_facets_per_cell,$/;"	f	namespace:__anon7
+MCT_Reflect_Particle	MCT.cc	/^void MCT_Reflect_Particle(MonteCarlo *monteCarlo, MC_Particle &particle)$/;"	f
+MC_BASE_PARTICLE	MC_Base_Particle.hh	2;"	d
+MC_BYTE_ALIGNMENT	utils.cc	116;"	d	file:
+MC_Base_Particle	MC_Base_Particle.hh	/^class MC_Base_Particle$/;"	c
+MC_Base_Particle	MC_Base_Particle.hh	/^inline MC_Base_Particle::MC_Base_Particle( ) :$/;"	f	class:MC_Base_Particle
+MC_Base_Particle	MC_Base_Particle.hh	/^inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)$/;"	f	class:MC_Base_Particle
+MC_Base_Particle	MC_Base_Particle.hh	/^inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)$/;"	f	class:MC_Base_Particle
+MC_CALLOC	macros.hh	7;"	d
+MC_CELL_STATE_INCLUDE	MC_Cell_State.hh	2;"	d
+MC_Cell_State	MC_Cell_State.hh	/^class MC_Cell_State$/;"	c
+MC_Cell_State	MC_Cell_State.hh	/^inline MC_Cell_State::MC_Cell_State()$/;"	f	class:MC_Cell_State
+MC_Char8_To_Long	MC_Base_Particle.cc	/^void MC_Char8_To_Long(uint64_t *long_out, char char_in[8])$/;"	f
+MC_Collision_Event_Return	MC_Segment_Outcome.hh	/^struct MC_Collision_Event_Return$/;"	s
+MC_DELETE	macros.hh	12;"	d
+MC_DELETE_ARRAY	macros.hh	13;"	d
+MC_DOMAIN_INCLUDE	MC_Domain.hh	2;"	d
+MC_Data_Member_Operation	MC_Base_Particle.hh	/^struct MC_Data_Member_Operation$/;"	s
+MC_Distance_To_Facet	MC_Distance_To_Facet.hh	/^    MC_Distance_To_Facet(): distance(0.0), facet(0), subfacet(0) {}$/;"	f	class:MC_Distance_To_Facet
+MC_Distance_To_Facet	MC_Distance_To_Facet.hh	/^class MC_Distance_To_Facet$/;"	c
+MC_Domain	MC_Domain.cc	/^MC_Domain::MC_Domain(const MeshPartition& meshPartition, const GlobalFccGrid& grid,$/;"	f	class:MC_Domain
+MC_Domain	MC_Domain.hh	/^    MC_Domain(){};$/;"	f	class:MC_Domain
+MC_Domain	MC_Domain.hh	/^class MC_Domain$/;"	c
+MC_FABS	macros.hh	15;"	d
+MC_FACET_CROSSING_EVENT_HH	MC_Facet_Crossing_Event.hh	2;"	d
+MC_FASTTIMER_GET_LASTCYCLE	MC_Fast_Timer.hh	108;"	d
+MC_FASTTIMER_GET_LASTCYCLE	MC_Fast_Timer.hh	66;"	d
+MC_FASTTIMER_GET_LASTCYCLE	MC_Fast_Timer.hh	87;"	d
+MC_FASTTIMER_START	MC_Fast_Timer.hh	64;"	d
+MC_FASTTIMER_START	MC_Fast_Timer.hh	72;"	d
+MC_FASTTIMER_START	MC_Fast_Timer.hh	91;"	d
+MC_FASTTIMER_STOP	MC_Fast_Timer.hh	65;"	d
+MC_FASTTIMER_STOP	MC_Fast_Timer.hh	77;"	d
+MC_FASTTIMER_STOP	MC_Fast_Timer.hh	96;"	d
+MC_FAST_TIMER_INCLUDE	MC_Fast_Timer.hh	2;"	d
+MC_FREE	macros.hh	11;"	d
+MC_Facet_Adjacency	MC_Facet_Adjacency.hh	/^   MC_Facet_Adjacency() : subfacet(), num_points(3) {point[0] = point[1] = point[2] = -1;}$/;"	f	class:MC_Facet_Adjacency
+MC_Facet_Adjacency	MC_Facet_Adjacency.hh	/^class MC_Facet_Adjacency$/;"	c
+MC_Facet_Adjacency_Cell	MC_Facet_Adjacency.hh	/^   MC_Facet_Adjacency_Cell() : num_facets(24), _facet(0), num_points(14), _point(0) {}$/;"	f	class:MC_Facet_Adjacency_Cell
+MC_Facet_Adjacency_Cell	MC_Facet_Adjacency.hh	/^class MC_Facet_Adjacency_Cell$/;"	c
+MC_Facet_Crossing_Event	MC_Facet_Crossing_Event.cc	/^MC_Tally_Event::Enum MC_Facet_Crossing_Event(MC_Particle &mc_particle, MonteCarlo* monteCarlo, int particle_index, ParticleVault* processingVault)$/;"	f
+MC_Facet_Geometry_Cell	MC_Facet_Geometry.hh	/^class MC_Facet_Geometry_Cell$/;"	c
+MC_Fast_Timer	MC_Fast_Timer.hh	/^  MC_Fast_Timer() : numCalls(0), startClock(), stopClock(), lastCycleClock(0), cumulativeClock(0)  {} ; \/\/ consturctor$/;"	f	class:MC_Fast_Timer
+MC_Fast_Timer	MC_Fast_Timer.hh	/^class MC_Fast_Timer$/;"	c
+MC_Fast_Timer_Container	MC_Fast_Timer.hh	/^    MC_Fast_Timer_Container() {} ; \/\/ constructor$/;"	f	class:MC_Fast_Timer_Container
+MC_Fast_Timer_Container	MC_Fast_Timer.hh	/^class MC_Fast_Timer_Container$/;"	c
+MC_Fatal_Jump	macros.hh	18;"	d
+MC_Find_Min	MC_Segment_Outcome.cc	/^static inline unsigned int MC_Find_Min(const double *array,$/;"	f	file:
+MC_General_Plane	MC_Facet_Geometry.hh	/^   MC_General_Plane(){};$/;"	f	class:MC_General_Plane
+MC_General_Plane	MC_Facet_Geometry.hh	/^   MC_General_Plane(const MC_Vector& r0, const MC_Vector& r1, const MC_Vector& r2)$/;"	f	class:MC_General_Plane
+MC_General_Plane	MC_Facet_Geometry.hh	/^class MC_General_Plane$/;"	c
+MC_LOCATION_INCLUDE	MC_Location.hh	2;"	d
+MC_Load_Particle	MC_Load_Particle.cc	/^void MC_Load_Particle(MonteCarlo *monteCarlo, MC_Particle &mc_particle, ParticleVault *particleVault, int particle_index)$/;"	f
+MC_Location	MC_Location.hh	/^   MC_Location()$/;"	f	class:MC_Location
+MC_Location	MC_Location.hh	/^   MC_Location(int adomain, int acell, int afacet)$/;"	f	class:MC_Location
+MC_Location	MC_Location.hh	/^class MC_Location$/;"	c
+MC_Long_To_Char8	MC_Base_Particle.cc	/^void MC_Long_To_Char8(const uint64_t *long_in,$/;"	f
+MC_MALLOC	macros.hh	8;"	d
+MC_MEMCPY	macros.hh	14;"	d
+MC_MIN	macros.hh	21;"	d
+MC_MPI_Send_Mode	MC_Particle_Buffer.hh	/^struct MC_MPI_Send_Mode$/;"	s
+MC_Mesh_Domain	MC_Domain.cc	/^MC_Mesh_Domain::MC_Mesh_Domain(const MeshPartition& meshPartition, const GlobalFccGrid& grid,$/;"	f	class:MC_Mesh_Domain
+MC_Mesh_Domain	MC_Domain.hh	/^   MC_Mesh_Domain(){};$/;"	f	class:MC_Mesh_Domain
+MC_Mesh_Domain	MC_Domain.hh	/^class MC_Mesh_Domain$/;"	c
+MC_NEW_ARRAY	macros.hh	9;"	d
+MC_Nearest_Facet	MC_Nearest_Facet.hh	/^   MC_Nearest_Facet()$/;"	f	class:MC_Nearest_Facet
+MC_Nearest_Facet	MC_Nearest_Facet.hh	/^class MC_Nearest_Facet$/;"	c
+MC_New_Test_Done_Method	MC_Particle_Buffer.hh	/^struct MC_New_Test_Done_Method$/;"	s
+MC_PARTICLE_BUFFER_INCLUDE	MC_Particle_Buffer.hh	2;"	d
+MC_PARTICLE_INCLUDE	MC_Particle.hh	2;"	d
+MC_PROCESSOR_INFO_HH	MC_Processor_Info.hh	2;"	d
+MC_Particle	MC_Base_Particle.hh	/^inline MC_Particle::MC_Particle( const MC_Base_Particle &from_particle )$/;"	f	class:MC_Particle
+MC_Particle	MC_Base_Particle.hh	/^inline MC_Particle::MC_Particle()$/;"	f	class:MC_Particle
+MC_Particle	MC_Particle.hh	/^class MC_Particle$/;"	c
+MC_Particle_Buffer	MC_Particle_Buffer.cc	/^MC_Particle_Buffer::MC_Particle_Buffer(MonteCarlo *mcco_, size_t bufferSize_)$/;"	f	class:MC_Particle_Buffer
+MC_Particle_Buffer	MC_Particle_Buffer.hh	/^class MC_Particle_Buffer$/;"	c
+MC_Processor_Info	MC_Processor_Info.hh	/^    MC_Processor_Info()$/;"	f	class:MC_Processor_Info
+MC_Processor_Info	MC_Processor_Info.hh	/^class MC_Processor_Info$/;"	c
+MC_REALLOC	macros.hh	10;"	d
+MC_RNG_STATE_INCLUDE	MC_RNG_State.hh	2;"	d
+MC_SEGMENT_OUTCOME_INCLUDE	MC_Segment_Outcome.hh	2;"	d
+MC_SOURCE_NOW_HH	MC_SourceNow.hh	2;"	d
+MC_STUBS_MPI_H	mpi_stubs.hh	2;"	d
+MC_Segment_Outcome	MC_Segment_Outcome.cc	/^MC_Segment_Outcome_type::Enum MC_Segment_Outcome(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int &flux_tally_index)$/;"	f
+MC_Segment_Outcome_type	MC_Segment_Outcome.hh	/^struct MC_Segment_Outcome_type$/;"	s
+MC_SourceNow	MC_SourceNow.cc	/^void MC_SourceNow(MonteCarlo *monteCarlo)$/;"	f
+MC_String	utils.cc	/^std::string MC_String(const char fmt[], ...)$/;"	f
+MC_Subfacet_Adjacency_Event	MC_Facet_Adjacency.hh	/^struct MC_Subfacet_Adjacency_Event$/;"	s
+MC_TIME_INFO_INCLUDE	MC_Time_Info.hh	2;"	d
+MC_Tag_Particle_Buffer	MC_Particle_Buffer.cc	/^static const int MC_Tag_Particle_Buffer = 2300;$/;"	v	file:
+MC_Tally_Event	Tallies.hh	/^struct MC_Tally_Event$/;"	s
+MC_Time_Info	MC_Time_Info.hh	/^    MC_Time_Info() : cycle(0), initial_time(0.0), final_time(), time(0.0), time_step(1.0) {}$/;"	f	class:MC_Time_Info
+MC_Time_Info	MC_Time_Info.hh	/^class MC_Time_Info$/;"	c
+MC_VECTOR_INCLUDE	MC_Vector.hh	2;"	d
+MC_VERIFY_THREAD_ZERO	macros.hh	38;"	d
+MC_VERIFY_THREAD_ZERO	macros.hh	40;"	d
+MC_Vector	MC_Vector.hh	/^   MC_Vector() : x(0), y(0), z(0) {}$/;"	f	class:MC_Vector
+MC_Vector	MC_Vector.hh	/^   MC_Vector(double a, double b, double c) : x(a), y(b), z(c) {}$/;"	f	class:MC_Vector
+MC_Vector	MC_Vector.hh	/^class MC_Vector$/;"	c
+MC_Verify_Thread_Zero	utils.cc	/^void MC_Verify_Thread_Zero(char const * const file, int line)$/;"	f
+MC_Warning	utils.hh	12;"	d
+MEMORY_CONTROL_HH	MemoryControl.hh	2;"	d
+MEMUTILS_HH	memUtils.hh	5;"	d
+MESH_PARTITION_HH	MeshPartition.hh	2;"	d
+MONTECARLO_HH	MonteCarlo.hh	2;"	d
+MPIR_ERRORS_WARN	mpi_stubs.hh	148;"	d
+MPI_ANY_SOURCE	mpi_stubs.hh	74;"	d
+MPI_ANY_TAG	mpi_stubs.hh	76;"	d
+MPI_Aint	mpi_stubs_internal.hh	/^typedef uint64_t MPI_Aint;$/;"	t
+MPI_BOTTOM	mpi_stubs.hh	71;"	d
+MPI_BYTE	utilsMpi.hh	72;"	d
+MPI_CART	mpi_stubs.hh	67;"	d
+MPI_COMM_NULL	mpi_stubs.hh	133;"	d
+MPI_COMM_OBJECT_HH	MpiCommObject.hh	2;"	d
+MPI_COMM_SELF	mpi_stubs.hh	79;"	d
+MPI_COMM_WORLD	mpi_stubs.hh	78;"	d
+MPI_COMM_WORLD	utilsMpi.hh	85;"	d
+MPI_Comm	mpi_stubs.hh	/^typedef int MPI_Comm ;$/;"	t
+MPI_Comm	utilsMpi.hh	/^typedef int MPI_Comm ;$/;"	t
+MPI_Copy_function	mpi_stubs.hh	/^typedef int (MPI_Copy_function) ( MPI_Comm, int, void *, void *, void *, int * );$/;"	t
+MPI_DATATYPE_NULL	mpi_stubs.hh	135;"	d
+MPI_DOUBLE	utilsMpi.hh	74;"	d
+MPI_Datatype	mpi_stubs.hh	/^typedef int MPI_Datatype ;$/;"	t
+MPI_Datatype	utilsMpi.hh	/^typedef int MPI_Datatype ;$/;"	t
+MPI_Delete_function	mpi_stubs.hh	/^typedef int (MPI_Delete_function) ( MPI_Comm, int, void *, void * );$/;"	t
+MPI_ERRHANDLER_NULL	mpi_stubs.hh	137;"	d
+MPI_ERROR	utilsMpi.hh	/^    int MPI_ERROR ;$/;"	m	struct:__anon63
+MPI_ERRORS_ARE_FATAL	mpi_stubs.hh	146;"	d
+MPI_ERRORS_RETURN	mpi_stubs.hh	147;"	d
+MPI_ERR_ACCESS	mpi_stubs.hh	42;"	d
+MPI_ERR_AMODE	mpi_stubs.hh	43;"	d
+MPI_ERR_ARG	mpi_stubs.hh	30;"	d
+MPI_ERR_BAD_FILE	mpi_stubs.hh	44;"	d
+MPI_ERR_BUFFER	mpi_stubs.hh	18;"	d
+MPI_ERR_COMM	mpi_stubs.hh	22;"	d
+MPI_ERR_CONVERSION	mpi_stubs.hh	37;"	d
+MPI_ERR_COUNT	mpi_stubs.hh	19;"	d
+MPI_ERR_DIMS	mpi_stubs.hh	29;"	d
+MPI_ERR_DUP_DATAREP	mpi_stubs.hh	38;"	d
+MPI_ERR_FILE	mpi_stubs.hh	39;"	d
+MPI_ERR_FILE_EXISTS	mpi_stubs.hh	45;"	d
+MPI_ERR_FILE_IN_USE	mpi_stubs.hh	46;"	d
+MPI_ERR_GROUP	mpi_stubs.hh	25;"	d
+MPI_ERR_INFO	mpi_stubs.hh	40;"	d
+MPI_ERR_INFO_KEY	mpi_stubs.hh	41;"	d
+MPI_ERR_INFO_NOKEY	mpi_stubs.hh	49;"	d
+MPI_ERR_INFO_VALUE	mpi_stubs.hh	48;"	d
+MPI_ERR_INTERN	mpi_stubs.hh	34;"	d
+MPI_ERR_IN_STATUS	mpi_stubs.hh	35;"	d
+MPI_ERR_IO	mpi_stubs.hh	47;"	d
+MPI_ERR_LASTCODE	mpi_stubs.hh	63;"	d
+MPI_ERR_NAME	mpi_stubs.hh	50;"	d
+MPI_ERR_NOT_SAME	mpi_stubs.hh	52;"	d
+MPI_ERR_NO_MEM	mpi_stubs.hh	51;"	d
+MPI_ERR_NO_SPACE	mpi_stubs.hh	53;"	d
+MPI_ERR_NO_SUCH_FILE	mpi_stubs.hh	54;"	d
+MPI_ERR_OP	mpi_stubs.hh	26;"	d
+MPI_ERR_OTHER	mpi_stubs.hh	32;"	d
+MPI_ERR_PENDING	mpi_stubs.hh	36;"	d
+MPI_ERR_PORT	mpi_stubs.hh	55;"	d
+MPI_ERR_QUOTA	mpi_stubs.hh	56;"	d
+MPI_ERR_RANK	mpi_stubs.hh	23;"	d
+MPI_ERR_READ_ONLY	mpi_stubs.hh	57;"	d
+MPI_ERR_REQUEST	mpi_stubs.hh	27;"	d
+MPI_ERR_ROOT	mpi_stubs.hh	24;"	d
+MPI_ERR_SERVICE	mpi_stubs.hh	58;"	d
+MPI_ERR_SPAWN	mpi_stubs.hh	59;"	d
+MPI_ERR_TAG	mpi_stubs.hh	21;"	d
+MPI_ERR_TOPOLOGY	mpi_stubs.hh	28;"	d
+MPI_ERR_TRUNCATE	mpi_stubs.hh	31;"	d
+MPI_ERR_TYPE	mpi_stubs.hh	20;"	d
+MPI_ERR_UNKNOWN	mpi_stubs.hh	33;"	d
+MPI_ERR_UNSUPPORTED_DATAREP	mpi_stubs.hh	60;"	d
+MPI_ERR_UNSUPPORTED_OPERATION	mpi_stubs.hh	61;"	d
+MPI_ERR_WIN	mpi_stubs.hh	62;"	d
+MPI_Errhandler	mpi_stubs.hh	/^typedef int MPI_Errhandler;$/;"	t
+MPI_FAILURE	mpi_stubs.hh	17;"	d
+MPI_GRAPH	mpi_stubs.hh	66;"	d
+MPI_GROUP_EMPTY	mpi_stubs.hh	144;"	d
+MPI_GROUP_NULL	mpi_stubs.hh	138;"	d
+MPI_GROUP_ONE	mpi_stubs.hh	143;"	d
+MPI_Group	mpi_stubs.hh	/^typedef int MPI_Group ;$/;"	t
+MPI_INT	utilsMpi.hh	73;"	d
+MPI_INT64_T	utilsMpi.hh	17;"	d
+MPI_INT64_T	utilsMpi.hh	82;"	d
+MPI_LONG_LONG	utilsMpi.hh	75;"	d
+MPI_MAX	utilsMpi.hh	87;"	d
+MPI_MAX_ERROR_STRING	mpi_stubs.hh	129;"	d
+MPI_MAX_PROCESSOR_NAME	mpi_stubs.hh	130;"	d
+MPI_MIN	utilsMpi.hh	88;"	d
+MPI_OP_NULL	mpi_stubs.hh	134;"	d
+MPI_Op	mpi_stubs.hh	/^typedef int MPI_Op ;$/;"	t
+MPI_Op	utilsMpi.hh	/^typedef int MPI_Op ;$/;"	t
+MPI_PROC_NULL	mpi_stubs.hh	73;"	d
+MPI_REQUEST_NULL	mpi_stubs.hh	136;"	d
+MPI_REQUEST_NULL	utilsMpi.hh	78;"	d
+MPI_REQUEST_ONE	mpi_stubs.hh	140;"	d
+MPI_ROOT	mpi_stubs.hh	75;"	d
+MPI_Request	mpi_stubs.hh	/^typedef int MPI_Request ;$/;"	t
+MPI_Request	utilsMpi.hh	/^typedef int MPI_Request ;$/;"	t
+MPI_SOURCE	utilsMpi.hh	/^    int MPI_SOURCE ;$/;"	m	struct:__anon63
+MPI_STATUSES_IGNORE	utilsMpi.hh	80;"	d
+MPI_STATUS_IGNORE	utilsMpi.hh	79;"	d
+MPI_STATUS_SIZE	mpi_stubs.hh	81;"	d
+MPI_STUBS_BLOCK_ITEMS	mpi_stubs.hh	7;"	d
+MPI_STUBS_HANDLE	mpi_stubs.hh	10;"	d
+MPI_STUBS_HANDLE_TO_BLOCK	mpi_stubs.hh	8;"	d
+MPI_STUBS_HANDLE_TO_INDEX	mpi_stubs.hh	9;"	d
+MPI_STUBS_INTERNAL_H	mpi_stubs_internal.hh	10;"	d
+MPI_STUBS_MAX_BLOCKS	mpi_stubs.hh	6;"	d
+MPI_SUCCESS	mpi_stubs.hh	16;"	d
+MPI_SUM	utilsMpi.hh	89;"	d
+MPI_Status	utilsMpi.hh	/^} MPI_Status;$/;"	t	typeref:struct:__anon63
+MPI_Stubs_Data_struct	mpi_stubs_internal.hh	/^    MPI_Stubs_Data_struct()$/;"	f	struct:MPI_Stubs_Data_struct
+MPI_Stubs_Data_struct	mpi_stubs_internal.hh	/^typedef struct MPI_Stubs_Data_struct {$/;"	s
+MPI_Stubs_Data_type	mpi_stubs_internal.hh	/^} MPI_Stubs_Data_type;$/;"	t	typeref:struct:MPI_Stubs_Data_struct
+MPI_TAG	utilsMpi.hh	/^    int MPI_TAG ;$/;"	m	struct:__anon63
+MPI_THREAD_FUNNELED	mpi_stubs.hh	87;"	d
+MPI_THREAD_MULTIPLE	mpi_stubs.hh	89;"	d
+MPI_THREAD_SERIALIZED	mpi_stubs.hh	88;"	d
+MPI_THREAD_SINGLE	mpi_stubs.hh	86;"	d
+MPI_UINT64_T	utilsMpi.hh	21;"	d
+MPI_UINT64_T	utilsMpi.hh	83;"	d
+MPI_UNDEFINED	mpi_stubs.hh	69;"	d
+MPI_UNSIGNED_LONG_LONG	utilsMpi.hh	76;"	d
+MPI_User_function	mpi_stubs.hh	/^typedef void (MPI_User_function) ( void *, void *, int *, MPI_Datatype * );$/;"	t
+MapType	MeshPartition.hh	/^   typedef std::map<Long64, CellInfo> MapType;$/;"	t	class:MeshPartition
+Material	MaterialDatabase.hh	/^   Material()$/;"	f	class:Material
+Material	MaterialDatabase.hh	/^   Material(const std::string &name)$/;"	f	class:Material
+Material	MaterialDatabase.hh	/^   Material(const std::string &name, double mass)$/;"	f	class:Material
+Material	MaterialDatabase.hh	/^class Material$/;"	c
+MaterialDatabase	MaterialDatabase.hh	/^class MaterialDatabase$/;"	c
+MaterialParameters	Parameters.hh	/^   MaterialParameters()$/;"	f	struct:MaterialParameters
+MaterialParameters	Parameters.hh	/^struct MaterialParameters$/;"	s
+Max_Number	MC_Segment_Outcome.hh	/^        Max_Number                    = 3$/;"	e	enum:MC_Segment_Outcome_type::Enum
+MemoryControl	MemoryControl.hh	/^namespace MemoryControl$/;"	n
+MeshPartition	MeshPartition.cc	/^MeshPartition::MeshPartition(int domainGid, int domainIndex, int foreman)$/;"	f	class:MeshPartition
+MeshPartition	MeshPartition.hh	/^   MeshPartition(){};$/;"	f	class:MeshPartition
+MeshPartition	MeshPartition.hh	/^class MeshPartition$/;"	c
+MissingParticleTest	CoralBenchmark.cc	/^void MissingParticleTest( MonteCarlo *monteCarlo )$/;"	f
+MonteCarlo	MonteCarlo.cc	/^MonteCarlo::MonteCarlo(const Parameters& params)$/;"	f	class:MonteCarlo
+MonteCarlo	MonteCarlo.hh	/^class MonteCarlo$/;"	c
+Move_Particle	MC_Particle.hh	/^inline void MC_Particle::Move_Particle( const DirectionCosine &my_direction_cosine,$/;"	f	class:MC_Particle
+MpiCommObject	MpiCommObject.cc	/^MpiCommObject::MpiCommObject(const MPI_Comm& comm, const DecompositionObject& ddc)$/;"	f	class:MpiCommObject
+MpiCommObject	MpiCommObject.hh	/^class MpiCommObject : public CommObject$/;"	c
+MyOption	cmdLineParser.cc	/^} MyOption;$/;"	t	typeref:struct:MyOptionSt	file:
+MyOptionSt	cmdLineParser.cc	/^typedef struct MyOptionSt$/;"	s	file:
+NUCLEAR_DATA_HH	NuclearData.hh	2;"	d
+NVTX_RANGE_HH	NVTX_Range.hh	14;"	d
+NVTX_Range	NVTX_Range.hh	/^   NVTX_Range(const std::string& rangeName)$/;"	f	class:NVTX_Range
+NVTX_Range	NVTX_Range.hh	/^class NVTX_Range$/;"	c
+NonBlocking	MC_Particle_Buffer.hh	/^            NonBlocking$/;"	e	enum:MC_New_Test_Done_Method::Enum
+NuclearData	NuclearData.cc	/^NuclearData::NuclearData(int numGroups, double energyLow, double energyHigh) : _energies( numGroups+1,VAR_MEM)$/;"	f	class:NuclearData
+NuclearData	NuclearData.hh	/^class NuclearData$/;"	c
+NuclearDataIsotope	NuclearData.hh	/^   NuclearDataIsotope()$/;"	f	class:NuclearDataIsotope
+NuclearDataIsotope	NuclearData.hh	/^class NuclearDataIsotope$/;"	c
+NuclearDataReaction	NuclearData.cc	/^NuclearDataReaction::NuclearDataReaction($/;"	f	class:NuclearDataReaction
+NuclearDataReaction	NuclearData.hh	/^   NuclearDataReaction(){};$/;"	f	class:NuclearDataReaction
+NuclearDataReaction	NuclearData.hh	/^class NuclearDataReaction$/;"	c
+NuclearDataSpecies	NuclearData.hh	/^class NuclearDataSpecies$/;"	c
+Num_Timers	MC_Fast_Timer.hh	/^    Num_Timers$/;"	e	enum:MC_Fast_Timer::Enum
+Open	QS_Vector.hh	/^   void Open() { _isOpen = true;  }$/;"	f	class:qs_vector
+PARAMETERS_HH	Parameters.hh	5;"	d
+PARSE_UTILS_HH	parseUtils.hh	2;"	d
+PARTICLEVAULTCONTAINER_HH	ParticleVaultContainer.hh	2;"	d
+PARTICLEVAULT_HH	ParticleVault.hh	2;"	d
+PHYSICAL_CONSTANTS_HH	PhysicalConstants.hh	2;"	d
+POPULATION_CONTROL_HH	PopulationControl.hh	2;"	d
+PORTABILITY_HH	portability.hh	2;"	d
+PRINT_DEBUG	macros.hh	44;"	d
+PRINT_DEBUG	macros.hh	46;"	d
+Pack	MC_Base_Particle.hh	/^        Pack    = 1,$/;"	e	enum:MC_Data_Member_Operation::Enum
+Parameters	Parameters.hh	/^struct Parameters$/;"	s
+ParticleVault	ParticleVault.hh	/^class ParticleVault$/;"	c
+ParticleVaultContainer	ParticleVaultContainer.cc	/^ParticleVaultContainer( uint64_t vault_size, $/;"	f	class:ParticleVaultContainer
+ParticleVaultContainer	ParticleVaultContainer.hh	/^class ParticleVaultContainer$/;"	c
+PhysicalConstants	PhysicalConstants.hh	/^namespace PhysicalConstants$/;"	n
+Polynomial	NuclearData.hh	/^   Polynomial(double aa, double bb, double cc, double dd, double ee)$/;"	f	class:Polynomial
+Polynomial	NuclearData.hh	/^class Polynomial$/;"	c
+PopulationControl	PopulationControl.cc	/^void PopulationControl(MonteCarlo* monteCarlo, bool loadBalance)$/;"	f
+PopulationControlGuts	PopulationControl.cc	/^void PopulationControlGuts(const double splitRRFactor, uint64_t currentNumParticles, ParticleVaultContainer* my_particle_vault, Balance& taskBalance)$/;"	f	namespace:__anon43
+Post_Receive_Particle_Buffer	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Post_Receive_Particle_Buffer( size_t bufferSize_ )$/;"	f	class:MC_Particle_Buffer
+Print	Tallies.hh	/^    void Print()$/;"	f	class:Balance
+Print0	utils.cc	/^void Print0(const char *format, ...)$/;"	f
+PrintHeader	Tallies.hh	/^    void PrintHeader()$/;"	f	class:Balance
+PrintParticle	MC_Particle.hh	/^inline void MC_Particle::PrintParticle()$/;"	f	class:MC_Particle
+PrintSpectrum	EnergySpectrum.cc	/^void EnergySpectrum::PrintSpectrum(MonteCarlo* monteCarlo)$/;"	f	class:EnergySpectrum
+PrintSummary	Tallies.cc	/^void Tallies::PrintSummary(MonteCarlo *monteCarlo)$/;"	f	class:Tallies
+Print_Cumulative_Heading	MC_Fast_Timer.cc	/^void MC_Fast_Timer_Container::Print_Cumulative_Heading(int mpi_rank)$/;"	f	class:MC_Fast_Timer_Container
+Print_Last_Cycle_Heading	MC_Fast_Timer.cc	/^void MC_Fast_Timer_Container::Print_Last_Cycle_Heading(int mpi_rank)$/;"	f	class:MC_Fast_Timer_Container
+QS_VECTOR_HH	QS_Vector.hh	2;"	d
+Quicksilver_EXE	Makefile	/^Quicksilver_EXE=qs$/;"	m
+Receive_Particle_Buffers	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Receive_Particle_Buffers(uint64_t &fill_vault)$/;"	f	class:MC_Particle_Buffer
+Req	mpi_stubs_internal.hh	/^} Req;$/;"	t	typeref:struct:__anon56
+Reset	MC_Base_Particle.hh	/^        Reset   = 3$/;"	e	enum:MC_Data_Member_Operation::Enum
+Reset	Tallies.hh	/^    void Reset() $/;"	f	class:CellTallyTask
+Reset	Tallies.hh	/^   void Reset() $/;"	f	class:ScalarFluxTask
+Reset	Tallies.hh	/^   void Reset()$/;"	f	class:Balance
+Reset_Offsets	MC_Particle_Buffer.cc	/^void particle_buffer_base_type::Reset_Offsets()$/;"	f	class:particle_buffer_base_type
+Rotate3DVector	DirectionCosine.hh	/^inline void DirectionCosine::Rotate3DVector(double sin_Theta, double cos_Theta, double sin_Phi, double cos_Phi)$/;"	f	class:DirectionCosine
+RouletteLowWeightParticles	PopulationControl.cc	/^void RouletteLowWeightParticles(MonteCarlo* monteCarlo)$/;"	f
+Rsend	MC_Particle_Buffer.hh	/^    Rsend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+SENDQUEUE_HH	SendQueue.hh	2;"	d
+SHARED_MEMORY_COMM_OBJECT_HH	SharedMemoryCommObject.hh	2;"	d
+SHELL	Makefile	/^SHELL = \/bin\/bash$/;"	m
+SOURCES	Makefile	/^SOURCES= \\$/;"	m
+SPHERE	Parameters.hh	/^   enum Shape{UNDEFINED, BRICK, SPHERE};$/;"	e	enum:GeometryParameters::Shape
+Sample_Isotropic	DirectionCosine.cc	/^void DirectionCosine::Sample_Isotropic(uint64_t *seed)$/;"	f	class:DirectionCosine
+ScalarFluxCell	Tallies.hh	/^   ScalarFluxCell() : _group(0), _size(0) {}$/;"	f	class:ScalarFluxCell
+ScalarFluxCell	Tallies.hh	/^   ScalarFluxCell(double* storage, int size)$/;"	f	class:ScalarFluxCell
+ScalarFluxCell	Tallies.hh	/^class ScalarFluxCell$/;"	c
+ScalarFluxDomain	Tallies.hh	/^   ScalarFluxDomain() : _task() {}$/;"	f	class:ScalarFluxDomain
+ScalarFluxDomain	Tallies.hh	/^   ScalarFluxDomain(MC_Domain* domain, int numGroups, int flux_replications)$/;"	f	class:ScalarFluxDomain
+ScalarFluxDomain	Tallies.hh	/^class ScalarFluxDomain$/;"	c
+ScalarFluxSum	Tallies.cc	/^double Tallies::ScalarFluxSum(MonteCarlo *monteCarlo)$/;"	f	class:Tallies
+ScalarFluxTask	Tallies.hh	/^   ScalarFluxTask() : _cell() {}$/;"	f	class:ScalarFluxTask
+ScalarFluxTask	Tallies.hh	/^   ScalarFluxTask(MC_Domain* domain, int numGroups)$/;"	f	class:ScalarFluxTask
+ScalarFluxTask	Tallies.hh	/^class ScalarFluxTask$/;"	c
+Scatter	NuclearData.hh	/^      Scatter,$/;"	e	enum:NuclearDataReaction::Enum
+Send	MC_Particle_Buffer.hh	/^    Send,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+SendQueue	SendQueue.cc	/^SendQueue::SendQueue( size_t size )$/;"	f	class:SendQueue
+SendQueue	SendQueue.cc	/^SendQueue::SendQueue()$/;"	f	class:SendQueue
+SendQueue	SendQueue.hh	/^class SendQueue$/;"	c
+Send_Particle_Buffer	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Send_Particle_Buffer(int buffer)$/;"	f	class:MC_Particle_Buffer
+Send_Particle_Buffers	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Send_Particle_Buffers( )$/;"	f	class:MC_Particle_Buffer
+Serialize	MC_Base_Particle.cc	/^void MC_Base_Particle::Serialize(int *int_data, double *float_data, char *char_data, int &int_index, int &float_index,$/;"	f	class:MC_Base_Particle
+Shape	Parameters.hh	/^   enum Shape{UNDEFINED, BRICK, SPHERE};$/;"	g	struct:GeometryParameters
+SharedMemoryCommObject	SharedMemoryCommObject.cc	/^SharedMemoryCommObject::SharedMemoryCommObject(vector<MeshPartition>& meshPartition)$/;"	f	class:SharedMemoryCommObject
+SharedMemoryCommObject	SharedMemoryCommObject.hh	/^class SharedMemoryCommObject : public CommObject$/;"	c
+SimulationParameters	Parameters.hh	/^   SimulationParameters()$/;"	f	struct:SimulationParameters
+SimulationParameters	Parameters.hh	/^struct SimulationParameters$/;"	s
+Ssend	MC_Particle_Buffer.hh	/^    Ssend,$/;"	e	enum:MC_MPI_Send_Mode::Enum
+Stop_Tracking	MC_Segment_Outcome.hh	/^        Stop_Tracking     = 0,$/;"	e	enum:MC_Collision_Event_Return::Enum
+Subfacet_Adjacency	MC_Facet_Adjacency.hh	/^   Subfacet_Adjacency()$/;"	f	class:Subfacet_Adjacency
+Subfacet_Adjacency	MC_Facet_Adjacency.hh	/^class Subfacet_Adjacency$/;"	c
+SumTasks	Tallies.cc	/^void Tallies::SumTasks(void)$/;"	f	class:Tallies
+TALLIES_HH	Tallies.hh	2;"	d
+TUPLE4_HH	Tuple4.hh	2;"	d
+TUPLE4_TO_INDEX_HH	Tuple4ToIndex.hh	2;"	d
+TUPLE_HH	Tuple.hh	2;"	d
+TUPLE_TO_INDEX_HH	TupleToIndex.hh	2;"	d
+Tallies	Tallies.hh	/^    Tallies( int balRep, int fluxRep, int cellRep, std::string spectrumName, int spectrumSize )$/;"	f	class:Tallies
+Tallies	Tallies.hh	/^class Tallies$/;"	c
+TallyCellValue	Tallies.hh	/^    void TallyCellValue(double value, int domain, int task, int cell)$/;"	f	class:Tallies
+TallyScalarFlux	Tallies.hh	/^    void TallyScalarFlux(double value, int domain, int task, int cell, int group)$/;"	f	class:Tallies
+Test_Done_New	MC_Particle_Buffer.cc	/^bool MC_Particle_Buffer::Test_Done_New( MC_New_Test_Done_Method::Enum test_done_method )$/;"	f	class:MC_Particle_Buffer
+ThreadBlockLayout	cudaFunctions.cc	/^int ThreadBlockLayout( dim3 &grid, dim3 &block, int num_particles )$/;"	f
+Transit_Off_Processor	MC_Facet_Adjacency.hh	/^      Transit_Off_Processor$/;"	e	enum:MC_Subfacet_Adjacency_Event::Enum
+Transit_On_Processor	MC_Facet_Adjacency.hh	/^      Transit_On_Processor,$/;"	e	enum:MC_Subfacet_Adjacency_Event::Enum
+Trivially_Done	MC_Particle_Buffer.cc	/^bool MC_Particle_Buffer::Trivially_Done()$/;"	f	class:MC_Particle_Buffer
+Tuple	Tuple.hh	/^     Tuple(){};$/;"	f	class:Tuple
+Tuple	Tuple.hh	/^   Tuple(int ix, int iy, int iz) : ix_(ix), iy_(iy), iz_(iz){}$/;"	f	class:Tuple
+Tuple	Tuple.hh	/^class Tuple$/;"	c
+Tuple4	Tuple4.hh	/^   Tuple4(){};$/;"	f	class:Tuple4
+Tuple4	Tuple4.hh	/^   Tuple4(int ix, int iy, int iz, int ib) : ix_(ix), iy_(iy), iz_(iz), ib_(ib){}$/;"	f	class:Tuple4
+Tuple4	Tuple4.hh	/^class Tuple4$/;"	c
+Tuple4ToIndex	Tuple4ToIndex.hh	/^class Tuple4ToIndex$/;"	c
+Tuple4ToIndex	Tuple4ToIndex.hh	/^inline Tuple4ToIndex::Tuple4ToIndex(int nx, int ny, int nz, int nb)$/;"	f	class:Tuple4ToIndex
+TupleToIndex	TupleToIndex.hh	/^class TupleToIndex$/;"	c
+TupleToIndex	TupleToIndex.hh	/^inline TupleToIndex::TupleToIndex(int nx, int ny, int nz)$/;"	f	class:TupleToIndex
+UNDEFINED	Parameters.hh	/^   enum Shape{UNDEFINED, BRICK, SPHERE};$/;"	e	enum:GeometryParameters::Shape
+UNDEFINED_POLICY	MemoryControl.hh	/^   enum AllocationPolicy {HOST_MEM, UVM_MEM, UNDEFINED_POLICY};$/;"	e	enum:MemoryControl::AllocationPolicy
+USE_OPENMP_ATOMICS	AtomicMacro.hh	6;"	d
+USE_OPENMP_ATOMICS	AtomicMacro.hh	8;"	d
+UTILS_HH	utils.hh	2;"	d
+UTILS_MPI_HH	utilsMpi.hh	2;"	d
+UVM_MEM	MemoryControl.hh	/^   enum AllocationPolicy {HOST_MEM, UVM_MEM, UNDEFINED_POLICY};$/;"	e	enum:MemoryControl::AllocationPolicy
+Undefined	NuclearData.hh	/^      Undefined = 0,$/;"	e	enum:NuclearDataReaction::Enum
+Unpack	MC_Base_Particle.hh	/^        Unpack  = 2,$/;"	e	enum:MC_Data_Member_Operation::Enum
+Unpack_Particle_Buffer	MC_Particle_Buffer.cc	/^void MC_Particle_Buffer::Unpack_Particle_Buffer(int buffer_index, uint64_t &fill_vault)$/;"	f	class:MC_Particle_Buffer
+UpdateSpectrum	EnergySpectrum.cc	/^void EnergySpectrum::UpdateSpectrum(MonteCarlo* monteCarlo)$/;"	f	class:EnergySpectrum
+Update_Counts	MC_Base_Particle.cc	/^void MC_Base_Particle::Update_Counts()$/;"	f	class:MC_Base_Particle
+VAR_MEM	cudaUtils.hh	12;"	d
+VAR_MEM	cudaUtils.hh	14;"	d
+VAR_MEM	cudaUtils.hh	18;"	d
+VAR_MEM	cudaUtils.hh	21;"	d
+WarmUpKernel	cudaFunctions.cc	/^    __global__ void WarmUpKernel()$/;"	f	namespace:__anon44
+Zero_Out	MC_Particle_Buffer.cc	/^void mcp_test_done_class::Zero_Out()$/;"	f	class:mcp_test_done_class
+_Handleitem	mpi_stubs_internal.hh	/^typedef struct _Handleitem$/;"	s
+_List	mpi_stubs_internal.hh	/^typedef struct _List$/;"	s
+_Listitem	mpi_stubs_internal.hh	/^typedef struct _Listitem$/;"	s
+_aa	NuclearData.hh	/^   double _aa, _bb, _cc, _dd, _ee;$/;"	m	class:Polynomial
+_absorb	Tallies.hh	/^   uint64_cu _absorb;      \/\/ Number of particles absorbed$/;"	m	class:Balance
+_assignedGids	DecompositionObject.hh	/^   std::vector<int> _assignedGids;$/;"	m	class:DecompositionObject
+_atomFraction	MaterialDatabase.hh	/^   double _atomFraction;$/;"	m	class:Isotope
+_balanceCumulative	Tallies.hh	/^    Balance                     _balanceCumulative;$/;"	m	class:Tallies
+_balanceTask	Tallies.hh	/^    qs_vector<Balance>          _balanceTask;$/;"	m	class:Tallies
+_bb	NuclearData.hh	/^   double _aa, _bb, _cc, _dd, _ee;$/;"	m	class:Polynomial
+_blockName	InputBlock.hh	/^   std::string                        _blockName;$/;"	m	class:InputBlock
+_bulkStorage	BulkStorage.hh	/^   T* _bulkStorage;$/;"	m	class:BulkStorage
+_burned	GridAssignmentObject.hh	/^      bool _burned;$/;"	m	struct:GridAssignmentObject::GridCell
+_cachedCrossSectionStorage	MC_Domain.hh	/^   BulkStorage<double> _cachedCrossSectionStorage;$/;"	m	class:MC_Domain
+_capacity	BulkStorage.hh	/^   int _capacity;$/;"	m	class:BulkStorage
+_capacity	QS_Vector.hh	/^   int _capacity;$/;"	m	class:qs_vector
+_cc	NuclearData.hh	/^   double _aa, _bb, _cc, _dd, _ee;$/;"	m	class:Polynomial
+_cell	Tallies.hh	/^    qs_vector<double> _cell;$/;"	m	class:CellTallyTask
+_cell	Tallies.hh	/^    std::vector<double> _cell;$/;"	m	class:FluenceDomain
+_cell	Tallies.hh	/^   qs_vector<ScalarFluxCell> _cell;$/;"	m	class:ScalarFluxTask
+_cellConnectivity	MC_Domain.hh	/^   qs_vector<MC_Facet_Adjacency_Cell> _cellConnectivity;$/;"	m	class:MC_Mesh_Domain
+_cellGeometry	MC_Domain.hh	/^   qs_vector<MC_Facet_Geometry_Cell> _cellGeometry;$/;"	m	class:MC_Mesh_Domain
+_cellIndex	MeshPartition.hh	/^   int _cellIndex;$/;"	m	struct:CellInfo
+_cellIndex1	FacetPair.hh	/^   int _cellIndex1;$/;"	m	class:FacetPair
+_cellIndex2	FacetPair.hh	/^   int _cellIndex2;$/;"	m	class:FacetPair
+_cellIndexToTuple	GlobalFccGrid.hh	/^   IndexToTuple  _cellIndexToTuple;$/;"	m	class:GlobalFccGrid
+_cellInfo	MC_Domain.cc	/^      CellInfo _cellInfo;$/;"	m	struct:__anon12::FaceInfo	file:
+_cellInfoMap	MeshPartition.hh	/^   MapType _cellInfoMap;$/;"	m	class:MeshPartition
+_cellNumberDensity	MC_Cell_State.hh	/^   double  _cellNumberDensity;         \/\/ number density of ions in cel$/;"	m	class:MC_Cell_State
+_cellTallyDomain	Tallies.hh	/^    qs_vector<CellTallyDomain>  _cellTallyDomain;$/;"	m	class:Tallies
+_cellTupleToIndex	GlobalFccGrid.hh	/^   TupleToIndex  _cellTupleToIndex;$/;"	m	class:GlobalFccGrid
+_census	Tallies.hh	/^   uint64_cu _census;      \/\/ Number of particles that enter census$/;"	m	class:Balance
+_censusEnergySpectrum	EnergySpectrum.hh	/^        std::vector<uint64_t> _censusEnergySpectrum;$/;"	m	class:EnergySpectrum
+_centers	GridAssignmentObject.hh	/^   const std::vector<MC_Vector>& _centers;$/;"	m	class:GridAssignmentObject
+_collision	Tallies.hh	/^   uint64_cu _collision;   \/\/ Number of collosions$/;"	m	class:Balance
+_comm	MpiCommObject.hh	/^   MPI_Comm _comm;$/;"	m	class:MpiCommObject
+_connectivityFacetStorage	MC_Domain.hh	/^   BulkStorage<MC_Facet_Adjacency> _connectivityFacetStorage;$/;"	m	class:MC_Mesh_Domain
+_connectivityPointStorage	MC_Domain.hh	/^   BulkStorage<int> _connectivityPointStorage;$/;"	m	class:MC_Mesh_Domain
+_corner	GridAssignmentObject.hh	/^   MC_Vector _corner;$/;"	m	class:GridAssignmentObject
+_crossSection	NuclearData.hh	/^   qs_vector<double> _crossSection; \/\/!< tabular data for microscopic cross section$/;"	m	class:NuclearDataReaction
+_data	QS_Vector.hh	/^   T* _data;$/;"	m	class:qs_vector
+_data	SendQueue.hh	/^    qs_vector<sendQueueTuple> _data;$/;"	m	class:SendQueue
+_dd	NuclearData.hh	/^   double _aa, _bb, _cc, _dd, _ee;$/;"	m	class:Polynomial
+_ddc	MpiCommObject.hh	/^   DecompositionObject _ddc;$/;"	m	class:MpiCommObject
+_domain	Tallies.hh	/^    std::vector<FluenceDomain*> _domain;$/;"	m	class:Fluence
+_domainGid	MC_Domain.hh	/^   int _domainGid; \/\/dfr: Might be able to delete this later.$/;"	m	class:MC_Mesh_Domain
+_domainGid	MeshPartition.hh	/^   int _domainGid;   \/\/!< gid of this domain$/;"	m	class:MeshPartition
+_domainGid	MeshPartition.hh	/^   int _domainGid;$/;"	m	struct:CellInfo
+_domainGid1	FacetPair.hh	/^   int _domainGid1;$/;"	m	class:FacetPair
+_domainGid2	FacetPair.hh	/^   int _domainGid2;$/;"	m	class:FacetPair
+_domainIndex	MeshPartition.hh	/^   int _domainIndex; \/\/!< local index of this domain$/;"	m	class:MeshPartition
+_domainIndex	MeshPartition.hh	/^   int _domainIndex;$/;"	m	struct:CellInfo
+_domainIndex1	FacetPair.hh	/^   int _domainIndex1;$/;"	m	class:FacetPair
+_domainIndex2	FacetPair.hh	/^   int _domainIndex2;$/;"	m	class:FacetPair
+_dx	GlobalFccGrid.hh	/^   double _dx, _dy, _dz;  \/\/ size of a mesh cell (in cm)$/;"	m	class:GlobalFccGrid
+_dx	GridAssignmentObject.hh	/^   double _dx, _dy, _dz;$/;"	m	class:GridAssignmentObject
+_dy	GlobalFccGrid.hh	/^   double _dx, _dy, _dz;  \/\/ size of a mesh cell (in cm)$/;"	m	class:GlobalFccGrid
+_dy	GridAssignmentObject.hh	/^   double _dx, _dy, _dz;$/;"	m	class:GridAssignmentObject
+_dz	GlobalFccGrid.hh	/^   double _dx, _dy, _dz;  \/\/ size of a mesh cell (in cm)$/;"	m	class:GlobalFccGrid
+_dz	GridAssignmentObject.hh	/^   double _dx, _dy, _dz;$/;"	m	class:GridAssignmentObject
+_ee	NuclearData.hh	/^   double _aa, _bb, _cc, _dd, _ee;$/;"	m	class:Polynomial
+_end	Tallies.hh	/^   uint64_cu _end;         \/\/ Number of particles at end of cycle$/;"	m	class:Balance
+_energies	NuclearData.hh	/^   qs_vector<double> _energies;$/;"	m	class:NuclearData
+_escape	Tallies.hh	/^   uint64_cu _escape;      \/\/ Number of particles that escape$/;"	m	class:Balance
+_event	MC_Domain.cc	/^      MC_Subfacet_Adjacency_Event::Enum _event;$/;"	m	struct:__anon12::FaceInfo	file:
+_extraVault	ParticleVaultContainer.hh	/^    qs_vector<ParticleVault*>   _extraVault;$/;"	m	class:ParticleVaultContainer
+_extraVaultIndex	ParticleVaultContainer.hh	/^    uint64_cu _extraVaultIndex;$/;"	m	class:ParticleVaultContainer
+_facet	MC_Facet_Adjacency.hh	/^   MC_Facet_Adjacency*  _facet;$/;"	m	class:MC_Facet_Adjacency_Cell
+_facet	MC_Facet_Geometry.hh	/^   MC_General_Plane* _facet;$/;"	m	class:MC_Facet_Geometry_Cell
+_facetIndex1	FacetPair.hh	/^   int _facetIndex1;$/;"	m	class:FacetPair
+_facetIndex2	FacetPair.hh	/^   int _facetIndex2;$/;"	m	class:FacetPair
+_fileName	EnergySpectrum.hh	/^        std::string _fileName;$/;"	m	class:EnergySpectrum
+_fission	Tallies.hh	/^   uint64_cu _fission;     \/\/ Number of fission events$/;"	m	class:Balance
+_floodQueue	GridAssignmentObject.hh	/^   std::queue<int> _floodQueue;$/;"	m	class:GridAssignmentObject
+_fluence	Tallies.hh	/^    Fluence                     _fluence;$/;"	m	class:Tallies
+_foreman	MeshPartition.hh	/^   int _foreman;$/;"	m	class:MeshPartition
+_foreman	MeshPartition.hh	/^   int _foreman;$/;"	m	struct:CellInfo
+_geomFacetStorage	MC_Domain.hh	/^   BulkStorage<MC_General_Plane> _geomFacetStorage;$/;"	m	class:MC_Mesh_Domain
+_gid	MaterialDatabase.hh	/^   int _gid; \/\/!< index into NuclearData$/;"	m	class:Isotope
+_gidToIndex	SharedMemoryCommObject.hh	/^   std::vector<int> _gidToIndex;$/;"	m	class:SharedMemoryCommObject
+_grid	GridAssignmentObject.hh	/^   std::vector<GridCell> _grid;$/;"	m	class:GridAssignmentObject
+_group	Tallies.hh	/^   double* _group;$/;"	m	class:ScalarFluxCell
+_hugeDouble	PhysicalConstants.cc	/^const double PhysicalConstants::_hugeDouble           = 1.0e+75;$/;"	m	class:PhysicalConstants	file:
+_hugeDouble	PhysicalConstants.hh	/^ const double _hugeDouble           = 1.0e+75;$/;"	m	namespace:PhysicalConstants
+_id	MC_Cell_State.hh	/^   uint64_t _id;$/;"	m	class:MC_Cell_State
+_index	DecompositionObject.hh	/^   std::vector<int> _index; \/\/ index for given gid$/;"	m	class:DecompositionObject
+_isOpen	NVTX_Range.hh	/^   bool _isOpen;$/;"	m	class:NVTX_Range
+_isOpen	QS_Vector.hh	/^   bool _isOpen;$/;"	m	class:qs_vector
+_iso	MaterialDatabase.hh	/^   qs_vector<Isotope> _iso;$/;"	m	class:Material
+_isotopes	NuclearData.hh	/^   qs_vector<NuclearDataIsotope> _isotopes;$/;"	m	class:NuclearData
+_kvPair	InputBlock.hh	/^   std::map<std::string, std::string> _kvPair;$/;"	m	class:InputBlock
+_lx	GlobalFccGrid.hh	/^   double _lx, _ly, _lz;  \/\/ size of problem space (in cm)$/;"	m	class:GlobalFccGrid
+_ly	GlobalFccGrid.hh	/^   double _lx, _ly, _lz;  \/\/ size of problem space (in cm)$/;"	m	class:GlobalFccGrid
+_lz	GlobalFccGrid.hh	/^   double _lx, _ly, _lz;  \/\/ size of problem space (in cm)$/;"	m	class:GlobalFccGrid
+_mass	MaterialDatabase.hh	/^   double _mass;$/;"	m	class:Material
+_mat	MaterialDatabase.hh	/^   qs_vector<Material> _mat;$/;"	m	class:MaterialDatabase
+_material	MC_Cell_State.hh	/^   int _material; \/\/ gid of material$/;"	m	class:MC_Cell_State
+_materialDatabase	MonteCarlo.hh	/^    MaterialDatabase* _materialDatabase;$/;"	m	class:MonteCarlo
+_memPolicy	BulkStorage.hh	/^   MemoryControl::AllocationPolicy _memPolicy;$/;"	m	class:BulkStorage
+_memPolicy	QS_Vector.hh	/^   MemoryControl::AllocationPolicy _memPolicy;$/;"	m	class:qs_vector
+_myCenters	GridAssignmentObject.hh	/^      std::vector<int> _myCenters;$/;"	m	struct:GridAssignmentObject::GridCell
+_name	MaterialDatabase.hh	/^   std::string _name;$/;"	m	class:Material
+_nbrDomainGid	MC_Domain.hh	/^   qs_vector<int> _nbrDomainGid;$/;"	m	class:MC_Mesh_Domain
+_nbrDomains	MeshPartition.hh	/^   std::vector<int> _nbrDomains; \/\/<! gids of nbr domains$/;"	m	class:MeshPartition
+_nbrIndex	MC_Domain.cc	/^      int _nbrIndex;$/;"	m	struct:__anon12::FaceInfo	file:
+_nbrRank	MC_Domain.hh	/^   qs_vector<int> _nbrRank;$/;"	m	class:MC_Mesh_Domain
+_neighbor	SendQueue.hh	/^    int _neighbor;$/;"	m	struct:sendQueueTuple
+_neutronRestMassEnergy	PhysicalConstants.cc	/^const double PhysicalConstants::_neutronRestMassEnergy = 9.395656981095e+2; \/* MeV *\/$/;"	m	class:PhysicalConstants	file:
+_neutronRestMassEnergy	PhysicalConstants.hh	/^const double _neutronRestMassEnergy = 9.395656981095e+2; \/* MeV *\/$/;"	m	namespace:PhysicalConstants
+_node	MC_Domain.hh	/^   qs_vector<MC_Vector> _node;$/;"	m	class:MC_Mesh_Domain
+_nodeIndexToTuple	GlobalFccGrid.hh	/^   IndexToTuple4 _nodeIndexToTuple;$/;"	m	class:GlobalFccGrid
+_nodeTupleToIndex	GlobalFccGrid.hh	/^   Tuple4ToIndex _nodeTupleToIndex;$/;"	m	class:GlobalFccGrid
+_nuBar	NuclearData.hh	/^   double _nuBar;                     \/\/!< If this is a fission, specify the nu bar$/;"	m	class:NuclearDataReaction
+_nuclearData	MonteCarlo.hh	/^    NuclearData* _nuclearData;$/;"	m	class:MonteCarlo
+_numEnergyGroups	NuclearData.hh	/^   int _numEnergyGroups;$/;"	m	class:NuclearData
+_numExtraVaults	ParticleVaultContainer.hh	/^    uint64_t _numExtraVaults;$/;"	m	class:ParticleVaultContainer
+_numSegments	Tallies.hh	/^   uint64_cu _numSegments; \/\/ Number of segements$/;"	m	class:Balance
+_num_balance_replications	Tallies.hh	/^    int _num_balance_replications;$/;"	m	class:Tallies
+_num_cellTally_replications	Tallies.hh	/^    int _num_cellTally_replications;$/;"	m	class:Tallies
+_num_flux_replications	Tallies.hh	/^    int _num_flux_replications;$/;"	m	class:Tallies
+_nx	GlobalFccGrid.hh	/^   int _nx, _ny, _nz;     \/\/ number of cells (i.e., elements)$/;"	m	class:GlobalFccGrid
+_nx	GridAssignmentObject.hh	/^   int _nx, _ny, _nz;$/;"	m	class:GridAssignmentObject
+_ny	GlobalFccGrid.hh	/^   int _nx, _ny, _nz;     \/\/ number of cells (i.e., elements)$/;"	m	class:GlobalFccGrid
+_ny	GridAssignmentObject.hh	/^   int _nx, _ny, _nz;$/;"	m	class:GridAssignmentObject
+_nz	GlobalFccGrid.hh	/^   int _nx, _ny, _nz;     \/\/ number of cells (i.e., elements)$/;"	m	class:GlobalFccGrid
+_nz	GridAssignmentObject.hh	/^   int _nx, _ny, _nz;$/;"	m	class:GridAssignmentObject
+_params	MonteCarlo.hh	/^    Parameters _params;$/;"	m	class:MonteCarlo
+_particleIndex	SendQueue.hh	/^    int _particleIndex;$/;"	m	struct:sendQueueTuple
+_particleVaultContainer	MonteCarlo.hh	/^    ParticleVaultContainer* _particleVaultContainer;$/;"	m	class:MonteCarlo
+_particles	ParticleVault.hh	/^   qs_vector<MC_Base_Particle> _particles;$/;"	m	class:ParticleVault
+_partitions	SharedMemoryCommObject.hh	/^   std::vector<MeshPartition>& _partitions;$/;"	m	class:SharedMemoryCommObject
+_pi	PhysicalConstants.cc	/^const double PhysicalConstants::_pi = 3.1415926535897932;$/;"	m	class:PhysicalConstants	file:
+_pi	PhysicalConstants.hh	/^const double _pi = 3.1415926535897932;$/;"	m	namespace:PhysicalConstants
+_point	MC_Facet_Adjacency.hh	/^   int*                 _point;       $/;"	m	class:MC_Facet_Adjacency_Cell
+_processedVault	ParticleVaultContainer.hh	/^    std::vector<ParticleVault*> _processedVault;$/;"	m	class:ParticleVaultContainer
+_processingVault	ParticleVaultContainer.hh	/^    std::vector<ParticleVault*> _processingVault;$/;"	m	class:ParticleVaultContainer
+_produce	Tallies.hh	/^   uint64_cu _produce;     \/\/ Number of particles created by collisions$/;"	m	class:Balance
+_rangeId	NVTX_Range.hh	/^   nvtxRangeId_t _rangeId;$/;"	m	class:NVTX_Range
+_rank	DecompositionObject.hh	/^   std::vector<int> _rank;  \/\/ rank for given gid$/;"	m	class:DecompositionObject
+_reactionType	NuclearData.hh	/^   Enum _reactionType;                \/\/!< What type of reaction is this$/;"	m	class:NuclearDataReaction
+_reactions	NuclearData.hh	/^   qs_vector<NuclearDataReaction> _reactions;$/;"	m	class:NuclearDataSpecies
+_refCount	BulkStorage.hh	/^   int* _refCount;$/;"	m	class:BulkStorage
+_rr	Tallies.hh	/^   uint64_cu _rr;          \/\/ Number of particles Russian Rouletted in population control$/;"	m	class:Balance
+_scalarFluxCellStorage	Tallies.hh	/^   BulkStorage<double> _scalarFluxCellStorage;$/;"	m	class:ScalarFluxTask
+_scalarFluxDomain	Tallies.hh	/^    qs_vector<ScalarFluxDomain> _scalarFluxDomain;$/;"	m	class:Tallies
+_scatter	Tallies.hh	/^   uint64_cu _scatter;     \/\/ Number of scatters$/;"	m	class:Balance
+_sendQueue	ParticleVaultContainer.hh	/^    SendQueue *_sendQueue;$/;"	m	class:ParticleVaultContainer
+_size	BulkStorage.hh	/^   int _size;$/;"	m	class:BulkStorage
+_size	MC_Facet_Geometry.hh	/^   int _size;$/;"	m	class:MC_Facet_Geometry_Cell
+_size	QS_Vector.hh	/^   int _size;$/;"	m	class:qs_vector
+_size	Tallies.hh	/^   int _size;$/;"	m	class:ScalarFluxCell
+_smallDouble	PhysicalConstants.cc	/^const double PhysicalConstants::_smallDouble          = 1.0e-10;$/;"	m	class:PhysicalConstants	file:
+_smallDouble	PhysicalConstants.hh	/^ const double _smallDouble          = 1.0e-10;$/;"	m	namespace:PhysicalConstants
+_source	Tallies.hh	/^   uint64_cu _source;      \/\/ Number of particles sourced in$/;"	m	class:Balance
+_sourceTally	MC_Cell_State.hh	/^   unsigned _sourceTally;$/;"	m	class:MC_Cell_State
+_species	NuclearData.hh	/^   qs_vector<NuclearDataSpecies> _species;$/;"	m	class:NuclearDataIsotope
+_spectrum	Tallies.hh	/^    EnergySpectrum              _spectrum;$/;"	m	class:Tallies
+_speedOfLight	PhysicalConstants.cc	/^const double PhysicalConstants::_speedOfLight  = 2.99792458e+10;                \/\/ cm \/ s$/;"	m	class:PhysicalConstants	file:
+_speedOfLight	PhysicalConstants.hh	/^const double _speedOfLight  = 2.99792458e+10;                \/\/ cm \/ s$/;"	m	namespace:PhysicalConstants
+_split	Tallies.hh	/^   uint64_cu _split;       \/\/ Number of particles split in population control$/;"	m	class:Balance
+_start	Tallies.hh	/^   uint64_cu _start;       \/\/ Number of particles at beginning of cycle$/;"	m	class:Balance
+_tallies	MonteCarlo.hh	/^    Tallies *_tallies;$/;"	m	class:MonteCarlo
+_task	Tallies.hh	/^   qs_vector<CellTallyTask> _task;$/;"	m	class:CellTallyDomain
+_task	Tallies.hh	/^   qs_vector<ScalarFluxTask> _task;$/;"	m	class:ScalarFluxDomain
+_tinyDouble	PhysicalConstants.cc	/^const double PhysicalConstants::_tinyDouble           = 1.0e-13;$/;"	m	class:PhysicalConstants	file:
+_tinyDouble	PhysicalConstants.hh	/^ const double _tinyDouble           = 1.0e-13;$/;"	m	namespace:PhysicalConstants
+_total	MC_Cell_State.hh	/^   double* _total;  \/\/ [energy groups]$/;"	m	class:MC_Cell_State
+_vaultSize	ParticleVaultContainer.hh	/^    uint64_t _vaultSize;$/;"	m	class:ParticleVaultContainer
+_volume	MC_Cell_State.hh	/^   double  _volume;                 \/\/ cell volume$/;"	m	class:MC_Cell_State
+_wetList	GridAssignmentObject.hh	/^   std::queue<int> _wetList;$/;"	m	class:GridAssignmentObject
+aa	Parameters.hh	/^   double aa;$/;"	m	struct:CrossSectionParameters
+absorptionCrossSection	Parameters.hh	/^   std::string absorptionCrossSection;$/;"	m	struct:MaterialParameters
+absorptionCrossSectionRatio	Parameters.hh	/^   double absorptionCrossSectionRatio;$/;"	m	struct:MaterialParameters
+addArg	cmdLineParser.cc	/^int addArg(const char* longOption, const char shortOption,$/;"	f
+addCell	MeshPartition.hh	/^   void addCell(Long64 cellGid, const CellInfo& cellInfo){_cellInfoMap[cellGid] = cellInfo;}$/;"	f	class:MeshPartition
+addCell	Tallies.hh	/^    void addCell( int index, double value ){ _cell[index] += value;}$/;"	f	class:FluenceDomain
+addExtraParticle	ParticleVaultContainer.cc	/^addExtraParticle( MC_Particle &particle)$/;"	f	class:ParticleVaultContainer
+addIsotope	MaterialDatabase.hh	/^   void addIsotope(const Isotope& isotope)$/;"	f	class:Material
+addIsotope	NuclearData.cc	/^int NuclearData::addIsotope($/;"	f	class:NuclearData
+addMaterial	MaterialDatabase.hh	/^   void addMaterial(const Material& material)$/;"	f	class:MaterialDatabase
+addNbrsToFlood	MeshPartition.cc	/^   void addNbrsToFlood(Long64 iCell,$/;"	f	namespace:__anon28
+addNbrsToQueue	GridAssignmentObject.cc	/^void GridAssignmentObject::addNbrsToQueue(int iCell)$/;"	f	class:GridAssignmentObject
+addPair	InputBlock.cc	/^void InputBlock::addPair(const string& keyword, const string& value)$/;"	f	class:InputBlock
+addProcessingParticle	ParticleVaultContainer.cc	/^addProcessingParticle( MC_Base_Particle &particle, uint64_t &fill_vault_index )$/;"	f	class:ParticleVaultContainer
+addReaction	NuclearData.cc	/^void NuclearDataSpecies::addReaction($/;"	f	class:NuclearDataSpecies
+addTupleToQueue	GridAssignmentObject.cc	/^void GridAssignmentObject::addTupleToQueue(Tuple iTuple)$/;"	f	class:GridAssignmentObject
+adjacent	MC_Facet_Adjacency.hh	/^   MC_Location adjacent;$/;"	m	class:Subfacet_Adjacency
+age	MC_Base_Particle.hh	/^    double                             age;$/;"	m	class:MC_Base_Particle
+age	MC_Particle.hh	/^    double age;$/;"	m	class:MC_Particle
+allocate	MemoryControl.hh	/^   T* allocate(const int size, const AllocationPolicy policy)$/;"	f	namespace:MemoryControl
+alpha	DirectionCosine.hh	/^   double alpha;$/;"	m	class:DirectionCosine
+anything	mpi_stubs_internal.hh	/^    void *anything;           \/\/ At least size of void *$/;"	m	union:_Handleitem::__anon57
+append	ParticleVault.hh	/^   void append (ParticleVault & vault2)$/;"	f	class:ParticleVault
+appendList	QS_Vector.hh	/^   void appendList( int listSize, T* list )$/;"	f	class:qs_vector
+argFlag	cmdLineParser.cc	/^   int argFlag;$/;"	m	struct:MyOptionSt	file:
+assignCellsToDomain	MeshPartition.cc	/^   void assignCellsToDomain(MeshPartition::MapType& assignedDomainMap,$/;"	f	namespace:__anon26
+atomic_Index_Inc	QS_Vector.hh	/^   int atomic_Index_Inc( int inc )$/;"	f	class:qs_vector
+b	Tuple4.hh	/^   const int& b() const {return ib_;}$/;"	f	class:Tuple4
+b	Tuple4.hh	/^   int& b() {return ib_;}$/;"	f	class:Tuple4
+back	QS_Vector.hh	/^   T& back()$/;"	f	class:qs_vector
+badCrossSectionBlock	Parameters.cc	/^   void badCrossSectionBlock(const InputBlock& input){qs_assert(false);}$/;"	f	namespace:__anon41
+badGeometryBlock	Parameters.cc	/^   void badGeometryBlock(const InputBlock& input)$/;"	f	namespace:__anon41
+badInputFile	Parameters.cc	/^   void badInputFile(const string& filename){qs_assert(false);}$/;"	f	namespace:__anon41
+badMaterialBlock	Parameters.cc	/^   void badMaterialBlock(const InputBlock& input)$/;"	f	namespace:__anon41
+balanceTallyReplications	Parameters.hh	/^   int balanceTallyReplications; \/\/!< Number of replications for the balance tallies$/;"	m	struct:SimulationParameters
+batchSize	Parameters.hh	/^   uint64_t batchSize;           \/\/!< number of particles in a batch$/;"	m	struct:SimulationParameters
+bb	Parameters.hh	/^   double bb;$/;"	m	struct:CrossSectionParameters
+begin	MeshPartition.hh	/^   MapType::const_iterator begin() const {return _cellInfoMap.begin();}$/;"	f	class:MeshPartition
+beta	DirectionCosine.hh	/^   double beta;$/;"	m	class:DirectionCosine
+block0	mpi_stubs_internal.hh	/^    Handleitem block0[MPI_STUBS_BLOCK_ITEMS];$/;"	m	struct:MPI_Stubs_Data_struct
+blockStart	parseUtils.cc	/^bool blockStart(const string& line, string& blockName)$/;"	f
+blocks	mpi_stubs_internal.hh	/^    Handleitem *(blocks[MPI_STUBS_MAX_BLOCKS]);$/;"	m	struct:MPI_Stubs_Data_struct
+bootstrapNodeMap	MC_Domain.cc	/^   void bootstrapNodeMap(map<Long64, int>& nodeIndexMap,$/;"	f	namespace:__anon13
+boundaryCondition	Parameters.hh	/^   std::string boundaryCondition;\/\/!< specifies boundary conditions$/;"	m	struct:SimulationParameters
+breakup_uint64	MC_RNG_State.cc	/^   void breakup_uint64( uint64_t uint64_in,$/;"	f	namespace:__anon19
+breed	MC_Base_Particle.hh	/^    int                                breed;$/;"	m	class:MC_Base_Particle
+breed	MC_Particle.hh	/^    int breed;$/;"	m	class:MC_Particle
+buf	mpi_stubs_internal.hh	/^  int *buf;$/;"	m	struct:__anon56
+buffer_size	MC_Particle_Buffer.hh	/^    int  buffer_size;         \/\/ Buffer size to be sent.$/;"	m	class:MC_Particle_Buffer
+buildCellIndexMap	MeshPartition.cc	/^   void buildCellIndexMap(MeshPartition::MapType& cellInfoMap,$/;"	f	namespace:__anon27
+buildCells	MC_Domain.cc	/^   void buildCells(qs_vector<MC_Facet_Adjacency_Cell>& cell,$/;"	f	namespace:__anon14
+buildMeshPartition	MeshPartition.cc	/^void MeshPartition::buildMeshPartition(const GlobalFccGrid& grid,$/;"	f	class:MeshPartition
+capacity	QS_Vector.hh	/^   int capacity() const$/;"	f	class:qs_vector
+cc	Parameters.hh	/^   double cc;$/;"	m	struct:CrossSectionParameters
+cell	MC_Base_Particle.hh	/^    int                                cell;$/;"	m	class:MC_Base_Particle
+cell	MC_Location.hh	/^   int cell;$/;"	m	class:MC_Location
+cell	MC_Particle.hh	/^    int cell;$/;"	m	class:MC_Particle
+cellCenter	GlobalFccGrid.cc	/^MC_Vector GlobalFccGrid::cellCenter(Long64 iCell) const$/;"	f	class:GlobalFccGrid
+cellIndexToTuple	GlobalFccGrid.hh	/^   Tuple  cellIndexToTuple(Long64 iCell)    const {return _cellIndexToTuple(iCell);}$/;"	f	class:GlobalFccGrid
+cellInfoMpiType	MpiCommObject.cc	/^   MPI_Datatype cellInfoMpiType()$/;"	f	namespace:__anon30
+cellTallyReplications	Parameters.hh	/^   int cellTallyReplications;    \/\/!< Number of replications for the scalar cell tally$/;"	m	struct:SimulationParameters
+cellTupleToIndex	GlobalFccGrid.hh	/^   Long64 cellTupleToIndex(const Tuple& tt) const {return _cellTupleToIndex(tt);}$/;"	f	class:GlobalFccGrid
+cellVolume	MC_Domain.cc	/^double cellVolume(const MC_Facet_Adjacency_Cell& cell,$/;"	f
+cell_state	MC_Domain.hh	/^   qs_vector<MC_Cell_State> cell_state;$/;"	m	class:MC_Domain
+char_data	MC_Particle_Buffer.hh	/^    char        *char_data;       \/\/ char data for particles$/;"	m	struct:particle_buffer_base_type
+char_index	MC_Particle_Buffer.hh	/^    int          char_index;      \/\/ Next free space in char_data array$/;"	m	struct:particle_buffer_base_type
+checkCrossSections	initMC.cc	/^   void checkCrossSections(MonteCarlo* monteCarlo, const Parameters& params)$/;"	f	namespace:__anon54
+chop	parseUtils.cc	/^   void chop(string& line)$/;"	f	namespace:__anon62
+cleanExtraVaults	ParticleVaultContainer.cc	/^cleanExtraVaults()$/;"	f	class:ParticleVaultContainer
+clear	ParticleVault.hh	/^   void clear() { _particles.clear(); } $/;"	f	class:ParticleVault
+clear	QS_Vector.hh	/^   void clear()$/;"	f	class:qs_vector
+clear	SendQueue.cc	/^clear()$/;"	f	class:SendQueue
+clearCrossSectionCache	MC_Domain.cc	/^void MC_Domain::clearCrossSectionCache(int numEnergyGroups)$/;"	f	class:MC_Domain
+clearCrossSectionCache	MonteCarlo.cc	/^void MonteCarlo::clearCrossSectionCache()$/;"	f	class:MonteCarlo
+collapse	ParticleVault.cc	/^collapse( size_t fill_size, ParticleVault* vault2 )$/;"	f	class:ParticleVault
+collapseProcessed	ParticleVaultContainer.cc	/^collapseProcessed()$/;"	f	class:ParticleVaultContainer
+collapseProcessing	ParticleVaultContainer.cc	/^collapseProcessing()$/;"	f	class:ParticleVaultContainer
+comm	mpi_stubs_internal.hh	/^    Comm comm;$/;"	m	union:_Handleitem::__anon57
+comm_mc_world	MC_Processor_Info.hh	/^    MPI_Comm  comm_mc_world;$/;"	m	class:MC_Processor_Info
+compareDomainGid2	MpiCommObject.cc	/^   bool compareDomainGid2(const FacetPair& a, const FacetPair& b)$/;"	f	namespace:__anon32
+complete	mpi_stubs_internal.hh	/^  int complete;$/;"	m	struct:__anon56
+compute	Tallies.cc	/^void Fluence::compute( int domainIndex, ScalarFluxDomain &scalarFluxDomain )$/;"	f	class:Fluence
+consistencyCheck	initMC.cc	/^   void consistencyCheck(int myRank, const qs_vector<MC_Domain>& domain)$/;"	f	namespace:__anon48
+coordinate	MC_Base_Particle.hh	/^    MC_Vector                          coordinate;$/;"	m	class:MC_Base_Particle
+coordinate	MC_Particle.hh	/^    MC_Vector coordinate;$/;"	m	class:MC_Particle
+coralBenchmark	Parameters.hh	/^   int coralBenchmark;           \/\/!< enable correctness check for Coral2 benchmark$/;"	m	struct:SimulationParameters
+coralBenchmarkCorrectness	CoralBenchmark.cc	/^void coralBenchmarkCorrectness( MonteCarlo* monteCarlo, Parameters &params )$/;"	f
+cornerTupleOffsets	GlobalFccGrid.cc	/^const vector<Tuple4>& GlobalFccGrid::cornerTupleOffsets() const$/;"	f	class:GlobalFccGrid
+count	mpi_stubs_internal.hh	/^  int count;$/;"	m	struct:_List
+count	utilsMpi.hh	/^    int count ;$/;"	m	struct:__anon63
+cpu	cudaUtils.hh	/^enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };$/;"	e	enum:ExecutionPolicy
+crossSectionParams	Parameters.hh	/^   std::map<std::string, CrossSectionParameters> crossSectionParams;$/;"	m	struct:Parameters
+crossSectionsOut	Parameters.hh	/^   std::string crossSectionsOut; \/\/!< enable or disable printing cross section data to a file$/;"	m	struct:SimulationParameters
+cumulativeClock	MC_Fast_Timer.hh	/^    uint64_t cumulativeClock;                                       \/\/ in microseconds$/;"	m	class:MC_Fast_Timer
+current	MC_Facet_Adjacency.hh	/^   MC_Location current;$/;"	m	class:Subfacet_Adjacency
+cycle	MC_Time_Info.hh	/^    int    cycle;$/;"	m	class:MC_Time_Info
+cycleFinalize	MC_Fast_Timer.hh	/^    cycleFinalize,$/;"	e	enum:MC_Fast_Timer::Enum
+cycleFinalize	main.cc	/^void cycleFinalize()$/;"	f
+cycleInit	MC_Fast_Timer.hh	/^    cycleInit,$/;"	e	enum:MC_Fast_Timer::Enum
+cycleInit	main.cc	/^void cycleInit( bool loadBalance )$/;"	f
+cycleTimers	Parameters.hh	/^   int cycleTimers;              \/\/!< enable or disable cycle timers $/;"	m	struct:SimulationParameters
+cycleTracking	MC_Fast_Timer.hh	/^    cycleTracking,$/;"	e	enum:MC_Fast_Timer::Enum
+cycleTracking	main.cc	/^void cycleTracking(MonteCarlo *monteCarlo)$/;"	f
+cycleTracking_Kernel	MC_Fast_Timer.hh	/^    cycleTracking_Kernel,$/;"	e	enum:MC_Fast_Timer::Enum
+cycleTracking_MPI	MC_Fast_Timer.hh	/^    cycleTracking_MPI,$/;"	e	enum:MC_Fast_Timer::Enum
+cycleTracking_Test_Done	MC_Fast_Timer.hh	/^    cycleTracking_Test_Done,$/;"	e	enum:MC_Fast_Timer::Enum
+data	mpi_stubs_internal.hh	/^  void *data;$/;"	m	struct:_Listitem
+data	mpi_stubs_internal.hh	/^  } data;$/;"	m	struct:_Handleitem	typeref:union:_Handleitem::__anon57
+dd	Parameters.hh	/^   double dd;$/;"	m	struct:CrossSectionParameters
+deallocate	MemoryControl.hh	/^   void deallocate(T* data, const int size, const AllocationPolicy policy)$/;"	f	namespace:MemoryControl
+debugThreads	Parameters.hh	/^   int debugThreads;             \/\/!< enable or disable thread debugging lines$/;"	m	struct:SimulationParameters
+deserialize	InputBlock.cc	/^void InputBlock::deserialize(const std::vector<char>& buf)$/;"	f	class:InputBlock
+direction_cosine	MC_Particle.hh	/^    DirectionCosine direction_cosine;$/;"	m	class:MC_Particle
+distance	MC_Distance_To_Facet.hh	/^    double distance;$/;"	m	class:MC_Distance_To_Facet
+distance_to_facet	MC_Nearest_Facet.hh	/^   double distance_to_facet;$/;"	m	class:MC_Nearest_Facet
+domain	MC_Base_Particle.hh	/^    int                                domain;$/;"	m	class:MC_Base_Particle
+domain	MC_Location.hh	/^   int domain;$/;"	m	class:MC_Location
+domain	MC_Particle.hh	/^    int domain;$/;"	m	class:MC_Particle
+domain	MonteCarlo.hh	/^   qs_vector<MC_Domain> domain;$/;"	m	class:MonteCarlo
+domainGid	MeshPartition.hh	/^   const int& domainGid() const {return _domainGid;}$/;"	f	class:MeshPartition
+domainIndex	MC_Domain.hh	/^   int domainIndex;  \/\/ This appears to be unused.$/;"	m	class:MC_Domain
+domainIndex	MeshPartition.hh	/^   const int& domainIndex() const {return _domainIndex;}$/;"	f	class:MeshPartition
+dot	Tuple.hh	/^inline int dot(const Tuple& a, const Tuple& b)$/;"	f
+dot	Tuple4.hh	/^inline int dot(const Tuple4& a, const Tuple4& b)$/;"	f
+dot_product	MC_Nearest_Facet.hh	/^   double dot_product;$/;"	m	class:MC_Nearest_Facet
+dt	Parameters.hh	/^   double dt;                    \/\/!< time step (seconds)$/;"	m	struct:SimulationParameters
+dupString	cmdLineParser.cc	/^static char* dupString(const char* s)$/;"	f	file:
+eMax	Parameters.hh	/^   double eMax;                  \/\/!< max energy of cross section$/;"	m	struct:SimulationParameters
+eMin	Parameters.hh	/^   double eMin;                  \/\/!< min energy of cross section$/;"	m	struct:SimulationParameters
+ee	Parameters.hh	/^   double ee;$/;"	m	struct:CrossSectionParameters
+empty	ParticleVault.hh	/^   bool empty() const {return _particles.empty();}$/;"	f	class:ParticleVault
+empty	QS_Vector.hh	/^   bool empty() const$/;"	f	class:qs_vector
+end	MeshPartition.hh	/^   MapType::const_iterator end()   const {return _cellInfoMap.end();}$/;"	f	class:MeshPartition
+endRange	NVTX_Range.hh	/^  void endRange()$/;"	f	class:NVTX_Range
+energySpectrum	Parameters.hh	/^   std::string energySpectrum;   \/\/!< enble computing and printing energy spectrum via of energy spectrum file $/;"	m	struct:SimulationParameters
+energy_group	MC_Particle.hh	/^    int energy_group;$/;"	m	class:MC_Particle
+eraseEnd	QS_Vector.hh	/^   void eraseEnd( int NewEnd )$/;"	f	class:qs_vector
+eraseSwapParticle	ParticleVault.hh	/^eraseSwapParticle(int index)$/;"	f	class:ParticleVault
+errhandler	mpi_stubs_internal.hh	/^    MPI_Errhandler  errhandler;$/;"	m	struct:MPI_Stubs_Data_struct
+event	MC_Facet_Adjacency.hh	/^   MC_Subfacet_Adjacency_Event::Enum event;$/;"	m	class:Subfacet_Adjacency
+exchange	MpiCommObject.cc	/^void MpiCommObject::exchange(MeshPartition::MapType& cellInfoMap,$/;"	f	class:MpiCommObject
+exchange	MpiCommObject.cc	/^void MpiCommObject::exchange(vector<FacetPair> sendBuf,$/;"	f	class:MpiCommObject
+exchange	SharedMemoryCommObject.cc	/^void SharedMemoryCommObject::exchange(MeshPartition::MapType& cellInfoMap,$/;"	f	class:SharedMemoryCommObject
+exchange	SharedMemoryCommObject.cc	/^void SharedMemoryCommObject::exchange(vector<FacetPair> sendBuf,$/;"	f	class:SharedMemoryCommObject
+extra_send_buffer	MC_Particle_Buffer.hh	/^    std::list<particle_buffer_base_type> extra_send_buffer;   \/\/ extra send buffers for non-blocking sends$/;"	m	class:particle_buffer_task_class
+fMax	Parameters.hh	/^   double fMax;                  \/\/!< max random fractional displacement of mesh$/;"	m	struct:SimulationParameters
+facet	MC_Distance_To_Facet.hh	/^    int facet;$/;"	m	class:MC_Distance_To_Facet
+facet	MC_Location.hh	/^   int facet;$/;"	m	class:MC_Location
+facet	MC_Nearest_Facet.hh	/^   int    facet;$/;"	m	class:MC_Nearest_Facet
+facet	MC_Particle.hh	/^    int facet;$/;"	m	class:MC_Particle
+facetPairMpiType	MpiCommObject.cc	/^   MPI_Datatype facetPairMpiType()$/;"	f	namespace:__anon31
+fast_timer	MonteCarlo.hh	/^    MC_Fast_Timer_Container *fast_timer;$/;"	m	class:MonteCarlo
+final_time	MC_Time_Info.hh	/^    double final_time;$/;"	m	class:MC_Time_Info
+findCell	MeshPartition.hh	/^   MapType::const_iterator findCell(Long64 cellGid) const$/;"	f	class:MeshPartition
+findCellCenter	MC_Domain.cc	/^MC_Vector findCellCenter(const MC_Facet_Adjacency_Cell& cell,$/;"	f
+findMaterial	MC_Domain.cc	/^   string findMaterial(const Parameters& params, const MC_Vector& rr)$/;"	f	namespace:__anon17
+findMaterial	MaterialDatabase.hh	/^   int findMaterial(const std::string& name) const$/;"	f	class:MaterialDatabase
+findOption	cmdLineParser.cc	/^static MyOption* findOption(MyOption* o, unsigned char shortArg)$/;"	f	file:
+fisherYates	DecompositionObject.cc	/^   void fisherYates(vector<int>& vv)$/;"	f	namespace:__anon1
+fissionCrossSection	Parameters.hh	/^   std::string fissionCrossSection;$/;"	m	struct:MaterialParameters
+fissionCrossSectionRatio	Parameters.hh	/^   double fissionCrossSectionRatio;$/;"	m	struct:MaterialParameters
+float_data	MC_Particle_Buffer.hh	/^    double      *float_data;      \/\/ float data for particles$/;"	m	struct:particle_buffer_base_type
+float_index	MC_Particle_Buffer.hh	/^    int          float_index;     \/\/ Next free space in float_data array$/;"	m	struct:particle_buffer_base_type
+fluxTallyReplications	Parameters.hh	/^   int fluxTallyReplications;    \/\/!< Number of replications for the scalar flux tally$/;"	m	struct:SimulationParameters
+foreman	MeshPartition.hh	/^   const int& foreman() const {return _foreman;}$/;"	f	class:MeshPartition
+freeArgs	cmdLineParser.cc	/^void freeArgs()$/;"	f
+gameOver	main.cc	/^void gameOver()$/;"	f
+gamma	DirectionCosine.hh	/^   double gamma;$/;"	m	class:DirectionCosine
+geometryParams	Parameters.hh	/^   std::vector<GeometryParameters>               geometryParams;$/;"	m	struct:Parameters
+getAssignedDomainGids	DecompositionObject.hh	/^   const std::vector<int>& getAssignedDomainGids() const {return _assignedGids;}$/;"	f	class:DecompositionObject
+getBaseParticleComm	ParticleVault.hh	/^getBaseParticleComm( MC_Base_Particle &particle, int index )$/;"	f	class:ParticleVault
+getBlock	BulkStorage.hh	/^   T* getBlock(int nItems)$/;"	f	class:BulkStorage
+getBoundaryCondition	MC_Domain.cc	/^   qs_vector<MC_Subfacet_Adjacency_Event::Enum> getBoundaryCondition(const Parameters& params)$/;"	f	namespace:__anon18
+getCell	MeshPartition.hh	/^   const CellInfo& getCell(Long64 cellGid){return _cellInfoMap[cellGid];}$/;"	f	class:MeshPartition
+getCell	Tallies.hh	/^    double getCell( int index ){ return _cell[index]; }$/;"	f	class:FluenceDomain
+getCrossSection	NuclearData.cc	/^double NuclearDataReaction::getCrossSection(unsigned int group)$/;"	f	class:NuclearDataReaction
+getEnergyGroup	NuclearData.cc	/^int NuclearData::getEnergyGroup(double energy)$/;"	f	class:NuclearData
+getExecutionPolicy	cudaUtils.hh	/^inline ExecutionPolicy getExecutionPolicy( int useGPU )$/;"	f
+getFaceNbrGids	GlobalFccGrid.cc	/^void GlobalFccGrid::getFaceNbrGids(Long64 cellGid, vector<Long64>& nbrCellGid) const$/;"	f	class:GlobalFccGrid
+getFaceTupleOffset	GlobalFccGrid.cc	/^   const vector<Tuple>& getFaceTupleOffset()$/;"	f	namespace:__anon3
+getFirstEmptyProcessedVault	ParticleVaultContainer.cc	/^getFirstEmptyProcessedVault()$/;"	f	class:ParticleVaultContainer
+getGlobalThreadID	cudaFunctions.cc	/^int getGlobalThreadID()$/;"	f
+getIndex	DecompositionObject.hh	/^   int getIndex(int domainGid) const {return _index[domainGid];}$/;"	f	class:DecompositionObject
+getNodeGids	GlobalFccGrid.cc	/^void GlobalFccGrid::getNodeGids(Long64 cellGid, vector<Long64>& nodeGid) const$/;"	f	class:GlobalFccGrid
+getNumExtraVaults	ParticleVaultContainer.hh	/^    uint64_t getNumExtraVaults(){ return _numExtraVaults; }$/;"	f	class:ParticleVaultContainer
+getNumberReactions	NuclearData.cc	/^int NuclearData::getNumberReactions(unsigned int isotopeIndex)$/;"	f	class:NuclearData
+getParameters	Parameters.cc	/^Parameters getParameters(int argc, char** argv)$/;"	f
+getParticle	ParticleVault.hh	/^getParticle( MC_Particle &particle, int index )$/;"	f	class:ParticleVault
+getRank	DecompositionObject.hh	/^   int getRank(int domainGid) const {return _rank[domainGid];}$/;"	f	class:DecompositionObject
+getReactionCrossSection	NuclearData.cc	/^double NuclearData::getReactionCrossSection($/;"	f	class:NuclearData
+getSendQueue	ParticleVaultContainer.cc	/^getSendQueue()$/;"	f	class:ParticleVaultContainer
+getTaskProcessedVault	ParticleVaultContainer.cc	/^getTaskProcessedVault(uint64_t vaultIndex)$/;"	f	class:ParticleVaultContainer
+getTaskProcessingVault	ParticleVaultContainer.cc	/^getTaskProcessingVault(uint64_t vaultIndex)$/;"	f	class:ParticleVaultContainer
+getTotalCrossSection	NuclearData.cc	/^double NuclearData::getTotalCrossSection(unsigned int isotopeIndex, unsigned int group)$/;"	f	class:NuclearData
+getTuple	SendQueue.cc	/^getTuple( int index_ )$/;"	f	class:SendQueue
+getValue	InputBlock.hh	/^void InputBlock::getValue(const std::string& keyword, T& value) const$/;"	f	class:InputBlock
+getVaultSize	ParticleVaultContainer.hh	/^    uint64_t getVaultSize(){      return _vaultSize; }$/;"	f	class:ParticleVaultContainer
+get_domain	MC_Location.cc	/^const MC_Domain &MC_Location::get_domain(MonteCarlo *mcco) const$/;"	f	class:MC_Location
+get_memPolicy	QS_Vector.hh	/^   int get_memPolicy()$/;"	f	class:qs_vector
+global_domain	MC_Domain.hh	/^   int global_domain;$/;"	m	class:MC_Domain
+gpuWithCUDA	cudaUtils.hh	/^enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };$/;"	e	enum:ExecutionPolicy
+gpuWithOpenMP	cudaUtils.hh	/^enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };$/;"	e	enum:ExecutionPolicy
+gpu_id	MC_Processor_Info.hh	/^    int gpu_id;$/;"	m	class:MC_Processor_Info
+handle	mpi_stubs_internal.hh	/^  int handle;$/;"	m	struct:_Handleitem
+hash_state	MC_RNG_State.cc	/^   uint64_t hash_state( uint64_t initial_number )$/;"	f	namespace:__anon22
+head	mpi_stubs_internal.hh	/^  pListitem head;$/;"	m	struct:_List
+headcount	mpi_stubs_internal.hh	/^    int headcount;$/;"	m	struct:MPI_Stubs_Data_struct
+help	cmdLineParser.cc	/^   char* help;$/;"	m	struct:MyOptionSt	file:
+ib_	Tuple4.hh	/^   int ib_;$/;"	m	class:Tuple4
+identifier	MC_Base_Particle.hh	/^    uint64_t                           identifier;$/;"	m	class:MC_Base_Particle
+identifier	MC_Particle.hh	/^    uint64_t identifier;$/;"	m	class:MC_Particle
+index	MC_Base_Particle.hh	/^    inline int index() const    { return species; }$/;"	f	class:MC_Base_Particle
+indexToTuple	GridAssignmentObject.cc	/^Tuple GridAssignmentObject::indexToTuple(int index) const$/;"	f	class:GridAssignmentObject
+initGPUInfo	initMC.cc	/^   void initGPUInfo( MonteCarlo* monteCarlo)$/;"	f	namespace:__anon46
+initMC	initMC.cc	/^MonteCarlo* initMC(const Parameters& params)$/;"	f
+initMesh	initMC.cc	/^   void initMesh(MonteCarlo* monteCarlo, const Parameters& params)$/;"	f	namespace:__anon49
+initNuclearData	initMC.cc	/^   void initNuclearData(MonteCarlo* monteCarlo, const Parameters& params)$/;"	f	namespace:__anon47
+initTallies	initMC.cc	/^   void initTallies(MonteCarlo* monteCarlo, const Parameters& params)$/;"	f	namespace:__anon50
+initTimeInfo	initMC.cc	/^   void initTimeInfo(MonteCarlo* monteCarlo, const Parameters& params)$/;"	f	namespace:__anon51
+init_block	utilsMpi.cc	/^static Handleitem *init_block(int block, Handleitem *b)$/;"	f	file:
+init_handles	utilsMpi.cc	/^static void init_handles()$/;"	f	file:
+initial_time	MC_Time_Info.hh	/^    double initial_time;$/;"	m	class:MC_Time_Info
+initializeCentersGrid	initMC.cc	/^   void initializeCentersGrid(double lx, double ly, double lz,$/;"	f	namespace:__anon53
+initializeCentersRandomly	initMC.cc	/^   void initializeCentersRandomly(int nCenters,$/;"	f	namespace:__anon52
+initialized	mpi_stubs_internal.hh	/^    int initialized;$/;"	m	struct:MPI_Stubs_Data_struct
+inputFile	Parameters.hh	/^   std::string inputFile;        \/\/!< name of input file$/;"	m	struct:SimulationParameters
+int_data	MC_Particle_Buffer.hh	/^    int         *int_data;        \/\/ int data for particles$/;"	m	struct:particle_buffer_base_type
+int_index	MC_Particle_Buffer.hh	/^    int          int_index;       \/\/ Next free space in int_data array$/;"	m	struct:particle_buffer_base_type
+invalidate	MC_Base_Particle.hh	/^inline int MC_Base_Particle::invalidate()$/;"	f	class:MC_Base_Particle
+invalidateParticle	ParticleVault.hh	/^invalidateParticle( int index )$/;"	f	class:ParticleVault
+isComment	parseUtils.cc	/^   bool isComment(string line)$/;"	f	namespace:__anon59
+isInside	MC_Domain.cc	/^   bool isInside(const GeometryParameters& geom, const MC_Vector& rr)$/;"	f	namespace:__anon16
+is_valid	MC_Base_Particle.hh	/^    inline int is_valid() const { return (0 <= species); }$/;"	f	class:MC_Base_Particle
+itemcount	mpi_stubs_internal.hh	/^    int itemcount;$/;"	m	struct:MPI_Stubs_Data_struct
+ix_	Tuple.hh	/^   int ix_;$/;"	m	class:Tuple
+ix_	Tuple4.hh	/^   int ix_;$/;"	m	class:Tuple4
+iy_	Tuple.hh	/^   int iy_;$/;"	m	class:Tuple
+iy_	Tuple4.hh	/^   int iy_;$/;"	m	class:Tuple4
+iz_	Tuple.hh	/^   int iz_;$/;"	m	class:Tuple
+iz_	Tuple4.hh	/^   int iz_;$/;"	m	class:Tuple4
+kinetic_energy	MC_Base_Particle.hh	/^    double                             kinetic_energy;$/;"	m	class:MC_Base_Particle
+kinetic_energy	MC_Particle.hh	/^    double kinetic_energy;$/;"	m	class:MC_Particle
+lastCycleClock	MC_Fast_Timer.hh	/^    uint64_t lastCycleClock;                                        \/\/ in microseconds$/;"	m	class:MC_Fast_Timer
+lastOption	cmdLineParser.cc	/^static MyOption* lastOption(MyOption* o)$/;"	f	file:
+last_event	MC_Base_Particle.hh	/^    MC_Tally_Event::Enum               last_event;$/;"	m	class:MC_Base_Particle
+last_event	MC_Particle.hh	/^    MC_Tally_Event::Enum last_event;$/;"	m	class:MC_Particle
+length	MC_Particle_Buffer.hh	/^    uint64_t     length;          \/\/ Length in bytes of buffer$/;"	m	struct:particle_buffer_base_type
+list	mpi_stubs_internal.hh	/^  pList list;$/;"	m	struct:_Listitem
+listitem	mpi_stubs_internal.hh	/^  pListitem listitem;        \/\/ to allow Req to be removed from list$/;"	m	struct:__anon56
+loadBalance	Parameters.hh	/^   int loadBalance;              \/\/!< enable or disable load balancing$/;"	m	struct:SimulationParameters
+local_recv	MC_Particle_Buffer.hh	/^    int local_recv;$/;"	m	class:mcp_test_done_class
+local_sent	MC_Particle_Buffer.hh	/^    int local_sent;$/;"	m	class:mcp_test_done_class
+longArg	cmdLineParser.cc	/^   char* longArg;$/;"	m	struct:MyOptionSt	file:
+longest	cmdLineParser.cc	/^static int longest = 1;$/;"	v	file:
+lowWeightCutoff	Parameters.hh	/^   double lowWeightCutoff;       \/\/!< low weight roulette cutoff$/;"	m	struct:SimulationParameters
+lx	GlobalFccGrid.hh	/^   double lx() const {return _lx;}$/;"	f	class:GlobalFccGrid
+lx	Parameters.hh	/^   double lx;                    \/\/!< size of problem domain in x-direction (cm)$/;"	m	struct:SimulationParameters
+ly	GlobalFccGrid.hh	/^   double ly() const {return _ly;}$/;"	f	class:GlobalFccGrid
+ly	Parameters.hh	/^   double ly;                    \/\/!< size of problem domain in y-direction (cm)$/;"	m	struct:SimulationParameters
+lz	GlobalFccGrid.hh	/^   double lz() const {return _lz;}$/;"	f	class:GlobalFccGrid
+lz	Parameters.hh	/^   double lz;                    \/\/!< size of problem domain in z-direction (cm)$/;"	m	struct:SimulationParameters
+macroscopicCrossSection	MacroscopicCrossSection.cc	/^double macroscopicCrossSection(MonteCarlo* monteCarlo, int reactionIndex, int domainIndex, int cellIndex,$/;"	f
+main	MC_Fast_Timer.hh	/^    main = 0,$/;"	e	enum:MC_Fast_Timer::Enum
+main	main.cc	/^int main(int argc, char** argv)$/;"	f
+makeFacet	MC_Domain.cc	/^   void makeFacet(MC_Facet_Adjacency& facet,$/;"	f	namespace:__anon15
+mass	Parameters.hh	/^   double mass;$/;"	m	struct:MaterialParameters
+materialName	Parameters.hh	/^   std::string materialName;$/;"	m	struct:GeometryParameters
+materialParams	Parameters.hh	/^   std::map<std::string, MaterialParameters>     materialParams;$/;"	m	struct:Parameters
+mc_fast_timer_names	MC_Fast_Timer.cc	/^const char *mc_fast_timer_names[MC_Fast_Timer::Num_Timers] =$/;"	v
+mc_get_num_physical_procs	utils.cc	/^int mc_get_num_physical_procs(void)$/;"	f
+mc_std_dev	MC_Fast_Timer.cc	/^static double mc_std_dev(uint64_t const data[], int const nelm)$/;"	f	file:
+mcco	MC_Particle_Buffer.hh	/^    MonteCarlo *mcco;$/;"	m	class:MC_Particle_Buffer
+mcp_test_done_class	MC_Particle_Buffer.hh	/^    mcp_test_done_class() { Zero_Out(); }$/;"	f	class:mcp_test_done_class
+mcp_test_done_class	MC_Particle_Buffer.hh	/^class mcp_test_done_class$/;"	c
+mean_free_path	MC_Particle.hh	/^    double mean_free_path;$/;"	m	class:MC_Particle
+mesh	MC_Domain.hh	/^    MC_Mesh_Domain mesh;$/;"	m	class:MC_Domain
+minDist2	GridAssignmentObject.cc	/^double GridAssignmentObject::minDist2(const MC_Vector r, int iCell) const$/;"	f	class:GridAssignmentObject
+mpiAbort	utilsMpi.cc	/^void mpiAbort( MPI_Comm comm, int errorcode ) { qs_assert(MPI_Abort(comm, errorcode) == MPI_SUCCESS); }$/;"	f
+mpiAbort	utilsMpi.hh	/^inline void mpiAbort          ( MPI_Comm comm, int errorcode ) { fprintf(stderr,"\\n\\nMPI_Abort called\\n\\n"); exit(errorcode); }$/;"	f
+mpiAllreduce	utilsMpi.cc	/^void mpiAllreduce ( void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op operation, MPI_Comm comm )$/;"	f
+mpiAllreduce	utilsMpi.cc	/^void mpiAllreduce( void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op operation, MPI_Comm comm )$/;"	f
+mpiBarrier	utilsMpi.cc	/^void mpiBarrier( MPI_Comm comm) { qs_assert(MPI_Barrier(comm) == MPI_SUCCESS); }$/;"	f
+mpiBarrier	utilsMpi.hh	/^inline void mpiBarrier        ( MPI_Comm comm ) { return; }$/;"	f
+mpiBcast	utilsMpi.cc	/^void mpiBcast( void* buf, int count, MPI_Datatype datatype, int root, MPI_Comm comm)$/;"	f
+mpiBcast	utilsMpi.hh	/^inline void mpiBcast( void* buf, int count, MPI_Datatype datatype, int root, MPI_Comm comm){return;}$/;"	f
+mpiCancel	utilsMpi.cc	/^void mpiCancel( MPI_Request *request ) { qs_assert(MPI_Cancel(request) == MPI_SUCCESS); }$/;"	f
+mpiCancel	utilsMpi.hh	/^inline void mpiCancel         ( MPI_Request *request) { return; }$/;"	f
+mpiComm_rank	utilsMpi.cc	/^void mpiComm_rank( MPI_Comm comm, int *rank ) {   qs_assert(MPI_Comm_rank(comm, rank) == MPI_SUCCESS); }$/;"	f
+mpiComm_rank	utilsMpi.hh	/^inline void mpiComm_rank      ( MPI_Comm comm, int *rank ) { *rank = 0; }$/;"	f
+mpiComm_size	utilsMpi.cc	/^void mpiComm_size( MPI_Comm comm, int *size ) { qs_assert(MPI_Comm_size(comm, size) == MPI_SUCCESS); }$/;"	f
+mpiComm_size	utilsMpi.hh	/^inline void mpiComm_size      ( MPI_Comm comm, int *size ) { *size = 1; }$/;"	f
+mpiComm_split	utilsMpi.cc	/^int  mpiComm_split ( MPI_Comm comm, int color, int key, MPI_Comm *newcomm)$/;"	f
+mpiComm_split	utilsMpi.cc	/^int mpiComm_split(MPI_Comm comm, int color, int key, MPI_Comm *newcomm)$/;"	f
+mpiFinalize	utilsMpi.cc	/^void mpiFinalize( void ) { qs_assert(MPI_Finalize() == MPI_SUCCESS); }$/;"	f
+mpiFinalize	utilsMpi.hh	/^inline void mpiFinalize       ( void ) { return; }$/;"	f
+mpiGather	utilsMpi.cc	/^void mpiGather(void *sendbuf, int sendcount, MPI_Datatype sendtype, void *recvbuf, int recvcount, MPI_Datatype recvtype, int root, MPI_Comm comm)$/;"	f
+mpiGet_version	utilsMpi.cc	/^void mpiGet_version( int *version, int *subversion ) { qs_assert(MPI_Get_version(version, subversion) == MPI_SUCCESS); }$/;"	f
+mpiGet_version	utilsMpi.hh	/^inline void mpiGet_version    ( int *version, int *subversion ) { *version = 3; *subversion = 0; }$/;"	f
+mpiIAllreduce	utilsMpi.cc	/^void mpiIAllreduce( void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op operation, MPI_Comm comm, MPI_Request *request)$/;"	f
+mpiInit	utilsMpi.cc	/^void mpiInit( int *argc, char ***argv)$/;"	f
+mpiInit	utilsMpi.hh	/^inline void mpiInit           ( int * argc, char *** argv ) { return; }$/;"	f
+mpiIrecv	utilsMpi.cc	/^void mpiIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)$/;"	f
+mpiIrecv	utilsMpi.hh	/^inline void mpiIrecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Request *request)$/;"	f
+mpiIsend	utilsMpi.cc	/^void mpiIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)$/;"	f
+mpiIsend	utilsMpi.hh	/^inline void mpiIsend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm, MPI_Request *request)$/;"	f
+mpiRecv	utilsMpi.cc	/^void mpiRecv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)$/;"	f
+mpiReduce	utilsMpi.cc	/^void mpiReduce( void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op op, int root, MPI_Comm comm )$/;"	f
+mpiRequestFree	utilsMpi.cc	/^void mpiRequestFree( MPI_Request *request ){qs_assert( MPI_Request_free( request ) == MPI_SUCCESS);}$/;"	f
+mpiScan	utilsMpi.cc	/^void mpiScan( void *sendbuf, void *recvbuf, int count, MPI_Datatype datatype, MPI_Op operation, MPI_Comm comm )$/;"	f
+mpiSend	utilsMpi.cc	/^void mpiSend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)$/;"	f
+mpiSend	utilsMpi.hh	/^inline void mpiSend(void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)$/;"	f
+mpiTest	utilsMpi.cc	/^void mpiTest( MPI_Request *request, int *flag, MPI_Status * status) { qs_assert(MPI_Test(request, flag, status) == MPI_SUCCESS); }$/;"	f
+mpiTest	utilsMpi.hh	/^inline void mpiTest( MPI_Request *, int *, MPI_Status * )$/;"	f
+mpiTest_cancelled	utilsMpi.cc	/^void mpiTest_cancelled( MPI_Status *status, int *flag ) { qs_assert(MPI_Test_cancelled(status, flag) == MPI_SUCCESS); }$/;"	f
+mpiTest_cancelled	utilsMpi.hh	/^inline void mpiTest_cancelled ( MPI_Status *status, int *flag ) { return; }$/;"	f
+mpiType_commit	utilsMpi.cc	/^void mpiType_commit(MPI_Datatype *datatype )$/;"	f
+mpiType_commit	utilsMpi.hh	/^inline void mpiType_commit    ( MPI_Datatype *datatype ) { return; }$/;"	f
+mpiType_contiguous	utilsMpi.cc	/^void mpiType_contiguous(int count, MPI_Datatype old_type, MPI_Datatype *newtype)$/;"	f
+mpiType_contiguous	utilsMpi.hh	/^inline void mpiType_contiguous(int count, MPI_Datatype old_type, MPI_Datatype *newtype) { return; }$/;"	f
+mpiWait	utilsMpi.cc	/^void mpiWait( MPI_Request *request, MPI_Status *status ) { qs_assert(MPI_Wait(request, status) == MPI_SUCCESS); }$/;"	f
+mpiWait	utilsMpi.hh	/^inline void mpiWait           ( MPI_Request *request, MPI_Status *status ) { return; }$/;"	f
+mpiWaitall	utilsMpi.cc	/^void mpiWaitall( int count, MPI_Request *array_of_requests, MPI_Status *array_of_statuses )$/;"	f
+mpiWaitall	utilsMpi.hh	/^inline void mpiWaitall        ( int count, MPI_Request *array_of_requests, MPI_Status *array_of_statuses ) { return; }$/;"	f
+mpiWtime	utilsMpi.cc	/^double mpiWtime (void)$/;"	f
+mpiWtime	utilsMpi.cc	/^double mpiWtime( void ) { return MPI_Wtime(); }$/;"	f
+mpi_datatype_sizes	utilsMpi.cc	/^static size_t mpi_datatype_sizes[MPI_UNSIGNED_LONG_LONG+1] =$/;"	v	file:
+mpi_stubs_alloc_handle	utilsMpi.cc	/^static void mpi_stubs_alloc_handle(int *handle, void **data)$/;"	f	file:
+mpi_stubs_comm_new	utilsMpi.cc	/^static MPI_Comm mpi_stubs_comm_new()$/;"	f	file:
+mpi_stubs_data	utilsMpi.cc	/^static MPI_Stubs_Data_type mpi_stubs_data;$/;"	v	file:
+mpi_stubs_list_new	utilsMpi.cc	/^static pList mpi_stubs_list_new()$/;"	f	file:
+myOptionAlloc	cmdLineParser.cc	/^static MyOption* myOptionAlloc($/;"	f	file:
+myOptionFree	cmdLineParser.cc	/^static MyOption* myOptionFree(MyOption* o)$/;"	f	file:
+myargs	cmdLineParser.cc	/^static MyOption* myargs=NULL;$/;"	v	file:
+nBatches	Parameters.hh	/^   uint64_t nBatches;            \/\/!< number of batches to start$/;"	m	struct:SimulationParameters
+nGroups	Parameters.hh	/^   int nGroups;                  \/\/!< number of groups for cross sections$/;"	m	struct:SimulationParameters
+nIsotopes	Parameters.hh	/^   int nIsotopes;$/;"	m	struct:MaterialParameters
+nPairs	InputBlock.hh	/^   unsigned nPairs() const {return _kvPair.size();}$/;"	f	class:InputBlock
+nParticles	Parameters.hh	/^   uint64_t nParticles;          \/\/!< number of particles$/;"	m	struct:SimulationParameters
+nReactions	Parameters.hh	/^   int nReactions;$/;"	m	struct:MaterialParameters
+nSteps	Parameters.hh	/^   int nSteps;                   \/\/!< number of time steps$/;"	m	struct:SimulationParameters
+name	InputBlock.hh	/^   const std::string& name() const {return _blockName;}$/;"	f	class:InputBlock
+name	Parameters.hh	/^   std::string name;$/;"	m	struct:CrossSectionParameters
+name	Parameters.hh	/^   std::string name;$/;"	m	struct:MaterialParameters
+name	mpi_stubs_internal.hh	/^  char *name;$/;"	m	struct:__anon55
+nb_	IndexToTuple4.hh	/^   int nb_;$/;"	m	class:IndexToTuple4
+nb_	Tuple4ToIndex.hh	/^   Long64 nb_;$/;"	m	class:Tuple4ToIndex
+nblocks	mpi_stubs_internal.hh	/^    int nblocks;$/;"	m	struct:MPI_Stubs_Data_struct
+nbrDomains	MeshPartition.hh	/^   const std::vector<int>& nbrDomains() const {return _nbrDomains;}$/;"	f	class:MeshPartition
+nearestCenter	GridAssignmentObject.cc	/^int GridAssignmentObject::nearestCenter(const MC_Vector r)$/;"	f	class:GridAssignmentObject
+need_to_init	mpi_stubs_internal.hh	/^    int need_to_init;$/;"	m	struct:MPI_Stubs_Data_struct
+neighbor_foreman	MC_Facet_Adjacency.hh	/^   int neighbor_foreman;$/;"	m	class:Subfacet_Adjacency
+neighbor_global_domain	MC_Facet_Adjacency.hh	/^   int neighbor_global_domain;$/;"	m	class:Subfacet_Adjacency
+neighbor_index	MC_Facet_Adjacency.hh	/^   int neighbor_index;$/;"	m	class:Subfacet_Adjacency
+neighbor_size	SendQueue.cc	/^neighbor_size( int neighbor_ )$/;"	f	class:SendQueue
+new_test_done_method	MC_Particle_Buffer.hh	/^    MC_New_Test_Done_Method::Enum new_test_done_method; \/\/ which algorithm to use$/;"	m	class:MC_Particle_Buffer
+next	cmdLineParser.cc	/^   void* next;$/;"	m	struct:MyOptionSt	file:
+next	mpi_stubs_internal.hh	/^  pListitem next;$/;"	m	struct:_Listitem
+next	mpi_stubs_internal.hh	/^  struct _Handleitem *next;$/;"	m	struct:_Handleitem	typeref:struct:_Handleitem::_Handleitem
+nextOption	cmdLineParser.cc	19;"	d	file:
+nextfree	mpi_stubs_internal.hh	/^    Handleitem *nextfree;$/;"	m	struct:MPI_Stubs_Data_struct
+nodeCoord	GlobalFccGrid.cc	/^MC_Vector GlobalFccGrid::nodeCoord(Long64 index) const$/;"	f	class:GlobalFccGrid
+nodeCoord	GlobalFccGrid.cc	/^MC_Vector GlobalFccGrid::nodeCoord(const Tuple4& tt) const$/;"	f	class:GlobalFccGrid
+nodeIndex	GlobalFccGrid.hh	/^   Long64 nodeIndex(const Tuple4& tt) const {return _nodeTupleToIndex(tt);}$/;"	f	class:GlobalFccGrid
+nodeIndirect	MC_Domain.cc	/^   int nodeIndirect[24][3] =  { {1, 3, 8}, {3, 7, 8}, {7, 5, 8}, {5, 1, 8},$/;"	m	namespace:__anon12	file:
+non_blocking_send	MC_Particle_Buffer.hh	/^    int64_t non_blocking_send[2];$/;"	m	class:mcp_test_done_class
+non_blocking_sum	MC_Particle_Buffer.hh	/^    int64_t non_blocking_sum[2];$/;"	m	class:mcp_test_done_class
+normal_dot	MC_Particle.hh	/^    double normal_dot;$/;"	m	class:MC_Particle
+nuBar	Parameters.hh	/^   double nuBar;$/;"	m	struct:CrossSectionParameters
+num	mpi_stubs_internal.hh	/^  int num;$/;"	m	struct:__anon55
+numCalls	MC_Fast_Timer.hh	/^    uint64_t numCalls;$/;"	m	class:MC_Fast_Timer
+num_base_chars	MC_Base_Particle.cc	/^int MC_Base_Particle::num_base_chars = 0;$/;"	m	class:MC_Base_Particle	file:
+num_base_chars	MC_Base_Particle.hh	/^    static int                         num_base_chars;  \/\/ Number of chars for communication$/;"	m	class:MC_Base_Particle
+num_base_floats	MC_Base_Particle.cc	/^int MC_Base_Particle::num_base_floats = 0;$/;"	m	class:MC_Base_Particle	file:
+num_base_floats	MC_Base_Particle.hh	/^    static int                         num_base_floats; \/\/ Number of floats for communication$/;"	m	class:MC_Base_Particle
+num_base_ints	MC_Base_Particle.cc	/^int MC_Base_Particle::num_base_ints = 0;$/;"	m	class:MC_Base_Particle	file:
+num_base_ints	MC_Base_Particle.hh	/^    static int                         num_base_ints;   \/\/ Number of ints for communication$/;"	m	class:MC_Base_Particle
+num_buffers	MC_Particle_Buffer.hh	/^    int  num_buffers;         \/\/ Number of particle buffers$/;"	m	class:MC_Particle_Buffer
+num_collisions	MC_Base_Particle.hh	/^    int                                num_collisions;$/;"	m	class:MC_Base_Particle
+num_collisions	MC_Particle.hh	/^    int num_collisions;$/;"	m	class:MC_Particle
+num_facets	MC_Facet_Adjacency.hh	/^   int                  num_facets; \/\/ 6 quad faces, each quad has 3 triangles = 24 faces$/;"	m	class:MC_Facet_Adjacency_Cell
+num_mean_free_paths	MC_Base_Particle.hh	/^    double                             num_mean_free_paths;$/;"	m	class:MC_Base_Particle
+num_mean_free_paths	MC_Particle.hh	/^    double num_mean_free_paths;$/;"	m	class:MC_Particle
+num_particles	MC_Particle_Buffer.hh	/^    int          num_particles;   \/\/ Number of particles in buffer.$/;"	m	struct:particle_buffer_base_type
+num_physical_cores	mc_omp_parallel_for_schedule_static_num_physical_cores.hh	/^    int num_physical_cores = mc_get_num_physical_procs();$/;"	v
+num_points	MC_Facet_Adjacency.hh	/^   int                  num_points;   \/\/ the number of points defining that facet, for polyhedra$/;"	m	class:MC_Facet_Adjacency
+num_points	MC_Facet_Adjacency.hh	/^   int                  num_points;  \/\/ 8 hex corners + 6 face centers = 14 points$/;"	m	class:MC_Facet_Adjacency_Cell
+num_processors	MC_Processor_Info.hh	/^    int num_processors;$/;"	m	class:MC_Processor_Info
+num_segments	MC_Base_Particle.hh	/^    double                             num_segments;$/;"	m	class:MC_Base_Particle
+num_segments	MC_Particle.hh	/^    double num_segments;$/;"	m	class:MC_Particle
+nx	GlobalFccGrid.hh	/^   double nx() const {return _nx;}$/;"	f	class:GlobalFccGrid
+nx	Parameters.hh	/^   int nx;                       \/\/!< number of mesh elements in x-direction$/;"	m	struct:SimulationParameters
+nx_	IndexToTuple.hh	/^   int nx_;$/;"	m	class:IndexToTuple
+nx_	IndexToTuple4.hh	/^   int nx_;$/;"	m	class:IndexToTuple4
+nx_	Tuple4ToIndex.hh	/^   Long64 nx_;  \/\/ needs to be Long64 to force 64-bit math below$/;"	m	class:Tuple4ToIndex
+nx_	TupleToIndex.hh	/^    Long64 nx_;  \/\/ needs to be Long64 to force 64-bit math below$/;"	m	class:TupleToIndex
+ny	GlobalFccGrid.hh	/^   double ny() const {return _ny;}$/;"	f	class:GlobalFccGrid
+ny	Parameters.hh	/^   int ny;                       \/\/!< number of mesh elements in y-direction$/;"	m	struct:SimulationParameters
+ny_	IndexToTuple.hh	/^   int ny_;$/;"	m	class:IndexToTuple
+ny_	IndexToTuple4.hh	/^   int ny_;$/;"	m	class:IndexToTuple4
+ny_	Tuple4ToIndex.hh	/^   Long64 ny_;$/;"	m	class:Tuple4ToIndex
+ny_	TupleToIndex.hh	/^    Long64 ny_;$/;"	m	class:TupleToIndex
+nz	GlobalFccGrid.hh	/^   double nz() const {return _nz;}$/;"	f	class:GlobalFccGrid
+nz	Parameters.hh	/^   int nz;                       \/\/!< number of mesh elements in z-direction$/;"	m	struct:SimulationParameters
+nz_	IndexToTuple.hh	/^   int nz_;$/;"	m	class:IndexToTuple
+nz_	IndexToTuple4.hh	/^   int nz_;$/;"	m	class:IndexToTuple4
+nz_	Tuple4ToIndex.hh	/^   Long64 nz_;$/;"	m	class:Tuple4ToIndex
+nz_	TupleToIndex.hh	/^    Long64 nz_;$/;"	m	class:TupleToIndex
+omp_get_max_threads	macros.hh	31;"	d
+omp_get_num_procs	macros.hh	32;"	d
+omp_get_thread_num	macros.hh	30;"	d
+operator ()	IndexToTuple.hh	/^   Tuple operator()(Long64 index) const$/;"	f	class:IndexToTuple
+operator ()	IndexToTuple4.hh	/^   Tuple4 operator()(Long64 index) const$/;"	f	class:IndexToTuple4
+operator ()	NuclearData.hh	/^   double operator()(double xx) const$/;"	f	class:Polynomial
+operator ()	Tuple4ToIndex.hh	/^Tuple4ToIndex::operator()(const Tuple4& tt) const$/;"	f	class:Tuple4ToIndex
+operator ()	Tuple4ToIndex.hh	/^Tuple4ToIndex::operator()(int ix, int iy, int iz, int ib) const$/;"	f	class:Tuple4ToIndex
+operator ()	TupleToIndex.hh	/^TupleToIndex::operator()(const Tuple& tt) const$/;"	f	class:TupleToIndex
+operator ()	TupleToIndex.hh	/^TupleToIndex::operator()(int ix, int iy, int iz) const$/;"	f	class:TupleToIndex
+operator *	MC_Vector.hh	/^   const MC_Vector operator*(const double scalar) const$/;"	f	class:MC_Vector
+operator *=	MC_Vector.hh	/^   MC_Vector& operator*=(const double scalar)$/;"	f	class:MC_Vector
+operator +	MC_Vector.hh	/^   const MC_Vector operator+( const MC_Vector &tmp ) const$/;"	f	class:MC_Vector
+operator +	Tuple.hh	/^inline Tuple operator+(const Tuple& a, const Tuple& b)$/;"	f
+operator +	Tuple4.hh	/^inline Tuple4 operator+(const Tuple4& a, const Tuple4& b)$/;"	f
+operator +=	MC_Vector.hh	/^   MC_Vector& operator+=( const MC_Vector &tmp )$/;"	f	class:MC_Vector
+operator +=	Tuple.hh	/^inline Tuple& Tuple::operator+=(const Tuple& a)$/;"	f	class:Tuple
+operator +=	Tuple4.hh	/^inline Tuple4& Tuple4::operator+=(const Tuple4& a)$/;"	f	class:Tuple4
+operator -	MC_Vector.hh	/^   const MC_Vector operator-( const MC_Vector &tmp ) const$/;"	f	class:MC_Vector
+operator -	Tuple.hh	/^inline Tuple operator-(const Tuple& a, const Tuple& b)$/;"	f
+operator -	Tuple4.hh	/^inline Tuple4 operator-(const Tuple4& a, const Tuple4& b)$/;"	f
+operator -=	MC_Vector.hh	/^   MC_Vector& operator-=( const MC_Vector &tmp )$/;"	f	class:MC_Vector
+operator -=	Tuple.hh	/^inline Tuple& Tuple::operator-=(const Tuple& a)$/;"	f	class:Tuple
+operator -=	Tuple4.hh	/^inline Tuple4& Tuple4::operator-=(const Tuple4& a)$/;"	f	class:Tuple4
+operator /=	MC_Vector.hh	/^   MC_Vector& operator\/=(const double scalar)$/;"	f	class:MC_Vector
+operator <	Tuple.hh	/^inline bool Tuple::operator<(const Tuple& b) const$/;"	f	class:Tuple
+operator <	Tuple4.hh	/^inline bool Tuple4::operator<(const Tuple4& b) const$/;"	f	class:Tuple4
+operator <<	Parameters.cc	/^ostream& operator<<(ostream& out, const CrossSectionParameters& pp)$/;"	f
+operator <<	Parameters.cc	/^ostream& operator<<(ostream& out, const GeometryParameters& pp)$/;"	f
+operator <<	Parameters.cc	/^ostream& operator<<(ostream& out, const MaterialParameters& pp)$/;"	f
+operator <<	Parameters.cc	/^ostream& operator<<(ostream& out, const SimulationParameters& pp)$/;"	f
+operator =	BulkStorage.hh	/^   BulkStorage& operator=(const BulkStorage& aa)$/;"	f	class:BulkStorage
+operator =	DirectionCosine.hh	/^   DirectionCosine &operator=(const DirectionCosine &dc) $/;"	f	class:DirectionCosine
+operator =	MC_Base_Particle.hh	/^inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particle)$/;"	f	class:MC_Base_Particle
+operator =	MC_Nearest_Facet.hh	/^   MC_Nearest_Facet& operator=( const MC_Nearest_Facet& nf )$/;"	f	class:MC_Nearest_Facet
+operator =	MC_Vector.hh	/^   MC_Vector& operator=( const MC_Vector&tmp )$/;"	f	class:MC_Vector
+operator =	QS_Vector.hh	/^   qs_vector<T>& operator=(const qs_vector<T>& aa)$/;"	f	class:qs_vector
+operator ==	MC_Location.hh	/^inline bool operator==(const MC_Location& a, const MC_Location b)$/;"	f
+operator ==	MC_Vector.hh	/^   bool operator==( const MC_Vector& tmp )$/;"	f	class:MC_Vector
+operator ==	Tuple.hh	/^inline bool operator==(const Tuple& a, const Tuple& b)$/;"	f
+operator ==	Tuple4.hh	/^inline bool operator==(const Tuple4& a, const Tuple4& b)$/;"	f
+operator []	ParticleVault.hh	/^   MC_Base_Particle& operator[](size_t n) {return _particles[n];}$/;"	f	class:ParticleVault
+operator []	ParticleVault.hh	/^   const MC_Base_Particle& operator[](size_t n) const {return _particles[n];}$/;"	f	class:ParticleVault
+operator []	QS_Vector.hh	/^   T& operator[]( int index )$/;"	f	class:qs_vector
+operator []	QS_Vector.hh	/^   const T& operator[]( int index ) const$/;"	f	class:qs_vector
+opposingFacet	MC_Domain.cc	/^   int opposingFacet[24] = { 7,  6,  5,  4,  3,  2,  1,  0, 12, 15,$/;"	m	namespace:__anon12	file:
+pList	mpi_stubs_internal.hh	/^typedef struct _List     *pList;            \/\/ forward declaration for prototypes.$/;"	t	typeref:struct:_List
+pListitem	mpi_stubs_internal.hh	/^typedef struct _Listitem *pListitem;$/;"	t	typeref:struct:_Listitem
+parseCommandLine	Parameters.cc	/^   void parseCommandLine(int argc, char** argv, Parameters& pp)$/;"	f	namespace:__anon34
+parseError	InputBlock.hh	/^inline void InputBlock::parseError(const std::string& keyword) const$/;"	f	class:InputBlock
+parseInputFile	Parameters.cc	/^   void parseInputFile(const string& filename, Parameters& pp)$/;"	f	namespace:__anon35
+particle_buffer	MonteCarlo.hh	/^    MC_Particle_Buffer *particle_buffer;$/;"	m	class:MonteCarlo
+particle_buffer_base_type	MC_Particle_Buffer.hh	/^struct particle_buffer_base_type$/;"	s
+particle_buffer_task_class	MC_Particle_Buffer.hh	/^    particle_buffer_task_class() : send_buffer(NULL), recv_buffer(NULL), extra_send_buffer() {}$/;"	f	class:particle_buffer_task_class
+particle_buffer_task_class	MC_Particle_Buffer.hh	/^class particle_buffer_task_class$/;"	c
+point	MC_Facet_Adjacency.hh	/^   int                  point[3];       \/\/  the points defining that facet, for polyhedra$/;"	m	class:MC_Facet_Adjacency
+popBaseParticle	ParticleVault.hh	/^popBaseParticle(MC_Base_Particle &base_particle)$/;"	f	class:ParticleVault
+popParticle	ParticleVault.hh	/^popParticle(MC_Particle &particle)$/;"	f	class:ParticleVault
+pop_back	QS_Vector.hh	/^    void pop_back()$/;"	f	class:qs_vector
+prev	mpi_stubs_internal.hh	/^  pListitem prev;$/;"	m	struct:_Listitem
+printArgs	cmdLineParser.cc	/^void printArgs()$/;"	f
+printBanner	utils.cc	/^void printBanner(const char *git_version, const char *git_hash)$/;"	f
+printParameters	Parameters.cc	/^void printParameters(const Parameters& pp, ostream& out)$/;"	f
+processArgs	cmdLineParser.cc	/^void processArgs(int argc, char** argv)$/;"	f
+processedSize	ParticleVaultContainer.hh	/^    uint64_t processedSize(){ return _processedVault.size(); }$/;"	f	class:ParticleVaultContainer
+processingSize	ParticleVaultContainer.hh	/^    uint64_t processingSize(){ return _processingVault.size(); }$/;"	f	class:ParticleVaultContainer
+processor	MC_Particle_Buffer.hh	/^    int          processor;$/;"	m	struct:particle_buffer_base_type
+processor_buffer_map	MC_Particle_Buffer.hh	/^    std::map<int, int>    processor_buffer_map; \/\/ Map processors to buffers. buffer_index = processor_buffer_map[processor]$/;"	m	class:MC_Particle_Buffer
+processor_info	MonteCarlo.hh	/^    MC_Processor_Info *processor_info;$/;"	m	class:MonteCarlo
+pseudo_des	MC_RNG_State.cc	/^   void pseudo_des( uint32_t& lword, uint32_t& irword )$/;"	f	namespace:__anon20
+ptr	cmdLineParser.cc	/^   void* ptr;$/;"	m	struct:MyOptionSt	file:
+push	SendQueue.cc	/^push( int neighbor_, int vault_index_ )$/;"	f	class:SendQueue
+pushBaseParticle	ParticleVault.hh	/^pushBaseParticle(MC_Base_Particle &base_particle)$/;"	f	class:ParticleVault
+pushParticle	ParticleVault.hh	/^pushParticle(MC_Particle &particle)$/;"	f	class:ParticleVault
+push_back	QS_Vector.hh	/^   void push_back( const T& dataElem )$/;"	f	class:qs_vector
+putParticle	ParticleVault.hh	/^putParticle(MC_Particle particle, int index)$/;"	f	class:ParticleVault
+qsCalloc	memUtils.hh	/^static void* qsCalloc(size_t num, size_t iSize)$/;"	f
+qsFree	memUtils.hh	/^static void qsFree(void* ptr)$/;"	f
+qsMalloc	memUtils.hh	/^static void* qsMalloc(size_t iSize)$/;"	f
+qsRealloc	memUtils.hh	/^static void* qsRealloc(void* ptr, size_t iSize)$/;"	f
+qs_assert	qs_assert.hh	13;"	d
+qs_assert	qs_assert.hh	4;"	d
+qs_vector	QS_Vector.hh	/^   qs_vector( int size, const T& value, MemoryControl::AllocationPolicy memPolicy = MemoryControl::AllocationPolicy::HOST_MEM )$/;"	f	class:qs_vector
+qs_vector	QS_Vector.hh	/^   qs_vector() : _data(0), _capacity(0), _size(0), _memPolicy(MemoryControl::AllocationPolicy::HOST_MEM), _isOpen(0) {};$/;"	f	class:qs_vector
+qs_vector	QS_Vector.hh	/^   qs_vector(const qs_vector<T>& aa )$/;"	f	class:qs_vector
+qs_vector	QS_Vector.hh	/^   qs_vector(int size, MemoryControl::AllocationPolicy memPolicy = MemoryControl::AllocationPolicy::HOST_MEM )$/;"	f	class:qs_vector
+qs_vector	QS_Vector.hh	/^class qs_vector $/;"	c
+radius	Parameters.hh	/^   double radius;$/;"	m	struct:GeometryParameters
+random_number_seed	MC_Base_Particle.hh	/^    uint64_t                           random_number_seed;$/;"	m	class:MC_Base_Particle
+random_number_seed	MC_Particle.hh	/^    uint64_t random_number_seed;$/;"	m	class:MC_Particle
+rank	MC_Processor_Info.hh	/^    int rank;$/;"	m	class:MC_Processor_Info
+readBlock	parseUtils.cc	/^string readBlock(InputBlock& block, istream& in)$/;"	f
+reconstruct_uint64	MC_RNG_State.cc	/^   uint64_t reconstruct_uint64( uint32_t front_bits, uint32_t back_bits )$/;"	f	namespace:__anon21
+recv_buffer	MC_Particle_Buffer.hh	/^    particle_buffer_base_type *recv_buffer;                   \/\/ recv particle buffers$/;"	m	class:particle_buffer_task_class
+recv_count	MC_Particle_Buffer.cc	/^static std::map<int, int> recv_count;$/;"	v	file:
+recvlist	mpi_stubs_internal.hh	/^  pList recvlist;$/;"	m	struct:__anon55
+req	mpi_stubs_internal.hh	/^    Req req;$/;"	m	union:_Handleitem::__anon57
+request_list	MC_Particle_Buffer.hh	/^    MPI_Request  request_list;    \/\/ Request for the unbuffered data$/;"	m	struct:particle_buffer_base_type
+reserve	ParticleVault.hh	/^   void reserve(size_t n)$/;"	f	class:ParticleVault
+reserve	QS_Vector.hh	/^   void reserve( int size, MemoryControl::AllocationPolicy memPolicy = MemoryControl::AllocationPolicy::HOST_MEM )$/;"	f	class:qs_vector
+reserve	SendQueue.hh	/^    void reserve( size_t size ){ _data.reserve(size, VAR_MEM); }$/;"	f	class:SendQueue
+resize	QS_Vector.hh	/^   void resize( int size, MemoryControl::AllocationPolicy memPolicy = MemoryControl::AllocationPolicy::HOST_MEM )$/;"	f	class:qs_vector
+resize	QS_Vector.hh	/^   void resize( int size, const T& value, MemoryControl::AllocationPolicy memPolicy = MemoryControl::AllocationPolicy::HOST_MEM ) $/;"	f	class:qs_vector
+rngSample	MC_RNG_State.hh	/^inline double rngSample(uint64_t *seed)$/;"	f
+rngSpawn_Random_Number_Seed	MC_RNG_State.cc	/^uint64_t rngSpawn_Random_Number_Seed(uint64_t *parent_seed)$/;"	f
+sampleCollision	NuclearData.cc	/^void NuclearDataReaction::sampleCollision($/;"	f	class:NuclearDataReaction
+scanCrossSectionBlock	Parameters.cc	/^   void scanCrossSectionBlock(const InputBlock& input, Parameters& pp)$/;"	f	namespace:__anon40
+scanGeometryBlock	Parameters.cc	/^   void scanGeometryBlock(const InputBlock& input, Parameters& pp)$/;"	f	namespace:__anon38
+scanMaterialBlock	Parameters.cc	/^   void scanMaterialBlock(const InputBlock& input, Parameters& pp)$/;"	f	namespace:__anon39
+scanSimulationBlock	Parameters.cc	/^   void scanSimulationBlock(const InputBlock& input, Parameters& pp)$/;"	f	namespace:__anon37
+scatteringCrossSection	Parameters.hh	/^   std::string scatteringCrossSection;$/;"	m	struct:MaterialParameters
+scatteringCrossSectionRatio	Parameters.hh	/^   double scatteringCrossSectionRatio;$/;"	m	struct:MaterialParameters
+seed	Parameters.hh	/^   int seed;                     \/\/!< random number seed$/;"	m	struct:SimulationParameters
+segment_path_length	MC_Particle.hh	/^    double segment_path_length;$/;"	m	class:MC_Particle
+sendQueueTuple	SendQueue.hh	/^struct sendQueueTuple$/;"	s
+send_buffer	MC_Particle_Buffer.hh	/^    particle_buffer_base_type *send_buffer;                   \/\/ send particle buffers$/;"	m	class:particle_buffer_task_class
+send_count	MC_Particle_Buffer.cc	/^static std::map<int, int> send_count;$/;"	v	file:
+sendlist	mpi_stubs_internal.hh	/^  pList sendlist;$/;"	m	struct:__anon55
+serialize	InputBlock.cc	/^void InputBlock::serialize(std::vector<char>& buf) const$/;"	f	class:InputBlock
+setCapacity	BulkStorage.hh	/^   void setCapacity(int capacity, MemoryControl::AllocationPolicy policy)$/;"	f	class:BulkStorage
+shape	Parameters.hh	/^   Shape shape;$/;"	m	struct:GeometryParameters
+shortArg	cmdLineParser.cc	/^   unsigned char shortArg[2];$/;"	m	struct:MyOptionSt	file:
+simulationParams	Parameters.hh	/^   SimulationParameters                          simulationParams;$/;"	m	struct:Parameters
+size	MeshPartition.hh	/^   int size() const { return _cellInfoMap.size(); }$/;"	f	class:MeshPartition
+size	ParticleVault.hh	/^   size_t size() const {return _particles.size();}$/;"	f	class:ParticleVault
+size	QS_Vector.hh	/^   int size() const$/;"	f	class:qs_vector
+size	SendQueue.cc	/^size()$/;"	f	class:SendQueue
+size	Tallies.hh	/^    int size(){ return _cell.size(); }$/;"	f	class:FluenceDomain
+size	Tallies.hh	/^   int size() const {return _size;}$/;"	f	class:ScalarFluxCell
+sizeExtra	ParticleVaultContainer.cc	/^sizeExtra()$/;"	f	class:ParticleVaultContainer
+sizeProcessed	ParticleVaultContainer.cc	/^sizeProcessed()$/;"	f	class:ParticleVaultContainer
+sizeProcessing	ParticleVaultContainer.cc	/^sizeProcessing()$/;"	f	class:ParticleVaultContainer
+snapTuple	GlobalFccGrid.cc	/^void GlobalFccGrid::snapTuple(Tuple& tt) const$/;"	f	class:GlobalFccGrid
+sourceRate	Parameters.hh	/^   double sourceRate;$/;"	m	struct:MaterialParameters
+source_particle_weight	MonteCarlo.hh	/^    double source_particle_weight;$/;"	m	class:MonteCarlo
+species	MC_Base_Particle.hh	/^    int                                species;$/;"	m	class:MC_Base_Particle
+species	MC_Particle.hh	/^    int species;$/;"	m	class:MC_Particle
+split	parseUtils.cc	/^   bool split(string line, string& keyword, string& value, int& indent)$/;"	f	namespace:__anon60
+startClock	MC_Fast_Timer.hh	/^    double startClock;                                              \/\/ from MPI$/;"	m	class:MC_Fast_Timer
+startClock	MC_Fast_Timer.hh	/^    std::chrono::high_resolution_clock::time_point startClock;      \/\/ from c++11 high resolution timer calls$/;"	m	class:MC_Fast_Timer
+stopClock	MC_Fast_Timer.hh	/^    double stopClock;$/;"	m	class:MC_Fast_Timer
+stopClock	MC_Fast_Timer.hh	/^    std::chrono::high_resolution_clock::time_point stopClock;$/;"	m	class:MC_Fast_Timer
+subfacet	MC_Distance_To_Facet.hh	/^    int subfacet;$/;"	m	class:MC_Distance_To_Facet
+subfacet	MC_Facet_Adjacency.hh	/^   Subfacet_Adjacency   subfacet;$/;"	m	class:MC_Facet_Adjacency
+supplyDefaults	Parameters.cc	/^   void supplyDefaults(Parameters& params)$/;"	f	namespace:__anon36
+swap	BulkStorage.hh	/^   void swap(BulkStorage<T>& other)$/;"	f	class:BulkStorage
+swap	QS_Vector.hh	/^   void swap(qs_vector<T>& other)$/;"	f	class:qs_vector
+swapProcessingProcessedVaults	ParticleVaultContainer.cc	/^swapProcessingProcessedVaults()$/;"	f	class:ParticleVaultContainer
+sz	cmdLineParser.cc	/^   int sz;$/;"	m	struct:MyOptionSt	file:
+tag	mpi_stubs_internal.hh	/^  int tag;$/;"	m	struct:__anon56
+tail	mpi_stubs_internal.hh	/^  pListitem tail;$/;"	m	struct:_List
+task	MC_Particle.hh	/^    int task;$/;"	m	class:MC_Particle
+task	MC_Particle_Buffer.hh	/^    particle_buffer_task_class  *task;                 \/\/ buffers for each task$/;"	m	class:MC_Particle_Buffer
+task_num	MC_Particle_Buffer.hh	/^    int          task_num;        \/\/ Used for creating tag for messages non master threads.$/;"	m	struct:particle_buffer_base_type
+test_done	MC_Particle_Buffer.hh	/^    mcp_test_done_class          test_done;$/;"	m	class:MC_Particle_Buffer
+time	MC_Time_Info.hh	/^    double time;$/;"	m	class:MC_Time_Info
+time_info	MonteCarlo.hh	/^    MC_Time_Info *time_info;$/;"	m	class:MonteCarlo
+time_step	MC_Time_Info.hh	/^    double time_step;$/;"	m	class:MC_Time_Info
+time_to_census	MC_Base_Particle.hh	/^    double                             time_to_census;$/;"	m	class:MC_Base_Particle
+time_to_census	MC_Particle.hh	/^    double time_to_census;$/;"	m	class:MC_Particle
+timers	MC_Fast_Timer.hh	/^    MC_Fast_Timer  timers[MC_Fast_Timer::Num_Timers];  \/\/ timers for various routines$/;"	m	class:MC_Fast_Timer_Container
+totalCrossSection	MC_Particle.hh	/^    double totalCrossSection;$/;"	m	class:MC_Particle
+totalCrossSection	Parameters.hh	/^   double totalCrossSection;$/;"	m	struct:MaterialParameters
+tupleToIndex	GridAssignmentObject.cc	/^int GridAssignmentObject::tupleToIndex(Tuple tuple) const$/;"	f	class:GridAssignmentObject
+type	MC_Base_Particle.hh	/^    inline int type() const     { return species; }$/;"	f	class:MC_Base_Particle
+type	cmdLineParser.cc	/^   char type;$/;"	m	struct:MyOptionSt	file:
+uint64_cu	ParticleVaultContainer.hh	/^typedef unsigned long long int uint64_cu;$/;"	t
+uint64_cu	Tallies.hh	/^typedef unsigned long long int uint64_cu;$/;"	t
+updateTrajectory	CollisionEvent.cc	/^void updateTrajectory( double energy, double angle, MC_Particle& particle )$/;"	f
+use_gpu	MC_Processor_Info.hh	/^    int use_gpu;$/;"	m	class:MC_Processor_Info
+validKeyword	parseUtils.cc	/^   bool validKeyword(const string& word)$/;"	f	namespace:__anon61
+velocity	MC_Base_Particle.hh	/^    MC_Vector                          velocity;$/;"	m	class:MC_Base_Particle
+velocity	MC_Particle.hh	/^    MC_Vector velocity;$/;"	m	class:MC_Particle
+warmup_kernel	cudaFunctions.cc	/^void warmup_kernel()$/;"	f
+weight	MC_Base_Particle.hh	/^    double                             weight;$/;"	m	class:MC_Base_Particle
+weight	MC_Particle.hh	/^    double weight;$/;"	m	class:MC_Particle
+weightedMacroscopicCrossSection	MacroscopicCrossSection.cc	/^double weightedMacroscopicCrossSection(MonteCarlo* monteCarlo, int taskIndex, int domainIndex,$/;"	f
+whichCell	GlobalFccGrid.cc	/^Long64 GlobalFccGrid::whichCell(const MC_Vector& r) const$/;"	f	class:GlobalFccGrid
+whichCell	GridAssignmentObject.cc	/^int GridAssignmentObject::whichCell(const MC_Vector r) const$/;"	f	class:GridAssignmentObject
+whichCellTuple	GridAssignmentObject.cc	/^Tuple GridAssignmentObject::whichCellTuple(const MC_Vector r) const$/;"	f	class:GridAssignmentObject
+x	MC_Vector.hh	/^   double x;$/;"	m	class:MC_Vector
+x	Tuple.hh	/^   const int& x() const {return ix_;}$/;"	f	class:Tuple
+x	Tuple.hh	/^   int& x() {return ix_;}$/;"	f	class:Tuple
+x	Tuple4.hh	/^   const int& x() const {return ix_;}$/;"	f	class:Tuple4
+x	Tuple4.hh	/^   int& x() {return ix_;}$/;"	f	class:Tuple4
+xCenter	Parameters.hh	/^   double xCenter;$/;"	m	struct:GeometryParameters
+xDom	Parameters.hh	/^   int xDom;                     \/\/!< number of MPI ranks in x-direction$/;"	m	struct:SimulationParameters
+xMax	Parameters.hh	/^   double xMax;$/;"	m	struct:GeometryParameters
+xMin	Parameters.hh	/^   double xMin;$/;"	m	struct:GeometryParameters
+y	MC_Vector.hh	/^   double y;$/;"	m	class:MC_Vector
+y	Tuple.hh	/^   const int& y() const {return iy_;}$/;"	f	class:Tuple
+y	Tuple.hh	/^   int& y() {return iy_;}$/;"	f	class:Tuple
+y	Tuple4.hh	/^   const int& y() const {return iy_;}$/;"	f	class:Tuple4
+y	Tuple4.hh	/^   int& y() {return iy_;}$/;"	f	class:Tuple4
+yCenter	Parameters.hh	/^   double yCenter;$/;"	m	struct:GeometryParameters
+yDom	Parameters.hh	/^   int yDom;                     \/\/!< number of MPI ranks in y-direction$/;"	m	struct:SimulationParameters
+yMax	Parameters.hh	/^   double yMax;$/;"	m	struct:GeometryParameters
+yMin	Parameters.hh	/^   double yMin;$/;"	m	struct:GeometryParameters
+z	MC_Vector.hh	/^   double z;$/;"	m	class:MC_Vector
+z	Tuple.hh	/^   const int& z() const {return iz_;}$/;"	f	class:Tuple
+z	Tuple.hh	/^   int& z() {return iz_;}$/;"	f	class:Tuple
+z	Tuple4.hh	/^   const int& z() const {return iz_;}$/;"	f	class:Tuple4
+z	Tuple4.hh	/^   int& z() {return iz_;}$/;"	f	class:Tuple4
+zCenter	Parameters.hh	/^   double zCenter;$/;"	m	struct:GeometryParameters
+zDom	Parameters.hh	/^   int zDom;                     \/\/!< number of MPI ranks in z-direction$/;"	m	struct:SimulationParameters
+zMax	Parameters.hh	/^   double zMax;$/;"	m	struct:GeometryParameters
+zMin	Parameters.hh	/^   double zMin;$/;"	m	struct:GeometryParameters
+~Balance	Tallies.hh	/^   ~Balance() {}$/;"	f	class:Balance
+~BulkStorage	BulkStorage.hh	/^   ~BulkStorage()$/;"	f	class:BulkStorage
+~CellTallyDomain	Tallies.hh	/^   ~CellTallyDomain() {}$/;"	f	class:CellTallyDomain
+~CellTallyTask	Tallies.hh	/^    ~CellTallyTask() {}$/;"	f	class:CellTallyTask
+~CommObject	CommObject.hh	/^   virtual ~CommObject(){};$/;"	f	class:CommObject
+~Fluence	Tallies.hh	/^    ~Fluence()$/;"	f	class:Fluence
+~Isotope	MaterialDatabase.hh	/^   ~Isotope() {}$/;"	f	class:Isotope
+~MPI_Stubs_Data_struct	mpi_stubs_internal.hh	/^    ~MPI_Stubs_Data_struct() {};   $/;"	f	struct:MPI_Stubs_Data_struct
+~Material	MaterialDatabase.hh	/^   ~Material() {}$/;"	f	class:Material
+~MonteCarlo	MonteCarlo.cc	/^MonteCarlo::~MonteCarlo()$/;"	f	class:MonteCarlo
+~NVTX_Range	NVTX_Range.hh	/^   ~NVTX_Range()$/;"	f	class:NVTX_Range
+~ParticleVaultContainer	ParticleVaultContainer.cc	/^~ParticleVaultContainer()$/;"	f	class:ParticleVaultContainer
+~ScalarFluxCell	Tallies.hh	/^   ~ScalarFluxCell() {}$/;"	f	class:ScalarFluxCell
+~ScalarFluxDomain	Tallies.hh	/^   ~ScalarFluxDomain() {}$/;"	f	class:ScalarFluxDomain
+~ScalarFluxTask	Tallies.hh	/^   ~ScalarFluxTask() {}$/;"	f	class:ScalarFluxTask
+~Tallies	Tallies.hh	/^    ~Tallies() {}$/;"	f	class:Tallies
+~qs_vector	QS_Vector.hh	/^   ~qs_vector()$/;"	f	class:qs_vector

@@ -22,10 +22,11 @@
 #include "CycleTracking.hh"
 #include "CoralBenchmark.hh"
 #include "EnergySpectrum.hh"
-
 #include "git_hash.hh"
 #include "git_vers.hh"
-
+#ifdef HAVE_VARIORUM
+#include "variorum_annotation.hh"
+#endif
 void gameOver();
 void cycleInit( bool loadBalance );
 void cycleTracking(MonteCarlo* monteCarlo);
@@ -39,7 +40,10 @@ int main(int argc, char** argv)
 {
    mpiInit(&argc, &argv);
    printBanner(GIT_VERS, GIT_HASH);
-
+   // int ret=print_variorum_data();
+  #ifdef HAVE_VARIORUM 
+  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  #endif
    Parameters params = getParameters(argc, argv);
    printParameters(params, cout);
 
@@ -83,7 +87,35 @@ int main(int argc, char** argv)
    
    return 0;
 }
-
+// int print_variorum_data()
+// {
+//  int ret;
+//     char *s = NULL;
+//     int num_sockets = 0;
+//
+//     /* Determine number of sockets */
+//     num_sockets = variorum_get_num_sockets();
+//   	printf("Core count is %d\n",variorum_get_num_cores()); 
+//   	printf("Version is %s\n",variorum_get_current_version()); 
+//   	printf("power os %d\n",variorum_print_power()); 
+//     if (num_sockets <= 0)
+//     {
+//         printf("HWLOC returned an invalid number of sockets. Exiting.\n");
+//         exit(-1);
+//     }
+//     ret = variorum_get_node_power_json(&s);
+//     if (ret != 0)
+//     {
+//         printf("First run: JSON get node power failed!\n");
+//         free(s);
+//         exit(-1);
+//     }
+//
+//     puts(s);
+//
+//     free(s);
+//     return ret;
+// }
 void gameOver()
 {
     mcco->fast_timer->Cumulative_Report(mcco->processor_info->rank,
@@ -96,6 +128,9 @@ void gameOver()
 void cycleInit( bool loadBalance )
 {
 
+  #ifdef HAVE_VARIORUM 
+  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  #endif
     MC_FASTTIMER_START(MC_Fast_Timer::cycleInit);
 
     mcco->clearCrossSectionCache();
@@ -126,9 +161,9 @@ void cycleInit( bool loadBalance )
 __global__ void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault )
 {
    int global_index = getGlobalThreadID(); 
-
     if( global_index < num_particles )
     {
+    
         CycleTrackingGuts( monteCarlo, global_index, processingVault, processedVault );
     }
 }
@@ -137,6 +172,11 @@ __global__ void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, 
 
 void cycleTracking(MonteCarlo *monteCarlo)
 {
+   VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+ 
+  #ifdef HAVE_VARIORUM 
+  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  #endif
     MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking);
 
     bool done = false;
@@ -160,6 +200,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
         {
             uint64_t fill_vault = 0;
 
+  #ifdef HAVE_VARIORUM 
+  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  #endif
             for ( uint64_t processing_vault = 0; processing_vault < my_particle_vault.processingSize(); processing_vault++ )
             {
                 MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_Kernel);
@@ -309,6 +352,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
 
 void cycleFinalize()
 {
+  #ifdef HAVE_VARIORUM 
+  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  #endif
     MC_FASTTIMER_START(MC_Fast_Timer::cycleFinalize);
 
     mcco->_tallies->_balanceTask[0]._end = mcco->_particleVaultContainer->sizeProcessed();
