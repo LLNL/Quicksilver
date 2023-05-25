@@ -19,4 +19,8 @@ void variorum_annotate_get_node_power_json(const char *file, int line,
 ///to a filename after the hostname.
 void variorum_annotate_get_node_power_domain_info_json(
     const char *file, int line, const char *function_name);
+
+void variorum_annotate_init();
+
+void variorum_annotate_finalize();
 #endif

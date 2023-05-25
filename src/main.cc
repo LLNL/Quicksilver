@@ -39,9 +39,11 @@ MonteCarlo *mcco  = NULL;
 int main(int argc, char** argv)
 {
    mpiInit(&argc, &argv);
+
    printBanner(GIT_VERS, GIT_HASH);
    // int ret=print_variorum_data();
   #ifdef HAVE_VARIORUM 
+  variorum_annotate_init(); 
   VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
   #endif
    Parameters params = getParameters(argc, argv);
@@ -82,7 +84,9 @@ int main(int argc, char** argv)
 #else
    delete mcco;
 #endif
-
+  #ifdef HAVE_VARIORUM
+  variorum_annotate_finalize();
+  #endif
    mpiFinalize();
    
    return 0;
@@ -199,9 +203,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
         {
             uint64_t fill_vault = 0;
 
-  #ifdef HAVE_VARIORUM 
-  VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
-  #endif
+  // #ifdef HAVE_VARIORUM 
+  // VARIORUM_ANNOTATE_GET_NODE_POWER_JSON;
+  // #endif
             for ( uint64_t processing_vault = 0; processing_vault < my_particle_vault.processingSize(); processing_vault++ )
             {
                 MC_FASTTIMER_START(MC_Fast_Timer::cycleTracking_Kernel);
