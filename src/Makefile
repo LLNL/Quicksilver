@@ -173,34 +173,33 @@ LDFLAGS =
 ## Choose one Cuda path
 ##CUDA_PATH = /usr/local/cuda-8.0
 #CUDA_PATH = /usr/tcetmp/packages/cuda-9.0.176
-CUDA_PATH =/usr/tce/packages/cuda/cuda-10.1.243
+#CUDA_PATH =/usr/tce/packages/cuda/cuda-10.1.243
 
-HOST_COMPILER =/usr/tce/packages/spectrum-mpi/spectrum-mpi-rolling-release-xl-2022.08.19/bin/mpixlC
+#HOST_COMPILER =/usr/tce/packages/spectrum-mpi/spectrum-mpi-rolling-release-xl-2022.08.19/bin/mpixlC
 ##HOST_COMPILER = /usr/tce/packages/spectrum-mpi/spectrum-mpi-2017.04.03-xl-beta-2017.09.13/bin/mpixlC
 
 #Variorum Path
-VARIORUM_DIR=/g/g92/namankul/variorum/install_lassen_both
-include ${VARIORUM_DIR}/share/variorum/variorum_config.mk
+#VARIORUM_DIR=/g/g92/namankul/variorum/install_lassen_both
+#include ${VARIORUM_DIR}/share/variorum/variorum_config.mk
 
 #Rankstr 
-RANKSTR_DIR=/g/g92/namankul/local/rankstr_lassen
-OPTFLAGS = -O2 
+#RANKSTR_DIR=/g/g92/namankul/local/rankstr_lassen
+#OPTFLAGS = -O2 
 ## Version below for debugging
 ##OPTFLAGS = -DUSE_NVTX -g -G -lineinfo -O0
 
-CUDA_FLAGS = -I${CUDA_PATH}/include/ ${VARIORUM_INCLUDE_FLAGS} -I${RANKSTR_DIR}/include
-CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
-#
-CXX=$(CUDA_PATH)/bin/nvcc
-CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) 
-CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
-CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
-CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI -DHAVE_VARIORUM ${CUDA_FLAGS}
-# CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI  ${CUDA_FLAGS}
+#CUDA_FLAGS = -I${CUDA_PATH}/include/ ${VARIORUM_INCLUDE_FLAGS} -I${RANKSTR_DIR}/include
+#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
+
+#CXX=$(CUDA_PATH)/bin/nvcc
+#CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) 
+#CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
+#CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
+# CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI -DHAVE_VARIORUM  ${CUDA_FLAGS}
+#CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI  ${CUDA_FLAGS}
 #LDFLAGS  =   -L/g/g92/namankul/local/jansson_lassen/lib/libjansson.so -L/usr/global/tools/hwloc/blueos_3_ppc64le_ib/hwloc-1.11.10-cuda/lib/libhwloc.so -L/g/g92/namankul/variorum/install_lassen_both/lib/libvariorum.so
-RANKSTR_FLAGS= -Xlinker=-rpath,${RANKSTR_DIR}/lib64 -L${RANKSTR_DIR}/lib64 -lrankstr
-LDFLAGS  = $(CUDA_LDFLAGS) -Xlinker=-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FLAGS} ${RANKSTR_FLAGS} 
-#LDFLAGS  = $(CUDA_LDFLAGS) --shared -Xcompiler ${VARIORUM_LIB_FLAGS}
+#RANKSTR_FLAGS= -Xlinker=-rpath,${RANKSTR_DIR}/lib64 -L${RANKSTR_DIR}/lib64 -lrankstr
+#LDFLAGS  = $(CUDA_LDFLAGS) -Xlinker=-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FLAGS} ${RANKSTR_FLAGS} 
 ##LDFLAGS += ${CUDA_PATH}/lib64/libnvToolsExt.so
 
 
@@ -259,6 +258,38 @@ LDFLAGS  = $(CUDA_LDFLAGS) -Xlinker=-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FL
 #LDFLAGS  = $(OPENMP_LDFLAGS) 
 
 
+###############################################################################
+# LLNL Tioga MPI + HIP + Variorum                                             #
+###############################################################################
+
+#VARIORUM_DIR=/g/g92/namankul/variorum/install_tioga_both
+
+#include ${VARIORUM_DIR}/share/variorum/variorum_config.mk
+
+#RANKSTR_DIR=/g/g92/namankul/local/rankstr
+
+#HIP_DIR=/opt/rocm-5.5.0
+
+#MPI_DIR=/usr/tce/packages/cray-mpich/cray-mpich-8.1.25-cce-15.0.0c-magic
+
+#CXX=${HIP_DIR}/bin/hipcc
+
+#CXXFLAGS1=-I${HIP_DIR}/include
+
+#CXXFLAGS2=${CXXFLAGS1} -I${MPI_DIR}/include 
+
+#CXXFLAGS3=${CXXFLAGS2} ${VARIORUM_INCLUDE_FLAGS} -I${RANKSTR_DIR}/include
+
+#CXXFLAGS=${CXXFLAGS3} -pthread
+
+# CPPFLAGS=-DHAVE_MPI -DHAVE_HIP=1 
+#CPPFLAGS=-DHAVE_MPI -DHAVE_HIP=1 -DHAVE_VARIORUM
+
+#LDFLAGS1=-Wl,-rpath,${RANKSTR_DIR}/lib64 -L${RANKSTR_DIR}/lib64 -lrankstr
+
+#LDFLAGS2=${LDFLAGS1} -Wl,-rpath,${VARIORUM_DIR}/lib ${VARIORUM_LIB_FLAGS} ${RANKSTR_FLAGS} 
+
+#LDFLAGS=${LDFLAGS2} -L${HIP_DIR}/lib -L${MPI_DIR}/lib -lmpi
 
 ################################################################################
 ### Below here, it is pitch black.                                           ###
