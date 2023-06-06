@@ -2,6 +2,7 @@
 #include "utils.hh"
 #include "Parameters.hh"
 #include "utilsMpi.hh"
+#include "StdParUtils.hpp"
 #include "MonteCarlo.hh"
 #include "initMC.hh"
 #include "Tallies.hh"
@@ -198,7 +199,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                           #endif
                        }
                        break;
-                       
+
                       case gpuWithOpenMP:
                        {
                           int nthreads=128;
@@ -224,6 +225,23 @@ void cycleTracking(MonteCarlo *monteCarlo)
                        }
                        break;
 
+                      case cpuWithStdPar:
+                       {
+                          static int printed{0};
+                          if (!printed) {
+                            std::cout << "cpuWithStdPar" << std::endl;
+                            printed++;
+                          }
+
+                          auto begin = counting_iterator<int>(0);
+                          auto end   = counting_iterator<int>(numParticles);
+                          std::for_each( std::execution::par_unseq, begin, end, [=](int particle_index) {
+                             CycleTrackingGuts( monteCarlo, particle_index, processingVault, processedVault );
+                          });
+
+                       }
+                       break;
+
                       case cpu:
                        #include "mc_omp_parallel_for_schedule_static.hh"
                        for ( int particle_index = 0; particle_index < numParticles; particle_index++ )
@@ -231,6 +249,7 @@ void cycleTracking(MonteCarlo *monteCarlo)
                           CycleTrackingGuts( monteCarlo, particle_index, processingVault, processedVault );
                        }
                        break;
+
                       default:
                        qs_assert(false);
                     } // end switch

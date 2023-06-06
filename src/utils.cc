@@ -2,6 +2,7 @@
 #include <cstdio>
 #include "qs_assert.hh"
 #include "utilsMpi.hh"
+#include "StdParUtils.hpp"
 #include "macros.hh"
 #include <vector>
 #include <stdarg.h>
@@ -71,8 +72,12 @@ void printBanner(const char *git_version, const char *git_hash)
         printf("Quicksilver Git Hash    : %s\n",git_hash);
         printf("MPI Version             : %d.%d\n",mpi_major,mpi_minor);
         printf("Number of MPI ranks     : %d\n",size);
+#ifdef HAVE_STDPAR
+        printf("Number of C++ HW Threads: %d\n\n",(int)std::thread::hardware_concurrency());
+#else
         printf("Number of OpenMP Threads: %d\n",(int)omp_get_max_threads());
         printf("Number of OpenMP CPUs   : %d\n\n",(int)omp_get_num_procs());
+#endif
     }
 }
 

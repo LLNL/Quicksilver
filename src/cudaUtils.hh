@@ -21,7 +21,7 @@
     #define VAR_MEM MemoryControl::AllocationPolicy::HOST_MEM
 #endif
 
-enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };
+enum ExecutionPolicy{ cpu, cpuWithStdPar, gpuWithCUDA, gpuWithOpenMP };
 
 inline ExecutionPolicy getExecutionPolicy( int useGPU )
 {
@@ -33,6 +33,10 @@ inline ExecutionPolicy getExecutionPolicy( int useGPU )
         execPolicy = ExecutionPolicy::gpuWithCUDA;
         #elif defined (HAVE_OPENMP_TARGET)
         execPolicy = ExecutionPolicy::gpuWithOpenMP;
+        #endif
+    } else {
+        #if defined (HAVE_STDPAR)
+        execPolicy = ExecutionPolicy::cpuWithStdPar;
         #endif
     }
     return execPolicy;
