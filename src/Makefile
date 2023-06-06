@@ -100,6 +100,33 @@ CPPFLAGS =
 LDFLAGS =
 
 ###############################################################################
+# Cuda on LLNL CORAL EA nodes
+###############################################################################
+## Choose one Cuda path
+#CUDA_PATH = /usr
+#CUDA_PATH = /usr/tcetmp/packages/cuda-9.0.176
+
+#HOST_COMPILER = g++
+
+#OPTFLAGS = -O2
+## Version below for debugging
+##OPTFLAGS = -DUSE_NVTX -g -G -lineinfo -O0
+
+#CUDA_FLAGS = -I${CUDA_PATH}/include/
+#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
+#
+#CXX=$(CUDA_PATH)/bin/nvcc
+#CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) #-Xptxas -v
+#CXXFLAGS += -ccbin clang-8
+#CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\"
+#CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
+#CPPFLAGS = -x cu -dc
+#CPPFLAGS += -DHAVE_MPI -DHAVE_ASYNC_MPI
+#LDFLAGS  = $(CUDA_LDFLAGS)
+#LDFLAGS  += -lstdc++
+##LDFLAGS += ${CUDA_PATH}/lib64/libnvToolsExt.so
+
+###############################################################################
 # Very simple GCC build with OpenMP but without MPI.  
 # This works on a Macbook (if gcc is installed)
 ###############################################################################
@@ -129,18 +156,6 @@ LDFLAGS =
 
 
 ###############################################################################
-# LLNL LC BG/Q Comilers                                                       #
-###############################################################################
-### BGQ GNU
-#OPTFLAGS = -g -O2
-##
-#CXX=/usr/local/tools/compilers/ibm/mpicxx-4.8.4
-#CXXFLAGS = -std=c++11 $(OPTFLAGS) 
-#CPPFLAGS = -DCHRONO_MISSING -DHAVE_MPI -DHAVE_OPENMP -fopenmp
-#LDFLAGS  = -fopenmp
-
-
-###############################################################################
 # OpenMP 4.5 on LLNL CORAL EA nodes
 ###############################################################################
 ## Choose one Cuda path
@@ -167,86 +182,45 @@ LDFLAGS =
 
 
 ###############################################################################
-# Cuda on LLNL CORAL EA nodes
-###############################################################################
-## Choose one Cuda path
-##CUDA_PATH = /usr/local/cuda-8.0
-#CUDA_PATH = /usr/tcetmp/packages/cuda-9.0.176
-
-#HOST_COMPILER = /usr/tce/packages/spectrum-mpi/spectrum-mpi-2017.04.03-xl-beta-2017.09.13/bin/mpixlC
-
-#OPTFLAGS = -O2 
-## Version below for debugging
-##OPTFLAGS = -DUSE_NVTX -g -G -lineinfo -O0
-
-#CUDA_FLAGS = -I${CUDA_PATH}/include/
-#CUDA_LDFLAGS = -L${CUDA_PATH}/lib64/ -lcuda -lcudart
-#
-#CXX=$(CUDA_PATH)/bin/nvcc
-#CXXFLAGS = -DHAVE_CUDA -std=c++11 $(OPTFLAGS) -Xptxas -v 
-#CXXFLAGS += -gencode=arch=compute_60,code=\"sm_60,compute_60\" 
-#CXXFLAGS += --compiler-bindir=$(HOST_COMPILER)
-#CPPFLAGS = -x cu -dc -DHAVE_MPI -DHAVE_ASYNC_MPI
-#LDFLAGS  = $(CUDA_LDFLAGS) 
-##LDFLAGS += ${CUDA_PATH}/lib64/libnvToolsExt.so
-
-
-
-
-###############################################################################
-# LLNL TOSS GCC + OpenMP (mvapich 2 - version 1.7) [cab]
-###############################################################################
-#OPTFLAGS = -g -O2 
-#OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp 
-#OPENMP_LDFLAGS = -fopenmp
-#
-#CXX = /usr/apps/gnu/4.9.3/bin/mpig++
-#CXXFLAGS = -std=c++0x $(OPTFLAGS) -mpi=mvapich2-gnu-1.7 
-#CPPFLAGS = -DHAVE_MPI $(OPENMP_FLAGS)
-#LDFLAGS = $(OPENMP_LDFLAGS)
-
-###############################################################################
-# LLNL TOSS Intel + OpenMP (mvapich 2 - version 2.1) [quartz] 
-###############################################################################
-#OPENMP_FLAGS = -DHAVE_OPENMP -qopenmp 
-#OPENMP_LDFLAGS = -qopenmp 
-#OPTFLAGS = -g -O2
-#
-#CXX=/usr/local/bin/mpiicpc-17.0.174
-#CXXFLAGS = -std=c++11 -mpi=mvapich2-intel-2.1 -DHAVE_MPI $(OPENMP_FLAGS)
-#CXXFLAGS += -wd1128 -wd64 -wd21
-#LDFLAGS  = $(OPENMP_LDFLAGS)
-
-
-###############################################################################
-# LLNL TOSS Clang (cab)
-###############################################################################
-#CLANGPATH = /usr/global/tools/clang/chaos_5_x86_64_ib/clang-omp-3.5.0
-#OPTFLAGS = -g -O2 
-#
-#CXX=${CLANGPATH}/bin/mpiclang++
-#CXXFLAGS = -std=c++11 $(OPTFLAGS)
-#CPPFLAGS = -DHAVE_MPI
-#LDFLAGS  = -Wl,-rpath,${CLANGPATH}/lib
-
-
-###############################################################################
-# Trinity Compilers                                                           #
-#                                                                             #
-# One must 'swap'  modules on this machine to access different compilers.     #
+# SYCL/DPC++
 ###############################################################################
 
-### Defaults to Intel.
-#OPTFLAGS = -g -O2 -xmic-avx512 -ipo
-#OPENMP_FLAGS = -DHAVE_OPENMP -qopenmp -pthread -DUSE_OPENMP_NO_GPU
-#OPENMP_LDFLAGS = -qopenmp -pthread
-#
-#CXX=CC
-#CXXFLAGS = -std=c++11 $(OPTFLAGS)
-#CPPFLAGS = -DHAVE_MPI -DCHRONO_MISSING  $(OPENMP_FLAGS)
-#LDFLAGS  = $(OPENMP_LDFLAGS) 
+CPPFLAGS	 = -DHAVE_SYCL
 
+CXXFLAGS	 =
+CXXFLAGS	+= -std=c++17
+CXXFLAGS	+= -O3
+CXXFLAGS	+= -ffast-math
+CXXFLAGS	+= -ferror-limit=3
 
+CXXFLAGS	+= -fsycl
+CXXFLAGS	+= -fsycl-unnamed-lambda
+
+#CXXFLAGS	+= -g # SPIR-V backend generates debug output when this is used
+
+# -------------------------------------------------------
+# Intel oneAPI DPC++ compiler that supports Intel devices
+# -------------------------------------------------------
+CXX		 = dpcpp
+# NVIDIA back-end does not support printf yet...
+CPPFLAGS	+= -DHAVE_SYCL_PRINTF
+
+# works around https://github.com/intel/llvm/issues/2629
+CXXFLAGS	+= -fno-sycl-early-optimizations
+
+# GPU offline compile
+# https://software.intel.com/content/www/us/en/develop/documentation/oneapi-programming-guide/top/programming-interface/gpu-flow/offline-compilation-for-gpu.html
+#CXXFLAGS += -fsycl-targets=spir64_gen-unknown-linux-sycldevice
+#LDFLAGS  += -Xsycl-target-backend=spir64_gen-unknown-linux-sycldevice "-device skl"
+
+# -------------------------------------------------------
+# Intel DPC++ open-source compiler built for NVIDIA
+# -------------------------------------------------------
+#DPCPP_DIR	 = /home/jrhammon/ISYCL/llvm/build/install
+#CXX		 = $(DPCPP_DIR)/bin/clang++
+#CXXFLAGS	+= -Wno-unknown-cuda-version
+#CXXFLAGS	+= -fsycl-targets=nvptx64-nvidia-cuda-sycldevice
+#LDFLAGS		+= -L$(DPCPP_DIR)/lib -Wl,-rpath=$(DPCPP_DIR)/lib
 
 ################################################################################
 ### Below here, it is pitch black.                                           ###

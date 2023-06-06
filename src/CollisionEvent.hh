@@ -5,7 +5,7 @@ class MonteCarlo;
 class MC_Particle;
 
 #include "DeclareMacro.hh"
-HOST_DEVICE
+HOST_DEVICE SYCL_EXTERNAL
 bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int tally_index );
 HOST_DEVICE_END
 
