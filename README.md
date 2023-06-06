@@ -10,9 +10,8 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-=================================
-A hipified version of Quicksilver
-=================================
+# A hipified version of Quicksilver
+
 NOTE:
 =====
 This will only work with ROCM 1.7 and later. 
@@ -42,23 +41,27 @@ I have made several changes to get this to work with hip:
 
 Compiling and running:
 ======================
-To compile you must set several environment variables in the Makefile in the src/ directory. For example, in order to compile using HIP without MPI, and up to 15 sub-iterations for a particle per kernel launch,  you could set the environment variables as follows (this is how they are set by default, you just need to point to where HIP is installed):
+To compile you must set several environment variables in the Makefile in the `src/` directory. For example, in order to compile using HIP without MPI, and up to 15 sub-iterations for a particle per kernel launch,  you could set the environment variables as follows (this is how they are set by default, you just need to point to where HIP is installed):
 
-CXX = $(HIP)/bin/hipcc<br/>
-CXXFLAGS = -I$(HIP)/include/<br/>
-CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15<br/>
+```
+CXX = $(HIP)/bin/hipcc
+CXXFLAGS = -I$(HIP)/include/
+CPPFLAGS = -DHAVE_HIP=1 -DMaxIt=15
 LDFLAGS = -L$(HIP)/lib -L$(HIP)/lib
+```
 
 To compile using HIP and MPI and up to 15 sub-iterations for a particle per kernel launch, you could set the following environment variables:
 
-CXX = $(HIP)/bin/hipcc<br/>
-CXXFLAGS1 = -I$(HIP)/include/<br/>
-CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include<br/>
-CXXFLAGS = $(CXXFLAGS2) -pthread<br/>
-CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15<br/>
+```
+CXX = $(HIP)/bin/hipcc
+CXXFLAGS1 = -I$(HIP)/include/
+CXXFLAGS2 = $(CXXFLAGS1) -I$(MPIPATH)/include
+CXXFLAGS = $(CXXFLAGS2) -pthread
+CPPFLAGS = -DHAVE_HIP=1 -DHAVE_MPI -DMaxIt=15
 LDFLAGS = -L$(HIP)/lib -L$(MPIPATH)/lib -lmpicxx -lmpi
+```
 
-To run look in src/READ.ME.HOW.TO.RUN. You can also look at the examples in the .sh files found in the directories 'Examples/CORAL2_Benchmark/Problem1' or 'Examples/CORAL2_Benchmark/Problem2'.
+To run look in `src/READ.ME.HOW.TO.RUN`. You can also look at the examples in the `.sh` files found in the directories `Examples/CORAL2_Benchmark/Problem1` or `Examples/CORAL2_Benchmark/Problem2`.
 
 A Note on ROCm Versions:
 ========================

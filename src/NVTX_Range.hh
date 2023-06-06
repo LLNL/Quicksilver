@@ -17,6 +17,8 @@
 
 #ifdef USE_NVTX
 #include "nvToolsExt.h"
+#elif defined(USE_ROCTX)
+#include <roctracer/roctx.h>
 #endif
 
 
@@ -28,32 +30,21 @@ class NVTX_Range
    {
       #ifdef USE_NVTX
       char *result = strdup(rangeName.c_str());
-      _rangeId = nvtxRangeStartA(result);
-      _isOpen = true;
+      nvtxRangePushA(result);
+      free(result);
+      #elif defined(USE_ROCTX)
+      roctxRangePushA(rangeName.c_str());
       #endif
    }
    
    ~NVTX_Range()
    {
       #ifdef USE_NVTX
-      if (_isOpen)
-	 nvtxRangeEnd(_rangeId);
+      nvtxRangePop();
+      #elif defined(USE_ROCTX)
+      roctxRangePop();
       #endif
    }
-
-  void endRange()
-  {
-      #ifdef USE_NVTX
-      nvtxRangeEnd(_rangeId);
-      _isOpen = false;
-      #endif
-  }
-  
- private:
-   #ifdef USE_NVTX
-   nvtxRangeId_t _rangeId;
-   bool _isOpen;
-   #endif
 };
 
 #endif

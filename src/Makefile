@@ -78,6 +78,9 @@
 # -DUSE_NVTX        Define this for some extra NVProf profiling information.
 #                   It will create regions that can be visualized in NVVP.
 #
+# -DUSE_ROCTX       Define this for some extra ROCtx profiling information.
+#                   Needs -lroctx64 in LDFLAGS.
+#
 # -DUSE_OPENMP_NO_GPU 
 #                   Define this for runs with OPENMP_TARGET but when you do not
 #                   want to target GPU devices only the CPU
