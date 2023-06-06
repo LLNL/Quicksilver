@@ -46,6 +46,7 @@ namespace
    void parseCommandLine(int argc, char** argv, Parameters& pp);
    void parseInputFile(const string& filename, Parameters& pp);
    void supplyDefaults(Parameters& params);
+   void sanityCheckParameters(const Parameters& params);
 
    void scanSimulationBlock  (const InputBlock& input, Parameters& pp);
    void scanGeometryBlock    (const InputBlock& input, Parameters& pp);
@@ -90,6 +91,8 @@ Parameters getParameters(int argc, char** argv)
    if( xsecOut != "" )    params.simulationParams.crossSectionsOut = xsecOut;
 
    supplyDefaults(params);
+
+   sanityCheckParameters(params);
 
    return params;
 }
@@ -376,6 +379,31 @@ namespace
       sourceGeometry.zMax = params.simulationParams.lz;
 
       params.geometryParams.push_back(sourceGeometry);
+   }
+}
+
+namespace
+{
+   // Check that assigned parameters do not violate some necessary conditions
+   void sanityCheckParameters(const Parameters& params)
+   {
+      const SimulationParameters& sp = params.simulationParams;
+
+#ifdef HAVE_MPI
+      // Domain decomposition shall match number of ranks
+      int rank = -1, size = -1;
+      mpiComm_rank(MPI_COMM_WORLD, &rank);
+      mpiComm_size(MPI_COMM_WORLD, &size);
+      if (rank == 0 && sp.xDom*sp.yDom*sp.zDom != size)
+      {
+        fprintf(stderr,"Fatal Error: number of MPI ranks(=%d) != number of domain partitions(=%d);"
+		"\n\tthis is controlled by the product of command line arguments -I, -J, and -K."
+	        "\n\tConsider changing the domain decomposition to match the number of MPI ranks."
+		"\n",
+		size, sp.xDom*sp.yDom*sp.zDom);
+        mpiAbort(MPI_COMM_WORLD, -1); abort();
+      }
+#endif
    }
 }
 
