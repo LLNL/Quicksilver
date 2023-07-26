@@ -8,12 +8,8 @@
 #endif
 
 #ifdef HAVE_OPENMP_TARGET
-    #ifdef USE_OPENMP_NO_GPU
-        #define VAR_MEM MemoryControl::AllocationPolicy::HOST_MEM
-    #else
-        #define VAR_MEM MemoryControl::AllocationPolicy::UVM_MEM
-        #define HAVE_UVM
-    #endif
+    #define VAR_MEM MemoryControl::AllocationPolicy::UVM_MEM
+    #define HAVE_UVM
 #elif HAVE_CUDA
     #define VAR_MEM MemoryControl::AllocationPolicy::UVM_MEM
     #define HAVE_UVM

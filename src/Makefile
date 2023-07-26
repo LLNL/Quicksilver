@@ -78,10 +78,6 @@
 # -DUSE_NVTX        Define this for some extra NVProf profiling information.
 #                   It will create regions that can be visualized in NVVP.
 #
-# -DUSE_OPENMP_NO_GPU 
-#                   Define this for runs with OPENMP_TARGET but when you do not
-#                   want to target GPU devices only the CPU
-#
 # -DEXPONENTIAL_TALLY
 #                   Define this to run Cycle Tracking with an exponential
 #                   cell-based tally, in order to partially mimic photon
@@ -150,9 +146,6 @@ LDFLAGS =
 ## Choose one of these compilers
 #CXX=mpiclang++-gpu
 #CXX=mpixlC-gpu
-
-## Uncomment next line to run on CPU only (disable GPUs)
-#OPENMP_OFFLOAD_FLAGS = -DUSE_OPENMP_NO_GPU 
 
 #OPENMP_OFFLOAD_FLAGS += -DHAVE_OPENMP_TARGET -mcpu=power8  
 #OPENMP_FLAGS = -DHAVE_OPENMP -fopenmp ${OPENMP_OFFLOAD_FLAGS}
@@ -238,7 +231,7 @@ LDFLAGS =
 
 ### Defaults to Intel.
 #OPTFLAGS = -g -O2 -xmic-avx512 -ipo
-#OPENMP_FLAGS = -DHAVE_OPENMP -qopenmp -pthread -DUSE_OPENMP_NO_GPU
+#OPENMP_FLAGS = -DHAVE_OPENMP -qopenmp -pthread 
 #OPENMP_LDFLAGS = -qopenmp -pthread
 #
 #CXX=CC

@@ -106,10 +106,6 @@ namespace
             monteCarlo->processor_info->use_gpu = 0;
             monteCarlo->processor_info->gpu_id = -1;
          }
-#ifdef USE_OPENMP_NO_GPU
-         monteCarlo->processor_info->use_gpu = 0;
-         monteCarlo->processor_info->gpu_id = -1;
-#endif
 
 #ifdef HAVE_CUDA
     if( monteCarlo->processor_info->use_gpu )

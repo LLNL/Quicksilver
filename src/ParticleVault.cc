@@ -12,8 +12,7 @@ cleanVault( int end_index )
     int starting_point = s2 - ( ( s1<(s2-s1)) ? s1 : (s2-s1));
 
 #if defined HAVE_OPENMP_TARGET
-    int USE_GPU = mcco->processor_info->use_gpu;
-    #pragma omp target teams distribute parallel for thread_limit(64) if(target:USE_GPU) 
+    #pragma omp target teams distribute parallel for thread_limit(64)
 #endif
     for( int ii = starting_point; ii < s2; ii++ )
     {
