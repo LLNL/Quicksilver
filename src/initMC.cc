@@ -20,6 +20,7 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
+#include "mallocManaged.hh"
 #include "cudaUtils.hh"
 #include "cudaFunctions.hh"
 
@@ -54,7 +55,7 @@ MonteCarlo* initMC(const Parameters& params)
    MonteCarlo* monteCarlo;
    #ifdef HAVE_UVM
       void* ptr;
-      cudaMallocManaged( &ptr, sizeof(MonteCarlo), cudaMemAttachGlobal );
+      mallocManaged( &ptr, sizeof(MonteCarlo) );
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -89,16 +90,18 @@ namespace
          if( Ngpus != 0 )
          {
             #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA)
-            monteCarlo->processor_info->use_gpu = 1;
-            int GPUID = monteCarlo->processor_info->rank%Ngpus;
-            monteCarlo->processor_info->gpu_id = GPUID;
+               monteCarlo->processor_info->use_gpu = 1;
+               int GPUID = monteCarlo->processor_info->rank%Ngpus;
+               monteCarlo->processor_info->gpu_id = GPUID;
             
-            #if defined(HAVE_OPENMP_TARGET)
-                omp_set_default_device(GPUID);
-            #endif
+               #if defined(HAVE_OPENMP_TARGET)
+                   omp_set_default_device(GPUID);
+               #endif
 
-            cudaSetDevice(GPUID);
-            //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+               #if defined HAVE_CUDA
+		  cudaSetDevice(GPUID);
+                  //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+	       #endif
             #endif
          }
          else
@@ -128,8 +131,8 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         cudaMallocManaged( &ptr1, sizeof(NuclearData), cudaMemAttachGlobal );
-         cudaMallocManaged( &ptr2, sizeof(MaterialDatabase), cudaMemAttachGlobal );
+         mallocManaged( &ptr1, sizeof(NuclearData) );
+         mallocManaged( &ptr2, sizeof(MaterialDatabase) );
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,

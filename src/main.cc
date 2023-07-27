@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
-    cudaFree( mcco );
+    freeManaged( mcco );
 #else
    delete mcco;
 #endif
