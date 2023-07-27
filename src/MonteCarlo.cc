@@ -11,7 +11,7 @@
 #include <cmath>
 
 #include "macros.hh" // current location of openMP wrappers.
-#include "cudaUtils.hh"
+#include "mallocManaged.hh"
 
 using std::ceil;
 
@@ -28,10 +28,10 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     #if defined (HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
 
-        cudaMallocManaged( &ptr1, sizeof(Tallies), cudaMemAttachHost );
-        cudaMallocManaged( &ptr2, sizeof(MC_Processor_Info), cudaMemAttachHost );
-        cudaMallocManaged( &ptr3, sizeof(MC_Time_Info), cudaMemAttachHost );
-        cudaMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
+        mallocManaged( &ptr1, sizeof(Tallies) );
+        mallocManaged( &ptr2, sizeof(MC_Processor_Info) );
+        mallocManaged( &ptr3, sizeof(MC_Time_Info) );
+        mallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
@@ -98,8 +98,8 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
-        cudaMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
-        cudaMallocManaged( &ptr6, sizeof(ParticleVaultContainer), cudaMemAttachHost );
+        mallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
+        mallocManaged( &ptr6, sizeof(ParticleVaultContainer) );
         particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
@@ -125,14 +125,14 @@ MonteCarlo::~MonteCarlo()
         fast_timer->~MC_Fast_Timer_Container();
         particle_buffer->~MC_Particle_Buffer();
 
-        cudaFree( _nuclearData );
-        cudaFree( _particleVaultContainer);
-        cudaFree( _materialDatabase);
-        cudaFree( _tallies);
-        cudaFree( processor_info);
-        cudaFree( time_info);
-        cudaFree( fast_timer);
-        cudaFree( particle_buffer);
+        freeManaged( _nuclearData );
+        freeManaged( _particleVaultContainer);
+        freeManaged( _materialDatabase);
+        freeManaged( _tallies);
+        freeManaged( processor_info);
+        freeManaged( time_info);
+        freeManaged( fast_timer);
+        freeManaged( particle_buffer);
 
     #else
         delete _nuclearData;
