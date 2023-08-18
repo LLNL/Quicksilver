@@ -74,7 +74,7 @@ double weightedMacroscopicCrossSection(MonteCarlo* monteCarlo, int taskIndex, in
                                      isoIndex, energyGroup);
    }
 
-   ATOMIC_WRITE( *precomputedCrossSection, sum );
+   QS::atomicWrite( *precomputedCrossSection, sum );
 
    return sum;
 }

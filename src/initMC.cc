@@ -20,7 +20,7 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
-#include "mallocManaged.hh"
+#include "gpuPortability.hh"
 #include "cudaUtils.hh"
 #include "cudaFunctions.hh"
 
@@ -55,7 +55,7 @@ MonteCarlo* initMC(const Parameters& params)
    MonteCarlo* monteCarlo;
    #ifdef HAVE_UVM
       void* ptr;
-      mallocManaged( &ptr, sizeof(MonteCarlo) );
+      gpuMallocManaged( &ptr, sizeof(MonteCarlo) );
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -78,28 +78,28 @@ namespace
 //Init GPU usage information
    void initGPUInfo( MonteCarlo* monteCarlo)
    {
-      #if defined(HAVE_OPENMP_TARGET)
+      #if defined HAVE_OPENMP_TARGET
          int Ngpus = omp_get_num_devices();
-      #elif defined(HAVE_CUDA)
+      #elif defined GPU_NATIVE
          int Ngpus;
-         cudaGetDeviceCount(&Ngpus);
+         gpuGetDeviceCount(&Ngpus);
       #else
          int Ngpus = 0;
       #endif
 
          if( Ngpus != 0 )
          {
-            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA)
+            #if defined HAVE_OPENMP_TARGET || defined GPU_NATIVE 
                monteCarlo->processor_info->use_gpu = 1;
                int GPUID = monteCarlo->processor_info->rank%Ngpus;
                monteCarlo->processor_info->gpu_id = GPUID;
             
-               #if defined(HAVE_OPENMP_TARGET)
+               #if defined HAVE_OPENMP_TARGET
                    omp_set_default_device(GPUID);
                #endif
 
-               #if defined HAVE_CUDA
-		  cudaSetDevice(GPUID);
+               #if defined GPU_NATIVE
+		  gpuSetDevice(GPUID);
                   //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
 	       #endif
             #endif
@@ -110,7 +110,7 @@ namespace
             monteCarlo->processor_info->gpu_id = -1;
          }
 
-#ifdef HAVE_CUDA
+#ifdef GPU_NATIVE
     if( monteCarlo->processor_info->use_gpu )
         warmup_kernel();
 #endif
@@ -131,8 +131,8 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         mallocManaged( &ptr1, sizeof(NuclearData) );
-         mallocManaged( &ptr2, sizeof(MaterialDatabase) );
+         gpuMallocManaged( &ptr1, sizeof(NuclearData) );
+         gpuMallocManaged( &ptr2, sizeof(MaterialDatabase) );
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,

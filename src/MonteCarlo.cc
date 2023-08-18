@@ -11,7 +11,7 @@
 #include <cmath>
 
 #include "macros.hh" // current location of openMP wrappers.
-#include "mallocManaged.hh"
+#include "gpuPortability.hh"
 
 using std::ceil;
 
@@ -28,10 +28,10 @@ MonteCarlo::MonteCarlo(const Parameters& params)
     #if defined (HAVE_UVM)
         void *ptr1, *ptr2, *ptr3, *ptr4;
 
-        mallocManaged( &ptr1, sizeof(Tallies) );
-        mallocManaged( &ptr2, sizeof(MC_Processor_Info) );
-        mallocManaged( &ptr3, sizeof(MC_Time_Info) );
-        mallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
+        gpuMallocManaged( &ptr1, sizeof(Tallies) );
+        gpuMallocManaged( &ptr2, sizeof(MC_Processor_Info) );
+        gpuMallocManaged( &ptr3, sizeof(MC_Time_Info) );
+        gpuMallocManaged( &ptr4, sizeof(MC_Fast_Timer_Container) );
 
         _tallies                = new(ptr1) Tallies( params.simulationParams.balanceTallyReplications, 
                                                      params.simulationParams.fluxTallyReplications,
@@ -98,8 +98,8 @@ MonteCarlo::MonteCarlo(const Parameters& params)
 
     #if defined(HAVE_UVM)
         void *ptr5, *ptr6;
-        mallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
-        mallocManaged( &ptr6, sizeof(ParticleVaultContainer) );
+        gpuMallocManaged( &ptr5, sizeof(MC_Particle_Buffer) );
+        gpuMallocManaged( &ptr6, sizeof(ParticleVaultContainer) );
         particle_buffer         = new(ptr5) MC_Particle_Buffer(this, batch_size);
         _particleVaultContainer = new(ptr6) ParticleVaultContainer(batch_size, num_batches, num_extra_vaults);
     #else
@@ -125,14 +125,14 @@ MonteCarlo::~MonteCarlo()
         fast_timer->~MC_Fast_Timer_Container();
         particle_buffer->~MC_Particle_Buffer();
 
-        freeManaged( _nuclearData );
-        freeManaged( _particleVaultContainer);
-        freeManaged( _materialDatabase);
-        freeManaged( _tallies);
-        freeManaged( processor_info);
-        freeManaged( time_info);
-        freeManaged( fast_timer);
-        freeManaged( particle_buffer);
+        gpuFree( _nuclearData );
+        gpuFree( _particleVaultContainer);
+        gpuFree( _materialDatabase);
+        gpuFree( _tallies);
+        gpuFree( processor_info);
+        gpuFree( time_info);
+        gpuFree( fast_timer);
+        gpuFree( particle_buffer);
 
     #else
         delete _nuclearData;

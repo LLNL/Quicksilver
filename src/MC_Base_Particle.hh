@@ -22,7 +22,7 @@ struct MC_Data_Member_Operation
     };
 };
 
-HOST_DEVICE
+HOST_DEVICE_CLASS
 
 class MC_Base_Particle
 {

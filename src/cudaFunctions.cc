@@ -1,12 +1,12 @@
+#include "gpuPortability.hh"
 #include "cudaFunctions.hh"
 #include "cudaUtils.hh"
 #include <stdio.h> 
 
 namespace
 {
-#if HAVE_CUDA
-#include "cudaFunctions.hh"
-    __global__ void WarmUpKernel()
+#if defined GPU_NATIVE
+    __global__ void trivialKernel()
     {
         int global_index = getGlobalThreadID();
         if( global_index == 0)
@@ -16,15 +16,15 @@ namespace
 #endif
 }
 
-#if defined (HAVE_CUDA)
+#if defined GPU_NATIVE
 void warmup_kernel()
 {
-        WarmUpKernel<<<1, 1>>>();
-        cudaDeviceSynchronize();
+        trivialKernel<<<1, 1>>>();
+        gpuDeviceSynchronize();
 }
 #endif
 
-#if defined (HAVE_CUDA)
+#if defined GPU_NATIVE
 int ThreadBlockLayout( dim3 &grid, dim3 &block, int num_particles )
 {
     int run_kernel = 1;
@@ -69,7 +69,7 @@ int ThreadBlockLayout( dim3 &grid, dim3 &block, int num_particles )
 } 
 #endif
 
-#if defined (HAVE_CUDA)
+#if defined GPU_NATIVE
 DEVICE 
 int getGlobalThreadID()
 {

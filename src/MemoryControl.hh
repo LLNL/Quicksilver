@@ -1,7 +1,7 @@
 #ifndef MEMORY_CONTROL_HH
 #define MEMORY_CONTROL_HH
 
-#include "mallocManaged.hh"
+#include "gpuPortability.hh"
 #include "qs_assert.hh"
 
 namespace MemoryControl
@@ -19,12 +19,14 @@ namespace MemoryControl
         case AllocationPolicy::HOST_MEM:
          tmp = new T [size];
          break;
+#ifdef HAVE_UVM
         case AllocationPolicy::UVM_MEM:
          void *ptr;
-         mallocManaged(&ptr, size*sizeof(T));
+         gpuMallocManaged(&ptr, size*sizeof(T));
          tmp = new(ptr) T[size]; 
          break;
-        default:
+#endif
+      default:
          qs_assert(false);
          break;
       }
@@ -39,12 +41,14 @@ namespace MemoryControl
         case AllocationPolicy::HOST_MEM:
          delete[] data; 
          break;
+#ifdef HAVE_UVM
         case AllocationPolicy::UVM_MEM:
          for (int i=0; i < size; ++i)
             data[i].~T();
-         freeManaged(data);
+         gpuFree(data);
          break;
-        default:
+#endif
+      default:
          qs_assert(false);
          break;
       }

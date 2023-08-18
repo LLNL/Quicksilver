@@ -10,7 +10,7 @@
 #include "ParticleVaultContainer.hh"
 #include "PhysicalConstants.hh"
 #include "DeclareMacro.hh"
-#include "AtomicMacro.hh"
+#include "QS_atomics.hh"
 
 #define MAX_PRODUCTION_SIZE 4
 
@@ -100,20 +100,20 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    //--------------------------------------------------------------------------------------------------------------
 
    // Set the reaction for this particle.
-   ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._collision );
+   QS::atomicIncrement( monteCarlo->_tallies->_balanceTask[tally_index]._collision );
    NuclearDataReaction::Enum reactionType = monteCarlo->_nuclearData->_isotopes[selectedUniqueNumber]._species[0].\
            _reactions[selectedReact]._reactionType;
    switch (reactionType)
    {
       case NuclearDataReaction::Scatter:
-         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._scatter);
+         QS::atomicIncrement( monteCarlo->_tallies->_balanceTask[tally_index]._scatter);
          break;
       case NuclearDataReaction::Absorption:
-         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._absorb);
+         QS::atomicIncrement( monteCarlo->_tallies->_balanceTask[tally_index]._absorb);
          break;
       case NuclearDataReaction::Fission:
-         ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[tally_index]._fission);
-         ATOMIC_ADD( monteCarlo->_tallies->_balanceTask[tally_index]._produce, nOut);
+         QS::atomicIncrement( monteCarlo->_tallies->_balanceTask[tally_index]._fission);
+         QS::atomicAdd( monteCarlo->_tallies->_balanceTask[tally_index]._produce, (uint64_t) nOut);
          break;
       case NuclearDataReaction::Undefined:
          printf("reactionType invalid\n");

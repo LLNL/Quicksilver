@@ -30,19 +30,21 @@
 # enable or disable various code features such as MPI, OpenMP, etc.
 # The following pre-processor DEFINES are recognized:
 #
-# -DHAVE_MPI        
-#                   Define HAVE_MPI to enable MPI feartures in
+# -DHAVE_MPI        Define HAVE_MPI to enable MPI feartures in
 #                   Quicksilver.  If this is not defined, the MPI
 #                   functions will be replaced with stub implmentations
 #                   and the code will run on a single "rank".
 #
-# -DHAVE_ASYNC_MPI  
-#                   Define this if your MPI has support for non-blocking
+# -DHAVE_ASYNC_MPI  Define this if your MPI has support for non-blocking
 #                   collectives.  (Quicksilver will use MPI_Iallreduce 
 #                   in the test-for-done algorithm.)
 #
-# -DHAVE_OPENMP     
-#                   Use this define to generate a code which uses  OpenMP
+# -DHAVE_CUDA       Define this to enable the Cuda build.
+#
+# -DHAVE_HIP        Define this to enable the HIP build.  Quicksilver assumes
+#	            that HIP is targeting AMD GPUs.
+#
+# -DHAVE_OPENMP     Use this define to generate a code which uses  OpenMP
 #                   threads.  It will also be necessary to add the appropriate
 #                   compiler flags to CXXFLAGS and LDFLAGS, which vary
 #                   by compiler, such as '-qopenmp -pthread' for Intel, or
@@ -51,7 +53,15 @@
 #
 # -DHAVE_OPENMP_TARGET
 #                   Use this define to generate OpenMP 4.5 code,
-#                   including code targeting GPUs
+#                   targeting GPUs.  When selecting this option you
+#                   *MUST* specify either TARGET_NVIDIA or TARGET_AMD
+#                   to determine which GPU architecture to use.
+#
+# -DTARGET_NVIDIA   Use this define when building OpenMP target code for
+#                   Nvidia GPUs
+#
+# -DTARGET_AMD      Use this define when building OpenMP target code for
+#                   AMD GPUs
 #
 # -DDISABLE_TIMERS  Quicksilver uses built-in high resolution timers to
 #                   track performance of important high level functions.
@@ -59,8 +69,7 @@
 #                   define DISABLE_TIMERS.  This can be useful when using a
 #                   profiler or other external timing mechanism.
 #
-# -DCSTDINT_MISSING 
-#                   Define this if <cstdint> is not available.
+# -DCSTDINT_MISSING Define this if <cstdint> is not available.
 #                   In this case the include file <stdint.h> will be used 
 #                   as an alternative.  This was found to be necessary with 
 #                   PGI and some Clang compilers.
@@ -90,10 +99,31 @@ SHELL = /bin/bash
 # Set your desired C++ compiler and any necessary flags.
 # The interpretation of each of these four variables is described above.
 # A number of examples for machines we regularly run on are given below.
-CXX = 
-CXXFLAGS =
-CPPFLAGS = 
-LDFLAGS =
+
+#AMD with openMP
+#ROCM_ROOT = /opt/rocm-5.6.0
+#CXX = /usr/tce/packages/cray-mpich/cray-mpich-8.1.26-rocmcc-5.6.0-cce-16.0.0a-magic/bin/mpicxx
+#CXXFLAGS = -O2 -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa -march=gfx90a -fopenmp
+#CPPFLAGS = -DHAVE_MPI -DHAVE_OPENMP -DHAVE_OPENMP_TARGET -DTARGET_AMD -I$(ROCM_ROOT)/include -Wno-unused-result
+#LDFLAGS = -L$(ROCM_ROOT)/lib -lamdhip64
+
+#AMD with HIP
+ROCM_ROOT = /opt/rocm-5.6.0
+CXX = /usr/tce/packages/cray-mpich/cray-mpich-8.1.26-rocmcc-5.6.0-cce-16.0.0a-magic/bin/mpicxx
+CXXFLAGS = -g 
+CPPFLAGS = -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result
+LDFLAGS = -fgpu-rdc --hip-link --offload-arch=gfx90a
+
+
+
+# CCE with OpenMP
+#ROCM_ROOT = /opt/rocm-5.6.0
+#CXX=/usr/tce/packages/cray-mpich/cray-mpich-8.1.26-cce-16.0.0-magic/bin/mpicxx
+#CXXFLAGS = -g -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa -march=gfx90a -fopenmp -target-accel=amd_gfx90a -Wno-unused-result
+#CPPFLAGS = -DHAVE_MPI -DHAVE_OPENMP -DHAVE_OPENMP_TARGET -DTARGET_AMD -I$(ROCM_ROOT)/include
+#LDFLAGS = -L$(ROCM_ROOT)/lib -lamdhip64
+
+
 
 ###############################################################################
 # Very simple GCC build with OpenMP but without MPI.  

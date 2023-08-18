@@ -7,7 +7,7 @@
 #include <cuda_runtime_api.h>
 #endif
 
-enum ExecutionPolicy{ cpu, gpuWithCUDA, gpuWithOpenMP };
+enum ExecutionPolicy{ cpu, gpuNative, gpuWithOpenMP };
 
 inline ExecutionPolicy getExecutionPolicy( int useGPU )
 {
@@ -15,8 +15,8 @@ inline ExecutionPolicy getExecutionPolicy( int useGPU )
 
     if( useGPU )
     {
-        #if defined (HAVE_CUDA)
-        execPolicy = ExecutionPolicy::gpuWithCUDA;
+        #if defined HAVE_CUDA || defined HAVE_HIP 
+        execPolicy = ExecutionPolicy::gpuNative;
         #elif defined (HAVE_OPENMP_TARGET)
         execPolicy = ExecutionPolicy::gpuWithOpenMP;
         #endif

@@ -1,13 +1,32 @@
-#ifndef MALLOCMANAGED_HH
-#define MALLOCMANAGED_HH
+#ifndef GPUPORTABILITY_HH
+#define GPUPORTABILITY_HH
 
 #if defined __CUDACC__ || defined TARGET_NVIDIA
-    #define MM_DO_CUDA
+    #define __DO_CUDA
+    #define __PREFIX cuda
     #define HAVE_UVM
+    #include <cuda.h>
+    #include <cuda_runtime.h>
+    #include <cuda_runtime_api.h>
 #elif defined __HIPCC__ || defined TARGET_AMD
-    #define MM_DO_HIP
+    #define __DO_HIP
+    #define __PREFIX hip
     #define HAVE_UVM
     #define __HIP_PLATFORM_AMD__
+    #include <hip/hip_runtime.h>
+#else
+    #define __PREFIX invalid
+#endif
+
+#if defined HAVE_CUDA || defined HAVE_HIP
+    #define GPU_NATIVE
+#endif
+
+
+#ifdef __DO_CUDA
+#endif
+
+#ifdef __DO_HIP
 #endif
 
 #if defined HAVE_UVM
@@ -16,40 +35,18 @@
     #define VAR_MEM MemoryControl::AllocationPolicy::HOST_MEM
 #endif  
 
+#define CONCAT_(A, B) A ## B
+#define CONCAT(A1, B1) CONCAT_(A1, B1)
 
-#ifdef MM_DO_CUDA
-#include <cuda.h>
-#endif
-
-#ifdef MM_DO_HIP
-#include <hip/hip_runtime_api.h>
-#endif
-
-
-inline int mallocManaged(void** ptr, size_t size)
-{
-  int rv = 1;
-#if defined MM_DO_CUDA
-  rv = !(cudaSuccess == cudaMallocManaged(ptr, size, cudaMemAttachGlobal));
-#elif defined MM_DO_HIP 
-  rv = !(hipSuccess == hipMallocManaged(ptr, size, hipMemAttachGlobal));
-#endif
-return rv;
-}
-
-inline int freeManaged(void* ptr)
-{
-  int rv = 1;
-#if defined MM_DO_CUDA
-    rv = !(cudaSuccess == cudaFree(ptr));
-#elif defined MM_DO_HIP
-    rv = !(hipSuccess == hipFree(ptr));
-#endif
-  return rv;
-}
+#define gpuMallocManaged      CONCAT(__PREFIX, MallocManaged)
+#define gpuFree               CONCAT(__PREFIX, Free)
+#define gpuDeviceSynchronize  CONCAT(__PREFIX, DeviceSynchronize)
+#define gpuGetDeviceCount     CONCAT(__PREFIX, GetDeviceCount)
+#define gpuSetDevice          CONCAT(__PREFIX, SetDevice)
+#define gpuPeekAtLastError    CONCAT(__PREFIX, PeekAtLastError)
 
 
-#undef MM_DO_CUDA
-#undef MM_DO_HIP
+#undef __DO_CUDA
+#undef __DO_HIP
 
-#endif
+#endif // #ifndef GPUPORTABILITY_HH

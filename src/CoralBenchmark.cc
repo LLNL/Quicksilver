@@ -143,7 +143,7 @@ void BalanceEventTest( MonteCarlo *monteCarlo )
     else
     {
         fprintf(stdout, " FAIL:: Collision to Facet Crossing Ratio balanced NOT maintained within %g%% tolerance\n", tolerance );
-        fprintf(stdout, "\tFacet Crossing: %llu\tCollision: %llu\tRatio: %g\n", facetCrossing, collisions, ratio );
+        fprintf(stdout, "\tFacet Crossing: %" PRIu64 "\tCollision: %" PRIu64 "\tRatio: %g\n", facetCrossing, collisions, ratio );
     }
 
 

@@ -1,6 +1,12 @@
 #include <cstdio>
 
-#ifdef __CUDA_ARCH__
+#if defined HAVE_HIP
+#define __HIP_PLATFORM_AMD__
+#include <hip/hip_runtime_api.h>
+#include <hip/hip_runtime.h>
+#endif
+
+#if defined __CUDA_ARCH__ || defined __HIP_DEVICE_COMPILE__
 #define qs_assert( cond) \
    do \
    { \

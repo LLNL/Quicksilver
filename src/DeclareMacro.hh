@@ -1,7 +1,7 @@
 #ifndef DECLAREMACRO_HH
 #define DECLAREMACRO_HH
 
-#ifdef HAVE_CUDA
+#if defined HAVE_CUDA || defined HAVE_HIP
     #define HOST_DEVICE __host__ __device__
     #define HOST_DEVICE_CUDA __host__ __device__
     #define HOST_DEVICE_CLASS 

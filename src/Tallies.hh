@@ -15,7 +15,7 @@
 #include "DeclareMacro.hh"
 #include "EnergySpectrum.hh"
 
-typedef unsigned long long int uint64_cu;
+//typedef unsigned long long int uint64_cu;
 
 class Fluence;
 
@@ -37,19 +37,19 @@ class Balance
 {
    public:
 
-   uint64_cu _absorb;      // Number of particles absorbed
-   uint64_cu _census;      // Number of particles that enter census
-   uint64_cu _escape;      // Number of particles that escape
-   uint64_cu _collision;   // Number of collosions
-   uint64_cu _end;         // Number of particles at end of cycle
-   uint64_cu _fission;     // Number of fission events
-   uint64_cu _produce;     // Number of particles created by collisions
-   uint64_cu _scatter;     // Number of scatters
-   uint64_cu _start;       // Number of particles at beginning of cycle
-   uint64_cu _source;      // Number of particles sourced in
-   uint64_cu _rr;          // Number of particles Russian Rouletted in population control
-   uint64_cu _split;       // Number of particles split in population control
-   uint64_cu _numSegments; // Number of segements
+   uint64_t _absorb;      // Number of particles absorbed
+   uint64_t _census;      // Number of particles that enter census
+   uint64_t _escape;      // Number of particles that escape
+   uint64_t _collision;   // Number of collosions
+   uint64_t _end;         // Number of particles at end of cycle
+   uint64_t _fission;     // Number of fission events
+   uint64_t _produce;     // Number of particles created by collisions
+   uint64_t _scatter;     // Number of scatters
+   uint64_t _start;       // Number of particles at beginning of cycle
+   uint64_t _source;      // Number of particles sourced in
+   uint64_t _rr;          // Number of particles Russian Rouletted in population control
+   uint64_t _split;       // Number of particles split in population control
+   uint64_t _numSegments; // Number of segements
 
    Balance() :
       _absorb(0), _census(0), _escape(0), _collision(0), _end(0), _fission(0), _produce(0), _scatter(0), _start(0),
@@ -350,13 +350,13 @@ class Tallies
     HOST_DEVICE_CUDA
     void TallyScalarFlux(double value, int domain, int task, int cell, int group)
     {
-        ATOMIC_ADD( _scalarFluxDomain[domain]._task[task]._cell[cell]._group[group], value );
+        QS::atomicAdd( _scalarFluxDomain[domain]._task[task]._cell[cell]._group[group], value );
     }
 
     HOST_DEVICE_CUDA
     void TallyCellValue(double value, int domain, int task, int cell)
     {
-        ATOMIC_ADD( _cellTallyDomain[domain]._task[task]._cell[cell], value );
+        QS::atomicAdd( _cellTallyDomain[domain]._task[task]._cell[cell], value );
     }
 
     double ScalarFluxSum(MonteCarlo *mcco);

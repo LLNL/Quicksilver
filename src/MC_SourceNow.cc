@@ -15,7 +15,7 @@
 #include "MCT.hh"
 #include "PhysicalConstants.hh"
 #include "macros.hh"
-#include "AtomicMacro.hh"
+#include "QS_atomics.hh"
 #include "NVTX_Range.hh"
 #include <vector>
 
@@ -89,7 +89,7 @@ void MC_SourceNow(MonteCarlo *monteCarlo)
 
                 uint64_t random_number_seed;
 
-                ATOMIC_CAPTURE( cell._sourceTally, 1, random_number_seed );
+		QS::atomicCaptureAdd( cell._sourceTally, UINT64_C(1), random_number_seed );
 
                 random_number_seed += cell._id;
 
@@ -127,7 +127,7 @@ void MC_SourceNow(MonteCarlo *monteCarlo)
 
                 particle_count++;
 
-                ATOMIC_UPDATE( monteCarlo->_tallies->_balanceTask[particle.task]._source);
+                QS::atomicIncrement( monteCarlo->_tallies->_balanceTask[particle.task]._source);
             }
         }
     }

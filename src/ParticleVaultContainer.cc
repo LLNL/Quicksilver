@@ -341,8 +341,8 @@ HOST_DEVICE
 void ParticleVaultContainer::
 addExtraParticle( MC_Particle &particle)
 {
-    uint64_cu index = 0;
-    ATOMIC_CAPTURE( this->_extraVaultIndex, 1, index ); 
+    uint64_t index = 0;
+    QS::atomicCaptureAdd( this->_extraVaultIndex, UINT64_C(1), index ); 
     uint64_t vault = index / this->_vaultSize;
     _extraVault[vault]->pushParticle( particle );
 }
