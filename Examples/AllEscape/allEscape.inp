@@ -1,5 +1,6 @@
 Simulation:
    dt: 1e6
+   boundaryCondition: escape
    fMax: 0.1
    inputFile: 
    loadBalance: 1

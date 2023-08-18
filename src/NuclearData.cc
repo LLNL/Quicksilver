@@ -28,7 +28,7 @@ NuclearDataReaction::NuclearDataReaction(
    // value of the energy group that contains 1 MeV
    double normalization = 0.0;
    for (unsigned ii=0; ii<nGroups; ++ii)
-      if (energies[ii+1] > 1. ) //1 MeV
+      if (energies[ii+1] >= 1. ) //1 MeV
       {
          normalization = _crossSection[ii];
          break;
