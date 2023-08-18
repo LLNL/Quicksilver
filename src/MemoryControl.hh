@@ -1,8 +1,7 @@
 #ifndef MEMORY_CONTROL_HH
 #define MEMORY_CONTROL_HH
 
-#include "cudaUtils.hh"
-
+#include "gpuPortability.hh"
 #include "qs_assert.hh"
 
 namespace MemoryControl
@@ -23,11 +22,11 @@ namespace MemoryControl
 #ifdef HAVE_UVM
         case AllocationPolicy::UVM_MEM:
          void *ptr;
-         cudaMallocManaged(&ptr, size*sizeof(T), cudaMemAttachGlobal);
+         gpuMallocManaged(&ptr, size*sizeof(T));
          tmp = new(ptr) T[size]; 
          break;
 #endif
-        default:
+      default:
          qs_assert(false);
          break;
       }
@@ -39,17 +38,17 @@ namespace MemoryControl
    {
       switch (policy)
       {
-        case MemoryControl::AllocationPolicy::HOST_MEM:
+        case AllocationPolicy::HOST_MEM:
          delete[] data; 
          break;
 #ifdef HAVE_UVM
-        case UVM_MEM:
+        case AllocationPolicy::UVM_MEM:
          for (int i=0; i < size; ++i)
             data[i].~T();
-         cudaFree(data);
+         gpuFree(data);
          break;
-#endif         
-        default:
+#endif
+      default:
          qs_assert(false);
          break;
       }

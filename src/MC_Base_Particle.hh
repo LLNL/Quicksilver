@@ -22,6 +22,7 @@ struct MC_Data_Member_Operation
     };
 };
 
+HOST_DEVICE_CLASS
 
 class MC_Base_Particle
 {
@@ -97,6 +98,8 @@ class MC_Base_Particle
   private:
     
 };
+
+HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Return a MC_Location given domain, cell, facet.

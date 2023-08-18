@@ -23,7 +23,7 @@ class MC_Particle;
 class ParticleVault;
 class SendQueue;
 
-typedef unsigned long long int uint64_cu;
+//typedef unsigned long long int uint64_cu;
 
 class ParticleVaultContainer
 {
@@ -94,7 +94,7 @@ class ParticleVaultContainer
 
     //A running index for the number of particles int the extra 
     //particle vaults
-    uint64_cu _extraVaultIndex;
+    uint64_t _extraVaultIndex;
 
     //The send queue - stores particle index and neighbor index 
     //for any particles that hit (TRANSIT_OFF_PROCESSOR) 

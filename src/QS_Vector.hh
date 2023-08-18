@@ -2,7 +2,7 @@
 #define QS_VECTOR_HH
 
 #include "DeclareMacro.hh"
-#include "AtomicMacro.hh"
+#include "QS_atomics.hh"
 #include "qs_assert.hh"
 #include "MemoryControl.hh"
 
@@ -180,7 +180,7 @@ class qs_vector
    {
        int pos;
 
-       ATOMIC_CAPTURE( _size, inc, pos );
+       QS::atomicCaptureAdd( _size, inc, pos );
 
        return pos;
    }

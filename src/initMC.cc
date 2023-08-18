@@ -20,6 +20,7 @@
 #include "MC_Time_Info.hh"
 #include "Tallies.hh"
 #include "MC_Base_Particle.hh"
+#include "gpuPortability.hh"
 #include "cudaUtils.hh"
 #include "cudaFunctions.hh"
 
@@ -54,7 +55,7 @@ MonteCarlo* initMC(const Parameters& params)
    MonteCarlo* monteCarlo;
    #ifdef HAVE_UVM
       void* ptr;
-      cudaMallocManaged( &ptr, sizeof(MonteCarlo), cudaMemAttachGlobal );
+      gpuMallocManaged( &ptr, sizeof(MonteCarlo) );
       monteCarlo = new(ptr) MonteCarlo(params);
    #else
      monteCarlo = new MonteCarlo(params);
@@ -77,28 +78,30 @@ namespace
 //Init GPU usage information
    void initGPUInfo( MonteCarlo* monteCarlo)
    {
-      #if defined(HAVE_OPENMP_TARGET)
+      #if defined HAVE_OPENMP_TARGET
          int Ngpus = omp_get_num_devices();
-      #elif defined(HAVE_CUDA)
+      #elif defined GPU_NATIVE
          int Ngpus;
-         cudaGetDeviceCount(&Ngpus);
+         gpuGetDeviceCount(&Ngpus);
       #else
          int Ngpus = 0;
       #endif
 
          if( Ngpus != 0 )
          {
-            #if defined(HAVE_OPENMP_TARGET) || defined(HAVE_CUDA)
-            monteCarlo->processor_info->use_gpu = 1;
-            int GPUID = monteCarlo->processor_info->rank%Ngpus;
-            monteCarlo->processor_info->gpu_id = GPUID;
+            #if defined HAVE_OPENMP_TARGET || defined GPU_NATIVE 
+               monteCarlo->processor_info->use_gpu = 1;
+               int GPUID = monteCarlo->processor_info->rank%Ngpus;
+               monteCarlo->processor_info->gpu_id = GPUID;
             
-            #if defined(HAVE_OPENMP_TARGET)
-                omp_set_default_device(GPUID);
-            #endif
+               #if defined HAVE_OPENMP_TARGET
+                   omp_set_default_device(GPUID);
+               #endif
 
-            cudaSetDevice(GPUID);
-            //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+               #if defined GPU_NATIVE
+		  gpuSetDevice(GPUID);
+                  //cudaDeviceSetLimit( cudaLimitStackSize, 64*1024 );
+	       #endif
             #endif
          }
          else
@@ -106,12 +109,8 @@ namespace
             monteCarlo->processor_info->use_gpu = 0;
             monteCarlo->processor_info->gpu_id = -1;
          }
-#ifdef USE_OPENMP_NO_GPU
-         monteCarlo->processor_info->use_gpu = 0;
-         monteCarlo->processor_info->gpu_id = -1;
-#endif
 
-#ifdef HAVE_CUDA
+#ifdef GPU_NATIVE
     if( monteCarlo->processor_info->use_gpu )
         warmup_kernel();
 #endif
@@ -132,8 +131,8 @@ namespace
    {
       #if defined HAVE_UVM
          void *ptr1, *ptr2;
-         cudaMallocManaged( &ptr1, sizeof(NuclearData), cudaMemAttachGlobal );
-         cudaMallocManaged( &ptr2, sizeof(MaterialDatabase), cudaMemAttachGlobal );
+         gpuMallocManaged( &ptr1, sizeof(NuclearData) );
+         gpuMallocManaged( &ptr2, sizeof(MaterialDatabase) );
 
          monteCarlo->_nuclearData = new(ptr1) NuclearData(params.simulationParams.nGroups,
                                                           params.simulationParams.eMin,

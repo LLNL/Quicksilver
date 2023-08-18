@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 
 #ifdef HAVE_UVM
     mcco->~MonteCarlo();
-    cudaFree( mcco );
+    gpuFree( mcco );
 #else
    delete mcco;
 #endif
@@ -121,9 +121,9 @@ void cycleInit( bool loadBalance )
 }
 
 
-#if defined (HAVE_CUDA)
+#if defined GPU_NATIVE
 
-__global__ void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault )
+GLOBAL void CycleTrackingKernel( MonteCarlo* monteCarlo, int num_particles, ParticleVault* processingVault, ParticleVault* processedVault )
 {
    int global_index = getGlobalThreadID(); 
 
@@ -181,9 +181,9 @@ void cycleTracking(MonteCarlo *monteCarlo)
                     // * AS a single thread on the CPU.
                     switch (execPolicy)
                     {
-                      case gpuWithCUDA:
+                      case gpuNative:
                        {
-                          #if defined (HAVE_CUDA)
+                          #if defined (GPU_NATIVE)
                           dim3 grid(1,1,1);
                           dim3 block(1,1,1);
                           int runKernel = ThreadBlockLayout( grid, block, numParticles);
@@ -193,8 +193,8 @@ void cycleTracking(MonteCarlo *monteCarlo)
                              CycleTrackingKernel<<<grid, block >>>( monteCarlo, numParticles, processingVault, processedVault );
                           
                           //Synchronize the stream so that memory is copied back before we begin MPI section
-                          cudaPeekAtLastError();
-                          cudaDeviceSynchronize();
+                          gpuPeekAtLastError();
+                          gpuDeviceSynchronize();
                           #endif
                        }
                        break;
