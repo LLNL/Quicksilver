@@ -1,5 +1,5 @@
 #include "CollisionEvent.hh"
-#include "MC_Particle.hh"
+#include "MC_Base_Particle.hh"
 #include "NuclearData.hh"
 #include "DirectionCosine.hh"
 #include "MonteCarlo.hh"
@@ -22,7 +22,7 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 HOST_DEVICE
-void updateTrajectory( double energy, double angle, MC_Particle& particle )
+void updateTrajectory( double energy, double angle, MC_Base_Particle& particle )
 {
     particle.kinetic_energy = energy;
     double cosTheta = angle;
@@ -47,7 +47,7 @@ HOST_DEVICE_END
 
 HOST_DEVICE
 
-bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned int tally_index)
+bool CollisionEvent(MonteCarlo* monteCarlo, MC_Base_Particle &mc_particle, unsigned int tally_index)
 {
    const MC_Cell_State &cell = monteCarlo->domain[mc_particle.domain].cell_state[mc_particle.cell];
 
@@ -125,7 +125,7 @@ bool CollisionEvent(MonteCarlo* monteCarlo, MC_Particle &mc_particle, unsigned i
    for (int secondaryIndex = 1; secondaryIndex < nOut; secondaryIndex++)
    {
         // Newly created particles start as copies of their parent
-        MC_Particle secondaryParticle = mc_particle;
+        MC_Base_Particle secondaryParticle = mc_particle;
         secondaryParticle.random_number_seed = rngSpawn_Random_Number_Seed(&mc_particle.random_number_seed);
         secondaryParticle.identifier = secondaryParticle.random_number_seed;
         updateTrajectory( energyOut[secondaryIndex], angleOut[secondaryIndex], secondaryParticle );

@@ -66,12 +66,19 @@ void MC_Base_Particle::Serialize(int *int_data, double *float_data, char *char_d
     MCP_DATA_MEMBER_OLD(velocity.x, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(velocity.y, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(velocity.z, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(direction_cosine.alpha, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(direction_cosine.beta, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(direction_cosine.gamma, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(kinetic_energy, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(weight, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(time_to_census, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(totalCrossSection, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(age, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(num_mean_free_paths, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(mean_free_path, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(segment_path_length, float_data, float_index, mode);
     MCP_DATA_MEMBER_OLD(num_segments, float_data, float_index, mode);
+    MCP_DATA_MEMBER_OLD(normal_dot, float_data, float_index, mode);
 
     MCP_DATA_MEMBER_LONG_TO_CHAR8(random_number_seed, char_data, char_index, mode);
     MCP_DATA_MEMBER_LONG_TO_CHAR8(identifier, char_data, char_index, mode);
@@ -79,9 +86,12 @@ void MC_Base_Particle::Serialize(int *int_data, double *float_data, char *char_d
     MCP_DATA_MEMBER_CAST_OLD(last_event, int_data, int_index, mode, MC_Tally_Event::Enum);
     MCP_DATA_MEMBER_OLD(num_collisions, int_data, int_index, mode);
     MCP_DATA_MEMBER_OLD(breed, int_data, int_index, mode);
+    MCP_DATA_MEMBER_OLD(energy_group, int_data, int_index, mode);
+    MCP_DATA_MEMBER_OLD(task, int_data, int_index, mode);
     MCP_DATA_MEMBER_OLD(species, int_data, int_index, mode);
     MCP_DATA_MEMBER_OLD(domain, int_data, int_index, mode);
     MCP_DATA_MEMBER_OLD(cell, int_data, int_index, mode);
+    MCP_DATA_MEMBER_OLD(facet, int_data, int_index, mode);
 }
 
 

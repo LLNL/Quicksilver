@@ -4,7 +4,7 @@
 #include "portability.hh"
 #include "DeclareMacro.hh"
 
-class MC_Particle;
+class MC_Base_Particle;
 class MC_Domain;
 class MC_Location;
 class MC_Vector;
@@ -16,7 +16,7 @@ class MonteCarlo;
 
 HOST_DEVICE
 MC_Nearest_Facet MCT_Nearest_Facet(
-   MC_Particle *mc_particle,
+   MC_Base_Particle *mc_particle,
    MC_Location &location,
    MC_Vector &coordinate,
    const DirectionCosine *direction_cosine,
@@ -43,11 +43,11 @@ MC_Vector MCT_Cell_Position_3D_G(
 HOST_DEVICE_END
 
 HOST_DEVICE
-Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Particle &mc_particle, MonteCarlo* monteCarlo);
+Subfacet_Adjacency &MCT_Adjacent_Facet(const MC_Location &location, MC_Base_Particle &mc_particle, MonteCarlo* monteCarlo);
 HOST_DEVICE_END
 
 HOST_DEVICE
-void MCT_Reflect_Particle(MonteCarlo *mcco, MC_Particle &particle);
+void MCT_Reflect_Particle(MonteCarlo *mcco, MC_Base_Particle &particle);
 HOST_DEVICE_END
 
 #endif

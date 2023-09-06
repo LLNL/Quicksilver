@@ -34,6 +34,7 @@ public:
    void clear() { _particles.clear(); } 
 
    // Access particle at a given index.
+   HOST_DEVICE_CUDA
    MC_Base_Particle& operator[](size_t n) {return _particles[n];}
 
    // Access a particle at a given index.
@@ -41,7 +42,7 @@ public:
 
    // Put a particle into the vault, down casting its class.
    HOST_DEVICE_CUDA
-   void pushParticle(MC_Particle &particle);
+   void pushParticle(MC_Base_Particle &particle);
 
    // Put a base particle into the vault.
    HOST_DEVICE_CUDA
@@ -51,15 +52,15 @@ public:
    bool popBaseParticle(MC_Base_Particle &base_particle);
 
    // Get a particle from the vault.
-   bool popParticle(MC_Particle &particle);
+   bool popParticle(MC_Base_Particle &particle);
 
    // Get a particle from the vault 
    bool getBaseParticleComm(MC_Base_Particle &particle, int index);
    HOST_DEVICE_CUDA
-   bool getParticle(MC_Particle &particle, int index);
+   bool getParticle(MC_Base_Particle &particle, int index);
    // Copy a particle back into the vault
    HOST_DEVICE_CUDA
-   bool putParticle(MC_Particle particle, int index);
+   bool putParticle(MC_Base_Particle particle, int index);
 
    // invalidates the particle in the vault at an index
    HOST_DEVICE_CUDA
@@ -85,11 +86,12 @@ private:
 // -----------------------------------------------------------------------
 HOST_DEVICE_CUDA
 inline void ParticleVault::
-pushParticle(MC_Particle &particle)
+pushParticle(MC_Base_Particle &particle)
 {
-    MC_Base_Particle base_particle(particle);
+//    MC_Base_Particle base_particle(particle);
     size_t indx = _particles.atomic_Index_Inc(1);
-    _particles[indx] = base_particle;
+//    _particles[indx] = base_particle;
+    _particles[indx] = particle;
 }
 
 // -----------------------------------------------------------------------
@@ -121,7 +123,7 @@ popBaseParticle(MC_Base_Particle &base_particle)
 
 // -----------------------------------------------------------------------
 inline bool ParticleVault::
-popParticle(MC_Particle &particle)
+popParticle(MC_Base_Particle &particle)
 {
    bool notEmpty = false;
 
@@ -131,7 +133,7 @@ popParticle(MC_Particle &particle)
    {
       MC_Base_Particle base_particle(_particles.back());
       _particles.pop_back();
-      particle = MC_Particle(base_particle);
+      particle = MC_Base_Particle(base_particle);
       notEmpty = true;
    }
 }
@@ -158,14 +160,15 @@ getBaseParticleComm( MC_Base_Particle &particle, int index )
 // -----------------------------------------------------------------------
    HOST_DEVICE_CUDA
 inline bool ParticleVault::
-getParticle( MC_Particle &particle, int index )
+getParticle( MC_Base_Particle &particle, int index )
 {
     qs_assert( size() > index );
     if( size() > index )
     {
-            MC_Base_Particle base_particle( _particles[index] );
-            particle = MC_Particle( base_particle );
-            return true;
+//            MC_Base_Particle base_particle( _particles[index] );
+//            particle = MC_Base_Particle( base_particle );
+       particle = _particles[index];
+       return true;
     }
     return false;
 }
@@ -173,7 +176,7 @@ getParticle( MC_Particle &particle, int index )
 // -----------------------------------------------------------------------
    HOST_DEVICE_CUDA
 inline bool ParticleVault::
-putParticle(MC_Particle particle, int index)
+putParticle(MC_Base_Particle particle, int index)
 {
     qs_assert( size() > index );
     if( size() > index )
@@ -208,7 +211,8 @@ eraseSwapParticle(int index)
 
 // -----------------------------------------------------------------------
 HOST_DEVICE
-void MC_Load_Particle(MonteCarlo *mcco, MC_Particle &mc_particle, ParticleVault *particleVault, int particle_index);
+//void MC_Load_Particle(MonteCarlo *mcco, MC_Base_Particle &mc_particle, ParticleVault *particleVault, int particle_index);
+MC_Base_Particle&  MC_Load_Particle(MonteCarlo *mcco, ParticleVault *particleVault, int particle_index);
 HOST_DEVICE_END
 
 #endif

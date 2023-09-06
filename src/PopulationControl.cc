@@ -2,7 +2,6 @@
 #include "MC_Processor_Info.hh"
 #include "MonteCarlo.hh"
 #include "Globals.hh"
-#include "MC_Particle.hh"
 #include "ParticleVaultContainer.hh"
 #include "ParticleVault.hh"
 #include "utilsMpi.hh"

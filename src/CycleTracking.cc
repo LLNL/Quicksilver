@@ -11,13 +11,19 @@
 #include "macros.hh"
 #include "qs_assert.hh"
 
+using namespace std;
+
 HOST_DEVICE
-void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVault *processingVault, ParticleVault *processedVault )
+void CycleTrackingGuts( MonteCarlo *monteCarlo,
+			int particle_index,
+			ParticleVault *processingVault,
+			ParticleVault *processedVault )
 {
-    MC_Particle mc_particle;
+//    MC_Base_Particle& mc_particle;
 
     // Copy a single particle from the particle vault into mc_particle
-    MC_Load_Particle(monteCarlo, mc_particle, processingVault, particle_index);
+    MC_Base_Particle& mc_particle =
+    MC_Load_Particle(monteCarlo, processingVault, particle_index);
 
     // set the particle.task to the index of the processed vault the particle will census into.
     mc_particle.task = 0;//processed_vault;
@@ -31,7 +37,11 @@ void CycleTrackingGuts( MonteCarlo *monteCarlo, int particle_index, ParticleVaul
 HOST_DEVICE_END
 
 HOST_DEVICE
-void CycleTrackingFunction( MonteCarlo *monteCarlo, MC_Particle &mc_particle, int particle_index, ParticleVault* processingVault, ParticleVault* processedVault)
+void CycleTrackingFunction( MonteCarlo *monteCarlo,
+			    MC_Base_Particle &mc_particle,
+			    int particle_index,
+			    ParticleVault* processingVault,
+			    ParticleVault* processedVault)
 {
     bool keepTrackingThisParticle = false;
     unsigned int tally_index =      (particle_index) % monteCarlo->_tallies->GetNumBalanceReplications();

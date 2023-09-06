@@ -5,7 +5,7 @@
 #include "Globals.hh"
 #include "MonteCarlo.hh"
 #include "MC_Nearest_Facet.hh"
-#include "MC_Particle.hh"
+#include "MC_Base_Particle.hh"
 #include "MC_Domain.hh"
 #include "MC_Location.hh"
 #include "DirectionCosine.hh"
@@ -18,7 +18,7 @@ namespace
 {
    HOST_DEVICE
    MC_Nearest_Facet MCT_Nearest_Facet_3D_G(
-      MC_Particle *mc_particle,
+      MC_Base_Particle *mc_particle,
       MC_Domain &domain,
       MC_Location &location,
       MC_Vector &coordinate,
@@ -45,7 +45,7 @@ namespace
 
    HOST_DEVICE_CUDA
    MC_Nearest_Facet MCT_Nearest_Facet_Find_Nearest(
-      MC_Particle *mc_particle,
+      MC_Base_Particle *mc_particle,
       MC_Domain *domain,
       MC_Location *location,
       MC_Vector &coordinate,
@@ -84,7 +84,7 @@ namespace
 /// \return The minimum distance and facet number.
 
 HOST_DEVICE
-MC_Nearest_Facet MCT_Nearest_Facet(MC_Particle *mc_particle,
+MC_Nearest_Facet MCT_Nearest_Facet(MC_Base_Particle *mc_particle,
                                    MC_Location &location,
                                    MC_Vector &coordinate,
                                    const DirectionCosine *direction_cosine,
@@ -398,9 +398,9 @@ namespace
 
 ///  Reflects the particle off of a reflection boundary.
 HOST_DEVICE
-void MCT_Reflect_Particle(MonteCarlo *monteCarlo, MC_Particle &particle)
+void MCT_Reflect_Particle(MonteCarlo *monteCarlo, MC_Base_Particle &particle)
 {
-    DirectionCosine *direction_cosine = particle.Get_Direction_Cosine();
+  DirectionCosine& direction_cosine = particle.direction_cosine;
     MC_Location              location = particle.Get_Location();
 
     const MC_Domain   &domain = location.get_domain(monteCarlo);
@@ -409,16 +409,16 @@ void MCT_Reflect_Particle(MonteCarlo *monteCarlo, MC_Particle &particle)
     MC_Vector facet_normal(plane.A, plane.B, plane.C);
 
 
-    double dot = 2.0*( direction_cosine->alpha * facet_normal.x +
-                       direction_cosine->beta  * facet_normal.y +
-                       direction_cosine->gamma * facet_normal.z );
+    double dot = 2.0*( direction_cosine.alpha * facet_normal.x +
+                       direction_cosine.beta  * facet_normal.y +
+                       direction_cosine.gamma * facet_normal.z );
 
     if ( dot > 0 ) // do not reflect a particle that is ALREADY pointing inward
     {
         // reflect the particle
-        direction_cosine->alpha -= dot * facet_normal.x;
-        direction_cosine->beta  -= dot * facet_normal.y;
-        direction_cosine->gamma -= dot * facet_normal.z;
+        direction_cosine.alpha -= dot * facet_normal.x;
+        direction_cosine.beta  -= dot * facet_normal.y;
+        direction_cosine.gamma -= dot * facet_normal.z;
     }
 
     // Calculate the reflected, velocity components.
@@ -484,7 +484,7 @@ namespace
 {
    ///  Loop over all the facets, return the minimum distance.
    HOST_DEVICE_CUDA
-   MC_Nearest_Facet MCT_Nearest_Facet_Find_Nearest(MC_Particle *mc_particle,
+   MC_Nearest_Facet MCT_Nearest_Facet_Find_Nearest(MC_Base_Particle *mc_particle,
                                                    MC_Domain *domain,
                                                    MC_Location *location,
                                                    MC_Vector &coordinate,
@@ -548,7 +548,7 @@ namespace
 
    HOST_DEVICE
    MC_Nearest_Facet MCT_Nearest_Facet_3D_G(
-      MC_Particle *mc_particle,
+      MC_Base_Particle *mc_particle,
       MC_Domain &domain,
       MC_Location &location,
       MC_Vector &coordinate,
