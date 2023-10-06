@@ -1,7 +1,50 @@
+/*
+Modifications Copyright (C) 2023 Intel Corporation
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+SPDX-License-Identifier: BSD-3-Clause
+*/
+
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 #ifndef MC_PARTICLE_INCLUDE
 #define MC_PARTICLE_INCLUDE
-
-#include <cinttypes>
 
 #include "DirectionCosine.hh"
 #include "Tallies.hh"
@@ -14,11 +57,9 @@
 
 class MC_Base_Particle;
 
-
 class MC_Particle
 {
- public:
-
+public:
     // the current position of the particle
     MC_Vector coordinate;
 
@@ -58,7 +99,7 @@ class MC_Particle
     // unique identifier used to identify and track individual particles in the simulation
     uint64_t identifier;
 
-   // the last event this particle underwent
+    // the last event this particle underwent
     MC_Tally_Event::Enum last_event;
 
     int num_collisions;
@@ -89,35 +130,35 @@ class MC_Particle
     double normal_dot;
 
 public:
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    MC_Particle();
 
-   HOST_DEVICE_CUDA
-   MC_Particle( const MC_Base_Particle &from_particle );
+   HOST_DEVICE_SYCL
+   MC_Particle(const MC_Base_Particle &from_particle);
 
-   HOST_DEVICE_CUDA
-   void Copy_From_Base( const MC_Base_Particle &from_particle);
+   HOST_DEVICE_SYCL
+   void Copy_From_Base(const MC_Base_Particle &from_particle);
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    MC_Location Get_Location() const;
 
    // format a string with the contents of the particle
    void Copy_Particle_To_String(std::string &output_string) const;
 
    // move a particle a distance in the direction_cosine direction
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    void Move_Particle(const DirectionCosine & direction_cosine, const double distance);
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    void PrintParticle();
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    DirectionCosine *Get_Direction_Cosine()
    {
       return &this->direction_cosine;
    }
 
-   HOST_DEVICE_CUDA
+   HOST_DEVICE_SYCL
    MC_Vector *Get_Velocity()
    {
       return &this->velocity;
@@ -127,7 +168,7 @@ public:
 //----------------------------------------------------------------------------------------------------------------------
 //  Return a MC_Location given domain, cell, facet.
 //----------------------------------------------------------------------------------------------------------------------
-   HOST_DEVICE_CUDA
+HOST_DEVICE_SYCL
 inline MC_Location MC_Particle::Get_Location() const
 {
     return MC_Location(domain, cell, facet);
@@ -136,8 +177,8 @@ inline MC_Location MC_Particle::Get_Location() const
 //----------------------------------------------------------------------------------------------------------------------
 //  Move the particle a straight-line distance along a specified cosine.
 //----------------------------------------------------------------------------------------------------------------------
-   HOST_DEVICE_CUDA
-inline void MC_Particle::Move_Particle( const DirectionCosine &my_direction_cosine,
+HOST_DEVICE_SYCL
+inline void MC_Particle::Move_Particle(const DirectionCosine &my_direction_cosine,
                                       const double distance)
 {
     coordinate.x += (my_direction_cosine.alpha * distance);
@@ -148,38 +189,36 @@ inline void MC_Particle::Move_Particle( const DirectionCosine &my_direction_cosi
 //----------------------------------------------------------------------------------------------------------------------
 //  Print all of the particles components
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE_CUDA
+HOST_DEVICE_SYCL
 inline void MC_Particle::PrintParticle()
 {
-    printf( "coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y, coordinate.z );
-    printf( "velocity:            %g\t%g\t%g\n", velocity.x, velocity.y, velocity.z );
-    printf( "direction_cosine:    %g\t%g\t%g\n", direction_cosine.alpha, direction_cosine.beta, direction_cosine.gamma );
-    printf( "kinetic_energy:      %g\n", kinetic_energy );
-    printf( "Weight:              %g\n", weight);
-    printf( "time_to_census:      %g\n", time_to_census);
-    printf( "totalCrossSection:   %g\n", totalCrossSection);
-    printf( "age:                 %g\n", age);
-    printf( "num_mean_free_paths: %g\n", num_mean_free_paths);
-    printf( "mean_free_path:      %g\n", mean_free_path);
-    printf( "segment_path_length: %g\n", segment_path_length);
-    printf( "random_number_seed:  %" PRIu64 "\n", random_number_seed);
-    printf( "identifier:          %" PRIu64 "\n", identifier);
-    printf( "last_event:          %d\n", last_event);
-    printf( "num_collision:       %d\n", num_collisions);
-    printf( "num_segments:        %g\n", num_segments);
-    printf( "task:                %d\n", task);
-    printf( "species:             %d\n", species);
-    printf( "breed:               %d\n", breed);
-    printf( "energy_group:        %d\n", energy_group);
-    printf( "domain:              %d\n", domain);
-    printf( "cell:                %d\n", cell);
-    printf( "facet:               %d\n", facet);
-    printf( "normal_dot:          %g\n", normal_dot);
+    printf("coordiante:          %g\t%g\t%g\n", coordinate.x, coordinate.y, coordinate.z);
+    printf("velocity:            %g\t%g\t%g\n", velocity.x, velocity.y, velocity.z);
+    printf("direction_cosine:     %g\t%g\t%g\n", direction_cosine.alpha, direction_cosine.beta, direction_cosine.gamma);
+    printf("kinetic_energy:      %g\n", kinetic_energy);
+    printf("Weight:              %g\n", weight);
+    printf("time_to_census:      %g\n", time_to_census);
+    printf("totalCrossSection:   %g\n", totalCrossSection);
+    printf("age:                 %g\n", age);
+    printf("num_mean_free_paths: %g\n", num_mean_free_paths);
+    printf("mean_free_path:      %g\n", mean_free_path);
+    printf("segment_path_length: %g\n", segment_path_length);
+    printf("random_number_seed:  %zu\n", random_number_seed);
+    printf("identifier:          %zu\n", identifier);
+    printf("last_event:          %d\n", last_event);
+    printf("num_collision:       %d\n", num_collisions);
+    printf("num_segments:        %g\n", num_segments);
+    printf("task:                %d\n", task);
+    printf("species:             %d\n", species);
+    printf("breed:               %d\n", breed);
+    printf("energy_group:        %d\n", energy_group);
+    printf("domain:              %d\n", domain);
+    printf("cell:                %d\n", cell);
+    printf("facet:               %d\n", facet);
+    printf("normal_dot:          %g\n", normal_dot);
     printf("\n");
 }
 
-
-int                         MC_Copy_Particle_Get_Num_Fields();
-
+int MC_Copy_Particle_Get_Num_Fields();
 
 #endif //  MC_PARTICLE_INCLUDE

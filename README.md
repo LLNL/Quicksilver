@@ -19,35 +19,47 @@ vectorization potential.
 For more information, visit the
 [LLNL co-design pages.](https://codesign.llnl.gov/quicksilver.php)
 
+**To build sycl version**
 
-Building Quicksilver
---------------------
+source /path/to/oneAPI package
 
-Instructions to build Quicksilver can be found in the
-Makefile. Quicksilver is a relatively easy to build code with no
-external dependencies (except MPI and OpenMP).  You should be able to
-build Quicksilver on nearly any system by customizing the values of
-only four variables in the Makefile:
+mkdir build && cd build
 
-* CXX The name of the C++ compiler (with path if necessary)
-  Quicksilver uses C++11 features, so a C++11 compliant compiler
-  should be used.
+CXX=icpx cmake ../ -DGPU_AOT=PVC
 
-* CXXFLAGS Command line switches to pass to the C++ compiler when
-  compiling objects *and* when linking the executable.
+make -sj
 
-* CPPFLAGS Command line switches to pass to the compiler *only* when
-  compiling objects
+**To build sycl version on nvidia backend**
 
-* LDFLAGS Command line switches to pass to the compiler *only*
-  when linking the executable
+source /path/to/clang/
 
-Sample definitions for a number of common systems are provided.
+mkdir build && cd build
 
-Quicksilver recognizes a number of pre-processor macros that enable or
-disable various code features such as MPI, OpenMP, etc.  These are
-described in the Makefile.
+//For A100 Machine
 
+CC=clang CXX=clang++ cmake ../ -DUSE_NVIDIA_BACKEND=YES -DUSE_SM=80
+
+//For H100 Machine
+
+CC=clang CXX=clang++ cmake ../ -DUSE_NVIDIA_BACKEND=YES -DUSE_SM=90
+
+make -sj
+
+**To build sycl version on amd backend**
+
+source /path/to/clang/
+
+mkdir build && cd build
+
+//For MI-100 Machine
+
+CC=clang CXX=clang++ cmake ../ -DUSE_AMDHIP_BACKEND=gfx908
+
+//For MI-250 Machine
+
+CC=clang CXX=clang++ cmake ../ -DUSE_AMDHIP_BACKEND=gfx90a
+
+make -sj
 
 Running Quicksilver
 -------------------
@@ -63,18 +75,27 @@ Quicksilver also has the property that the output of every run is a
 valid input file.  Hence you can repeat any run for which you have the
 output file by using that output as an input file.
 
+For benchmarking run the example "Examples/CORAL2_Benchmark/Problem1/Coral2_P1_1.inp"
+
+**To run sycl version**
+
+export QS_DEVICE=GPU
+
+./qs -i ../Examples/AllScattering/scatteringOnly.inp
+
+**To run sycl version on nvidia backend**
+
+export QS_DEVICE=GPU
+
+./qs -i ../Examples/AllScattering/scatteringOnly.inp
+
+**To run sycl version on amd backend**
+
+export QS_DEVICE=GPU
+
+ONEAPI_DEVICE_SELECTOR=hip:* ./qs -i ../Examples/AllScattering/scatteringOnly.inp
 
 License and Distribution Information
 ------------------------------------
 
 Quicksilver is available [on github](https://github.com/LLNL/Quicksilver)
-
-
-Quicksilver is open source software with a BSD license.  See
-[LICENSE.md](https://github.com/LLNL/Quicksilver/blob/master/LICENSE.md)
-
-This work was performed under the auspices of the U.S. Department of
-Energy by Lawrence Livermore National Laboratory under Contract
-DE-AC52-07NA27344.
-
-LLNL-CODE-684037

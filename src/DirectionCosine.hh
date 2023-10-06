@@ -1,6 +1,52 @@
+/*
+Modifications Copyright (C) 2023 Intel Corporation
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+SPDX-License-Identifier: BSD-3-Clause
+*/
+
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 #ifndef DIRECTION_COSINE_INCLUDE
 #define DIRECTION_COSINE_INCLUDE
 
+#include <sycl/sycl.hpp>
 #include <cmath>
 #include "portability.hh"
 #include "DeclareMacro.hh"
@@ -9,49 +55,48 @@ HOST_DEVICE_CLASS
 class DirectionCosine
 {
 public:
-   double alpha;
-   double beta;
-   double gamma;
+    double alpha;
+    double beta;
+    double gamma;
 
-   HOST_DEVICE_CUDA
-   DirectionCosine();
+    HOST_DEVICE_SYCL
+    DirectionCosine();
 
-   HOST_DEVICE_CUDA
-   DirectionCosine(double alpha, double beta, double gamma);
+    HOST_DEVICE_SYCL
+    DirectionCosine(double alpha, double beta, double gamma);
 
-   HOST_DEVICE_CUDA
-   DirectionCosine &operator=(const DirectionCosine &dc) 
-   {
-       alpha = dc.alpha;
-       beta  = dc.beta;
-       gamma = dc.gamma;
-       return *this;
+    HOST_DEVICE_SYCL
+    DirectionCosine &operator=(const DirectionCosine &dc)
+    {
+        alpha = dc.alpha;
+        beta = dc.beta;
+        gamma = dc.gamma;
+        return *this;
     }
 
-   void Sample_Isotropic(uint64_t *seed);
+    void Sample_Isotropic(uint64_t *seed);
 
-   // rotate a direction cosine given the sine/cosine of theta and phi
-   HOST_DEVICE_CUDA
-   inline void Rotate3DVector( double sine_Theta,
+    // rotate a direction cosine given the sine/cosine of theta and phi
+    HOST_DEVICE_SYCL
+    inline void Rotate3DVector(double sine_Theta,
                                double cosine_Theta,
                                double sine_Phi,
-                               double cosine_Phi );
-
+                               double cosine_Phi);
 };
 HOST_DEVICE_END
 
 HOST_DEVICE
 inline DirectionCosine::DirectionCosine()
-   : alpha(0.0), beta(0.0), gamma(0.0)
+    : alpha(0.0), beta(0.0), gamma(0.0)
 {
 }
 HOST_DEVICE_END
 
 HOST_DEVICE
 inline DirectionCosine::DirectionCosine(double a_alpha, double a_beta, double a_gamma)
-   : alpha(a_alpha),
-     beta(a_beta),
-     gamma(a_gamma)
+    : alpha(a_alpha),
+      beta(a_beta),
+      gamma(a_gamma)
 {
 }
 HOST_DEVICE_END
@@ -124,7 +169,7 @@ inline void DirectionCosine::Rotate3DVector(double sin_Theta, double cos_Theta, 
 {
     // Calculate additional variables in the rotation matrix.
     double cos_theta = this->gamma;
-    double sin_theta = sqrt((1.0 - (cos_theta*cos_theta)));
+    double sin_theta = sycl::sqrt((1.0 - (cos_theta * cos_theta)));
 
     double cos_phi;
     double sin_phi;
@@ -135,14 +180,14 @@ inline void DirectionCosine::Rotate3DVector(double sin_Theta, double cos_Theta, 
     }
     else
     {
-        cos_phi = this->alpha/sin_theta;
-        sin_phi = this->beta/sin_theta;
+        cos_phi = this->alpha / sin_theta;
+        sin_phi = this->beta / sin_theta;
     }
 
     // Calculate the rotated direction cosine
-    this->alpha =  cos_theta*cos_phi*(sin_Theta*cos_Phi) - sin_phi*(sin_Theta*sin_Phi) + sin_theta*cos_phi*cos_Theta;
-    this->beta  =  cos_theta*sin_phi*(sin_Theta*cos_Phi) + cos_phi*(sin_Theta*sin_Phi) + sin_theta*sin_phi*cos_Theta;
-    this->gamma = -sin_theta        *(sin_Theta*cos_Phi) +                               cos_theta        *cos_Theta;
+    this->alpha = cos_theta * cos_phi * (sin_Theta * cos_Phi) - sin_phi * (sin_Theta * sin_Phi) + sin_theta * cos_phi * cos_Theta;
+    this->beta = cos_theta * sin_phi * (sin_Theta * cos_Phi) + cos_phi * (sin_Theta * sin_Phi) + sin_theta * sin_phi * cos_Theta;
+    this->gamma = -sin_theta * (sin_Theta * cos_Phi) + cos_theta * cos_Theta;
 }
 HOST_DEVICE_END
 

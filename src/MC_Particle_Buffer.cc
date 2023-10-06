@@ -27,7 +27,7 @@ void MCP_Cancel_Request(MPI_Request *request)
     if (request[0] != MPI_REQUEST_NULL)
     {
         MPI_Status status;
-        int flag;
+        int flag = 0;
         mpiCancel(request);
         mpiWait(request, &status);
         mpiTest_cancelled(&status, &flag);
@@ -61,9 +61,9 @@ void particle_buffer_base_type::Allocate(int buffer_size)
     // we add 2 ints: 1 for the number of particles and the second int is so the float_data
     // buffer will be 8 byte aligned
 
-    uint64_t length_int_data   = (MC_Base_Particle::num_base_ints   * buffer_size + 2) * (int)sizeof(int);
-    uint64_t length_float_data = (MC_Base_Particle::num_base_floats * buffer_size    ) * (int)sizeof(double);
-    uint64_t length_char_data  = (MC_Base_Particle::num_base_chars  * buffer_size    ) * (int)sizeof(char);
+    uint64_t length_int_data   = (uint64_t)(MC_Base_Particle::num_base_ints   * buffer_size + 2) * (int)sizeof(int);
+    uint64_t length_float_data = (uint64_t)(MC_Base_Particle::num_base_floats * buffer_size    ) * (int)sizeof(double);
+    uint64_t length_char_data  = (uint64_t)(MC_Base_Particle::num_base_chars  * buffer_size    ) * (int)sizeof(char);
 
     this->length = length_int_data + length_float_data + length_char_data;
 
@@ -114,8 +114,8 @@ void particle_buffer_base_type::Initialize_Buffer()
 void particle_buffer_base_type::Reset_Offsets()
 {
 
-    uint64_t length_int_data   = (MC_Base_Particle::num_base_ints   * num_particles + 2) * (int)sizeof(int);
-    uint64_t length_float_data = (MC_Base_Particle::num_base_floats * num_particles    ) * (int)sizeof(double);
+    uint64_t length_int_data   = (uint64_t)(MC_Base_Particle::num_base_ints   * num_particles + 2) * (int)sizeof(int);
+    uint64_t length_float_data = (uint64_t)(MC_Base_Particle::num_base_floats * num_particles    ) * (int)sizeof(double);
 
     char* p = (char *)int_data;
 

@@ -14,7 +14,9 @@ public:
     double D;
 
    // Code to compute coefficients stolen from MCT_Facet_Adjacency_3D_G
-   MC_General_Plane(){};
+   MC_General_Plane(){
+      A = B = C = D = 0;
+   };
    MC_General_Plane(const MC_Vector& r0, const MC_Vector& r1, const MC_Vector& r2)
    {
       A = ((r1.y - r0.y)*(r2.z - r0.z)) - ((r1.z - r0.z)*(r2.y - r0.y));

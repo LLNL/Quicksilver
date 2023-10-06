@@ -43,57 +43,82 @@ Redistribution and use in source and binary forms, with or without modification,
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef MC_LOCATION_INCLUDE
-#define MC_LOCATION_INCLUDE
+#include <sycl/sycl.hpp>
+#include "cudaFunctions.hh"
+#include "cudaUtils.hh"
+#include <stdio.h>
 
-// ToDo:  How much chaos would be caused by removing the default constructor?
-
-#include <string>
-#include "DeclareMacro.hh"
-
-class MC_Domain;
-class MC_Domain_d;
-class MC_Cell_State;
-class MonteCarlo;
-
-HOST_DEVICE_CLASS
-class MC_Location
+namespace testname
 {
-public:
-   int domain;
-   int cell;
-   int facet;
-
-HOST_DEVICE_SYCL
-   MC_Location(int adomain, int acell, int afacet)
-   : domain(adomain),
-     cell(acell),
-     facet(afacet)
-   {
-   }
-
-HOST_DEVICE_SYCL
-   MC_Location()
-   : domain(-1),
-     cell(-1),
-     facet(-1)
-   {
-   }
-
-   HOST_DEVICE_SYCL
-   const MC_Domain& get_domain(MonteCarlo *mcco) const;
-   HOST_DEVICE_SYCL
-   const MC_Domain_d& get_domain_d(MonteCarlo *mcco) const;
-};
-HOST_DEVICE_END
-
-HOST_DEVICE_SYCL
-inline bool operator==(const MC_Location &a, const MC_Location b)
-{
-   return
-      a.domain == b.domain &&
-      a.cell == b.cell &&
-      a.facet == b.facet;
+#if HAVE_SYCL
+#include "cudaFunctions.hh"
+    void WarmUpKernel(sycl::nd_item<3> item_ct1)
+    {
+        int global_index = getGlobalThreadID(item_ct1);
+        if (global_index == 0)
+        {
+        }
+    }
+#endif
 }
 
+#if defined(HAVE_SYCL)
+void warmup_kernel()
+{
+    using namespace testname;
+    sycl_device_queue.parallel_for(
+        sycl::nd_range<3>(sycl::range<3>(1, 1, 1), sycl::range<3>(1, 1, 1)),
+        [=](sycl::nd_item<3> item_ct1)
+        {
+            testname::WarmUpKernel(item_ct1);
+        });
+    sycl_device_queue.wait();
+}
+#endif
+
+#if defined(HAVE_SYCL)
+int ThreadBlockLayout(sycl::range<3> &grid, sycl::range<3> &block,
+                      int num_particles)
+{
+    int run_kernel = 1;
+    const uint64_t max_block_size = 2147483647;
+    // const uint64_t threads_per_block = 128;
+    const uint64_t threads_per_block = 256;
+
+    block[2] = threads_per_block;
+    block[1] = 1;
+    block[0] = 1;
+
+    uint64_t num_blocks = num_particles / threads_per_block + ((num_particles % threads_per_block == 0) ? 0 : 1);
+
+    if (num_blocks == 0)
+    {
+        run_kernel = 0;
+    }
+    else if (num_blocks <= max_block_size)
+    {
+        grid[2] = num_blocks;
+        grid[1] = 1;
+        grid[0] = 1;
+    }
+    else if (num_blocks <= max_block_size * max_block_size)
+    {
+        grid[2] = max_block_size;
+        grid[1] = 1 + (num_blocks / max_block_size);
+        grid[0] = 1;
+    }
+    else if (num_blocks <= max_block_size * max_block_size * max_block_size)
+    {
+        grid[2] = max_block_size;
+        grid[1] = max_block_size;
+        grid[0] = 1 + (num_blocks / (max_block_size * max_block_size));
+    }
+    else
+    {
+        printf("Error: num_blocks exceeds maximum block specifications. Cannot handle this case yet\n");
+        run_kernel = 0;
+    }
+
+    return run_kernel;
+}
 #endif

@@ -4,6 +4,7 @@
 #include <utility>
 #include <set>
 #include "qs_assert.hh"
+#include "Random.h"
 
 using std::vector;
 using std::find;
@@ -18,7 +19,7 @@ namespace
       int nItems = vv.size();
       for (unsigned ii=0; ii<nItems-1; ++ii)
       {
-         int jj = (drand48() * (nItems - ii)) + ii;
+         int jj = (ts::Random::drandom() * (nItems - ii)) + ii;
          swap(vv[ii], vv[jj]);
       }
    }

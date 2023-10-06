@@ -1,6 +1,31 @@
+/*
+Modifications Copyright (C) 2023 Intel Corporation
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+SPDX-License-Identifier: BSD-3-Clause
+*/
+
 /// \file
 /// Read parameters from command line arguments and input file.
-
 
 // ToDo:
 // 1. set the default number of mpi ranks in each direction
@@ -33,31 +58,30 @@
 #include "InputBlock.hh"
 #include "utilsMpi.hh"
 
-using std::string;
+using std::endl;
 using std::ifstream;
 using std::make_pair;
-using std::vector;
-using std::ostream;
 using std::map;
-using std::endl;
+using std::ostream;
+using std::string;
+using std::vector;
 
 namespace
 {
-   void parseCommandLine(int argc, char** argv, Parameters& pp);
-   void parseInputFile(const string& filename, Parameters& pp);
-   void supplyDefaults(Parameters& params);
+   void parseCommandLine(int argc, char **argv, Parameters &pp);
+   void parseInputFile(const string &filename, Parameters &pp);
+   void supplyDefaults(Parameters &params);
 
-   void scanSimulationBlock  (const InputBlock& input, Parameters& pp);
-   void scanGeometryBlock    (const InputBlock& input, Parameters& pp);
-   void scanMaterialBlock    (const InputBlock& input, Parameters& pp);
-   void scanCrossSectionBlock(const InputBlock& input, Parameters& pp);
+   void scanSimulationBlock(const InputBlock &input, Parameters &pp);
+   void scanGeometryBlock(const InputBlock &input, Parameters &pp);
+   void scanMaterialBlock(const InputBlock &input, Parameters &pp);
+   void scanCrossSectionBlock(const InputBlock &input, Parameters &pp);
 
-   void badInputFile(const string& filename);
-   void badGeometryBlock(const InputBlock& input);
-   void badMaterialBlock(const InputBlock& input);
-   void badCrossSectionBlock(const InputBlock& input);
+   void badInputFile(const string &filename);
+   void badGeometryBlock(const InputBlock &input);
+   void badMaterialBlock(const InputBlock &input);
+   void badCrossSectionBlock(const InputBlock &input);
 }
-
 
 /// A one stop shop to get all parameters from the command line and the
 /// input file.
@@ -77,45 +101,49 @@ namespace
 ///     with the same name.
 ///
 
-Parameters getParameters(int argc, char** argv)
+Parameters getParameters(int argc, char **argv)
 {
    Parameters params;
    parseCommandLine(argc, argv, params);
-   const string& filename = params.simulationParams.inputFile;
+   const string &filename = params.simulationParams.inputFile;
    const string energyName = params.simulationParams.energySpectrum;
-   const string xsecOut   = params.simulationParams.crossSectionsOut;
+   const string xsecOut = params.simulationParams.crossSectionsOut;
 
-   if (!filename.empty()) parseInputFile(filename, params);
-   if( energyName != "" ) params.simulationParams.energySpectrum = energyName;
-   if( xsecOut != "" )    params.simulationParams.crossSectionsOut = xsecOut;
-
+   if (!filename.empty())
+      parseInputFile(filename, params);
+   if (energyName != "")
+      params.simulationParams.energySpectrum = energyName;
+   if (xsecOut != "")
+      params.simulationParams.crossSectionsOut = xsecOut;
    supplyDefaults(params);
-
    return params;
 }
 
-void printParameters(const Parameters& pp, ostream& out)
+void printParameters(const Parameters &pp, ostream &out)
 {
    int rank = -1;
    mpiComm_rank(MPI_COMM_WORLD, &rank);
 
-   if ( rank != 0 ) { return; }
+   if (rank != 0)
+   {
+      return;
+   }
 
    out << pp.simulationParams;
 
-   for (unsigned ii=0; ii<pp.geometryParams.size(); ++ii)
+   for (unsigned ii = 0; ii < pp.geometryParams.size(); ++ii)
       out << pp.geometryParams[ii];
 
-   for (map<string, MaterialParameters>::const_iterator iter=pp.materialParams.begin();
-        iter!=pp.materialParams.end(); ++iter)
+   for (map<string, MaterialParameters>::const_iterator iter = pp.materialParams.begin();
+        iter != pp.materialParams.end(); ++iter)
       out << iter->second;
 
-   for (map<string, CrossSectionParameters>::const_iterator iter=pp.crossSectionParams.begin();
-        iter!=pp.crossSectionParams.end(); ++iter)
+   for (map<string, CrossSectionParameters>::const_iterator iter = pp.crossSectionParams.begin();
+        iter != pp.crossSectionParams.end(); ++iter)
       out << iter->second;
 }
 
-ostream& operator<<(ostream& out, const SimulationParameters& pp)
+ostream &operator<<(ostream &out, const SimulationParameters &pp)
 {
    out << "Simulation:\n";
    out << "   dt: " << pp.dt << "\n";
@@ -153,13 +181,13 @@ ostream& operator<<(ostream& out, const SimulationParameters& pp)
    return out;
 }
 
-ostream& operator<<(ostream& out, const GeometryParameters& pp)
+ostream &operator<<(ostream &out, const GeometryParameters &pp)
 {
    out << "Geometry:\n";
    out << "   material: " << pp.materialName << "\n";
    switch (pp.shape)
    {
-     case GeometryParameters::BRICK:
+   case GeometryParameters::BRICK:
       out << "   shape: brick\n";
       out << "   xMax: " << pp.xMax << "\n";
       out << "   xMin: " << pp.xMin << "\n";
@@ -168,20 +196,20 @@ ostream& operator<<(ostream& out, const GeometryParameters& pp)
       out << "   zMax: " << pp.zMax << "\n";
       out << "   zMin: " << pp.zMin << "\n";
       break;
-     case GeometryParameters::SPHERE:
+   case GeometryParameters::SPHERE:
       out << "   shape: sphere\n";
       out << "   xCenter: " << pp.xCenter << "\n";
       out << "   yCenter: " << pp.yCenter << "\n";
       out << "   zCenter: " << pp.zCenter << "\n";
       break;
-     default:
-        qs_assert(false);
+   default:
+      qs_assert(false);
    }
    out << endl;
    return out;
 }
 
-ostream& operator<<(ostream& out, const MaterialParameters& pp)
+ostream &operator<<(ostream &out, const MaterialParameters &pp)
 {
    out << "Material:\n";
    out << "   name: " << pp.name << "\n";
@@ -200,7 +228,7 @@ ostream& operator<<(ostream& out, const MaterialParameters& pp)
    return out;
 }
 
-ostream& operator<<(ostream& out, const CrossSectionParameters& pp)
+ostream &operator<<(ostream &out, const CrossSectionParameters &pp)
 {
    out << "CrossSection:\n";
    out << "   name: " << pp.name << "\n";
@@ -216,43 +244,43 @@ ostream& operator<<(ostream& out, const CrossSectionParameters& pp)
 
 namespace
 {
-   void parseCommandLine(int argc, char** argv, Parameters& pp)
+   void parseCommandLine(int argc, char **argv, Parameters &pp)
    {
-      SimulationParameters& sp = pp.simulationParams;
-      int help=0;
+      SimulationParameters &sp = pp.simulationParams;
+      int help = 0;
       char name[1024];
       name[0] = '\0';
       char esName[1024];
       esName[0] = '\0';
       char xsec[1024];
       xsec[0] = '\0';
-      
-      addArg("help",             'h', 0, 'i', &(help),           0,      "print this message");
-      addArg("dt",               'D', 1, 'd', &(sp.dt),          0,      "time step (seconds)");
-      addArg("fMax",             'f', 1, 'd', &(sp.fMax),        0,      "max random mesh node displacement");
-      addArg("inputFile",        'i', 1, 's', &(name),     sizeof(name), "name of input file");
-      addArg("energySpectrum",   'e', 1, 's', &(esName),     sizeof(esName), "name of energy spectrum output file");
-      addArg("crossSectionsOut", 'S', 1, 's', &(xsec),     sizeof(xsec), "name of cross section output file");
-      addArg("loadBalance",      'l', 0, 'i', &(sp.loadBalance), 0,      "enable/disable load balancing" );
-      addArg("cycleTimers",      'c', 1, 'i', &(sp.cycleTimers), 0,      "enable/disable cycle timers" );
-      addArg("debugThreads",     't', 1, 'i', &(sp.debugThreads),0,      "set thread debug level to 1, 2, 3" );
-      addArg("lx",               'X', 1, 'd', &(sp.lx),          0,      "x-size of simulation (cm)");
-      addArg("ly",               'Y', 1, 'd', &(sp.ly),          0,      "y-size of simulation (cm)");
-      addArg("lz",               'Z', 1, 'd', &(sp.lz),          0,      "z-size of simulation (cm)");
-      addArg("nParticles",       'n', 1, 'u', &(sp.nParticles),  0,      "number of particles");
-      addArg("batchSize",        'g', 1, 'u', &(sp.batchSize),   0,      "number of particles in a vault/batch");
-      addArg("nBatches",         'b', 1, 'u', &(sp.nBatches),    0,      "number of vault/batch to start (sets batchSize automaticaly)");
-      addArg("nSteps",           'N', 1, 'i', &(sp.nSteps),      0,      "number of time steps");
-      addArg("nx",               'x', 1, 'i', &(sp.nx),          0,      "number of mesh elements in x");
-      addArg("ny",               'y', 1, 'i', &(sp.ny),          0,      "number of mesh elements in y");
-      addArg("nz",               'z', 1, 'i', &(sp.nz),          0,      "number of mesh elements in z");
-      addArg("seed",             's', 1, 'i', &(sp.seed),        0,      "random number seed");
-      addArg("xDom",             'I', 1, 'i', &(sp.xDom),        0,      "number of MPI ranks in x");
-      addArg("yDom",             'J', 1, 'i', &(sp.yDom),        0,      "number of MPI ranks in y");
-      addArg("zDom",             'K', 1, 'i', &(sp.zDom),        0,      "number of MPI ranks in z");
-      addArg("bTally",           'B', 1, 'i', &(sp.balanceTallyReplications), 0, "number of balance tally replications");
-      addArg("fTally",           'F', 1, 'i', &(sp.fluxTallyReplications),    0, "number of scalar flux tally replications");
-      addArg("cTally",           'C', 1, 'i', &(sp.cellTallyReplications),    0, "number of scalar cell tally replications");
+
+      addArg("help", 'h', 0, 'i', &(help), 0, "print this message");
+      addArg("dt", 'D', 1, 'd', &(sp.dt), 0, "time step (seconds)");
+      addArg("fMax", 'f', 1, 'd', &(sp.fMax), 0, "max random mesh node displacement");
+      addArg("inputFile", 'i', 1, 's', &(name), sizeof(name), "name of input file");
+      addArg("energySpectrum", 'e', 1, 's', &(esName), sizeof(esName), "name of energy spectrum output file");
+      addArg("crossSectionsOut", 'S', 1, 's', &(xsec), sizeof(xsec), "name of cross section output file");
+      addArg("loadBalance", 'l', 0, 'i', &(sp.loadBalance), 0, "enable/disable load balancing");
+      addArg("cycleTimers", 'c', 1, 'i', &(sp.cycleTimers), 0, "enable/disable cycle timers");
+      addArg("debugThreads", 't', 1, 'i', &(sp.debugThreads), 0, "set thread debug level to 1, 2, 3");
+      addArg("lx", 'X', 1, 'd', &(sp.lx), 0, "x-size of simulation (cm)");
+      addArg("ly", 'Y', 1, 'd', &(sp.ly), 0, "y-size of simulation (cm)");
+      addArg("lz", 'Z', 1, 'd', &(sp.lz), 0, "z-size of simulation (cm)");
+      addArg("nParticles", 'n', 1, 'u', &(sp.nParticles), 0, "number of particles");
+      addArg("batchSize", 'g', 1, 'u', &(sp.batchSize), 0, "number of particles in a vault/batch");
+      addArg("nBatches", 'b', 1, 'u', &(sp.nBatches), 0, "number of vault/batch to start (sets batchSize automaticaly)");
+      addArg("nSteps", 'N', 1, 'i', &(sp.nSteps), 0, "number of time steps");
+      addArg("nx", 'x', 1, 'i', &(sp.nx), 0, "number of mesh elements in x");
+      addArg("ny", 'y', 1, 'i', &(sp.ny), 0, "number of mesh elements in y");
+      addArg("nz", 'z', 1, 'i', &(sp.nz), 0, "number of mesh elements in z");
+      addArg("seed", 's', 1, 'i', &(sp.seed), 0, "random number seed");
+      addArg("xDom", 'I', 1, 'i', &(sp.xDom), 0, "number of MPI ranks in x");
+      addArg("yDom", 'J', 1, 'i', &(sp.yDom), 0, "number of MPI ranks in y");
+      addArg("zDom", 'K', 1, 'i', &(sp.zDom), 0, "number of MPI ranks in z");
+      addArg("bTally", 'B', 1, 'i', &(sp.balanceTallyReplications), 0, "number of balance tally replications");
+      addArg("fTally", 'F', 1, 'i', &(sp.fluxTallyReplications), 0, "number of scalar flux tally replications");
+      addArg("cTally", 'C', 1, 'i', &(sp.cellTallyReplications), 0, "number of scalar cell tally replications");
 
       processArgs(argc, argv);
 
@@ -264,7 +292,7 @@ namespace
       {
          int rank = -1;
          mpiComm_rank(MPI_COMM_WORLD, &rank);
-         if ( rank == 0 )
+         if (rank == 0)
          {
             printArgs();
          }
@@ -277,7 +305,7 @@ namespace
 
 namespace
 {
-   void parseInputFile(const string& filename, Parameters& pp)
+   void parseInputFile(const string &filename, Parameters &pp)
    {
       vector<InputBlock> parseTree;
       int myRank;
@@ -285,8 +313,13 @@ namespace
       if (myRank == 0)
       { // fill parse tree
          ifstream in(filename.c_str());
-         if (! in)
+         if (!in)
             badInputFile(filename);
+         if (!in.good())
+         {
+            std::cerr << "ERROR : Input file '" << filename << "' does not exist " << std::endl;
+            return;
+         }
          string line;
          getline(in, line);
          while (!in.eof())
@@ -305,18 +338,19 @@ namespace
       { // broadcast parse tree
          int nBlocks = parseTree.size();
          mpiBcast(&nBlocks, 1, MPI_INT, 0, MPI_COMM_WORLD);
-         for (unsigned ii=0; ii<nBlocks; ++ii)
+         for (unsigned ii = 0; ii < nBlocks; ++ii)
          {
-            vector<char> buffer;;
+            vector<char> buffer;
+            ;
             if (myRank == 0)
                parseTree[ii].serialize(buffer);
-            
+
             int size = buffer.size();
             mpiBcast(&size, 1, MPI_INT, 0, MPI_COMM_WORLD);
             if (myRank != 0)
                buffer.resize(size);
             mpiBcast(&buffer[0], size, MPI_BYTE, 0, MPI_COMM_WORLD);
-            
+
             if (myRank != 0)
             {
                parseTree.push_back(InputBlock(""));
@@ -325,8 +359,7 @@ namespace
          }
       } // broadcast
 
-
-      for (unsigned ii=0; ii<parseTree.size(); ++ii)
+      for (unsigned ii = 0; ii < parseTree.size(); ++ii)
       {
          if (parseTree[ii].name() == "Simulation")
             scanSimulationBlock(parseTree[ii], pp);
@@ -347,9 +380,9 @@ namespace
    //
    // Method:  If a geometry has been specified, the user is on their own
    // for a complete set of geometries, materials, and cross sections.
-   void supplyDefaults(Parameters& params)
+   void supplyDefaults(Parameters &params)
    {
-      if ( ! params.geometryParams.empty() )
+      if (!params.geometryParams.empty())
          return;
 
       CrossSectionParameters flatCrossSection;
@@ -365,7 +398,7 @@ namespace
       sourceMaterial.absorptionCrossSection = "flat";
       sourceMaterial.fissionCrossSection = "flat";
       sourceMaterial.fissionCrossSectionRatio = 0.1;
-      
+
       params.materialParams[sourceMaterial.name] = sourceMaterial;
 
       GeometryParameters sourceGeometry;
@@ -381,49 +414,48 @@ namespace
 
 namespace
 {
-   void scanSimulationBlock(const InputBlock& input, Parameters& pp)
+   void scanSimulationBlock(const InputBlock &input, Parameters &pp)
    {
-      SimulationParameters& sp = pp.simulationParams;
+      SimulationParameters &sp = pp.simulationParams;
       input.getValue<string>("energySpectrum", sp.energySpectrum);
-      input.getValue<string>("crossSectionsOut",sp.crossSectionsOut);
+      input.getValue<string>("crossSectionsOut", sp.crossSectionsOut);
       input.getValue<string>("boundaryCondition", sp.boundaryCondition);
-      input.getValue<double>("dt",          sp.dt);
-      input.getValue<double>("fMax",        sp.fMax);
-      input.getValue<int>   ("loadBalance", sp.loadBalance);
-      input.getValue<int>   ("cycleTimers", sp.cycleTimers);
-      input.getValue<int>   ("debugThreads",sp.debugThreads);
-      input.getValue<double>("lx",          sp.lx);
-      input.getValue<double>("ly",          sp.ly);
-      input.getValue<double>("lz",          sp.lz);
-      input.getValue<uint64_t>("nParticles",  sp.nParticles);
-      input.getValue<uint64_t>("batchSize",  sp.batchSize);
-      input.getValue<uint64_t>("nBatches",  sp.nBatches);
-      input.getValue<int>   ("nSteps",      sp.nSteps);
-      input.getValue<int>   ("nx",          sp.nx);
-      input.getValue<int>   ("ny",          sp.ny);
-      input.getValue<int>   ("nz",          sp.nz);
-      input.getValue<int>   ("seed",        sp.seed);
-      input.getValue<int>   ("xDom",        sp.xDom);
-      input.getValue<int>   ("yDom",        sp.yDom);
-      input.getValue<int>   ("zDom",        sp.zDom);
-      input.getValue<double>("eMax",        sp.eMax);
-      input.getValue<double>("eMin",        sp.eMin);
-      input.getValue<int>   ("nGroups",     sp.nGroups);
-      input.getValue<double>("lowWeightCutoff",sp.lowWeightCutoff);
-      input.getValue<int>("bTally",sp.balanceTallyReplications);
-      input.getValue<int>("fTally",sp.fluxTallyReplications);
-      input.getValue<int>("cTally",sp.cellTallyReplications);
-      input.getValue<int>("coralBenchmark",sp.coralBenchmark);
-
+      input.getValue<double>("dt", sp.dt);
+      input.getValue<double>("fMax", sp.fMax);
+      input.getValue<int>("loadBalance", sp.loadBalance);
+      input.getValue<int>("cycleTimers", sp.cycleTimers);
+      input.getValue<int>("debugThreads", sp.debugThreads);
+      input.getValue<double>("lx", sp.lx);
+      input.getValue<double>("ly", sp.ly);
+      input.getValue<double>("lz", sp.lz);
+      input.getValue<uint64_t>("nParticles", sp.nParticles);
+      input.getValue<uint64_t>("batchSize", sp.batchSize);
+      input.getValue<uint64_t>("nBatches", sp.nBatches);
+      input.getValue<int>("nSteps", sp.nSteps);
+      input.getValue<int>("nx", sp.nx);
+      input.getValue<int>("ny", sp.ny);
+      input.getValue<int>("nz", sp.nz);
+      input.getValue<int>("seed", sp.seed);
+      input.getValue<int>("xDom", sp.xDom);
+      input.getValue<int>("yDom", sp.yDom);
+      input.getValue<int>("zDom", sp.zDom);
+      input.getValue<double>("eMax", sp.eMax);
+      input.getValue<double>("eMin", sp.eMin);
+      input.getValue<int>("nGroups", sp.nGroups);
+      input.getValue<double>("lowWeightCutoff", sp.lowWeightCutoff);
+      input.getValue<int>("bTally", sp.balanceTallyReplications);
+      input.getValue<int>("fTally", sp.fluxTallyReplications);
+      input.getValue<int>("cTally", sp.cellTallyReplications);
+      input.getValue<int>("coralBenchmark", sp.coralBenchmark);
    }
 }
 
 namespace
 {
-   void scanGeometryBlock(const InputBlock& input, Parameters& pp)
+   void scanGeometryBlock(const InputBlock &input, Parameters &pp)
    {
       pp.geometryParams.push_back(GeometryParameters());
-      GeometryParameters& gg = pp.geometryParams.back();
+      GeometryParameters &gg = pp.geometryParams.back();
       input.getValue<string>("material", gg.materialName);
       string shape;
       input.getValue<string>("shape", shape);
@@ -440,7 +472,7 @@ namespace
       else if (shape == "sphere")
       {
          gg.shape = GeometryParameters::SPHERE;
-         input.getValue<double>("radius",  gg.radius);
+         input.getValue<double>("radius", gg.radius);
          input.getValue<double>("xCenter", gg.xCenter);
          input.getValue<double>("yCenter", gg.yCenter);
          input.getValue<double>("zCenter", gg.zCenter);
@@ -451,62 +483,59 @@ namespace
 }
 namespace
 {
-   void scanMaterialBlock(const InputBlock& input, Parameters& pp)
+   void scanMaterialBlock(const InputBlock &input, Parameters &pp)
    {
       string materialName;
       input.getValue<string>("name", materialName);
       if (materialName.empty())
          badMaterialBlock(input);
-      MaterialParameters& mp = pp.materialParams[materialName];
+      MaterialParameters &mp = pp.materialParams[materialName];
       mp.name = materialName;
       input.getValue<double>("mass", mp.mass);
-      input.getValue<string>("absorptionCrossSection",      mp.absorptionCrossSection);
+      input.getValue<string>("absorptionCrossSection", mp.absorptionCrossSection);
       input.getValue<double>("absorptionCrossSectionRatio", mp.absorptionCrossSectionRatio);
-      input.getValue<string>("fissionCrossSection",         mp.fissionCrossSection);
-      input.getValue<double>("fissionCrossSectionRatio",    mp.fissionCrossSectionRatio);
-      input.getValue<int>   ("nIsotopes",                   mp.nIsotopes);
-      input.getValue<int>   ("nReactions",                  mp.nReactions);
-      input.getValue<double>("totalCrossSection",           mp.totalCrossSection);
-      input.getValue<string>("scatteringCrossSection",      mp.scatteringCrossSection);
+      input.getValue<string>("fissionCrossSection", mp.fissionCrossSection);
+      input.getValue<double>("fissionCrossSectionRatio", mp.fissionCrossSectionRatio);
+      input.getValue<int>("nIsotopes", mp.nIsotopes);
+      input.getValue<int>("nReactions", mp.nReactions);
+      input.getValue<double>("totalCrossSection", mp.totalCrossSection);
+      input.getValue<string>("scatteringCrossSection", mp.scatteringCrossSection);
       input.getValue<double>("scatteringCrossSectionRatio", mp.scatteringCrossSectionRatio);
-      input.getValue<double>("sourceRate",                  mp.sourceRate);
+      input.getValue<double>("sourceRate", mp.sourceRate);
    }
 }
 namespace
 {
-   void scanCrossSectionBlock(const InputBlock& input, Parameters& pp)
+   void scanCrossSectionBlock(const InputBlock &input, Parameters &pp)
    {
       string crossSectionName;
       input.getValue<string>("name", crossSectionName);
       if (crossSectionName.empty())
          badCrossSectionBlock(input);
-      CrossSectionParameters& cp = pp.crossSectionParams[crossSectionName];
+      CrossSectionParameters &cp = pp.crossSectionParams[crossSectionName];
       cp.name = crossSectionName;
-      input.getValue<double>("A",       cp.aa);
-      input.getValue<double>("B",       cp.bb);
-      input.getValue<double>("C",       cp.cc);
-      input.getValue<double>("D",       cp.dd);
-      input.getValue<double>("E",       cp.ee);
-      input.getValue<double>("nuBar",   cp.nuBar);
-
+      input.getValue<double>("A", cp.aa);
+      input.getValue<double>("B", cp.bb);
+      input.getValue<double>("C", cp.cc);
+      input.getValue<double>("D", cp.dd);
+      input.getValue<double>("E", cp.ee);
+      input.getValue<double>("nuBar", cp.nuBar);
    }
 }
 
 namespace
 {
-   void badInputFile(const string& filename){qs_assert(false);}
-   void badGeometryBlock(const InputBlock& input)
+   void badInputFile(const string &filename) { qs_assert(false); }
+   void badGeometryBlock(const InputBlock &input)
    {
       // didn't specify shape.
       // Must be brick or sphere
       qs_assert(false);
    }
-   void badMaterialBlock(const InputBlock& input)
+   void badMaterialBlock(const InputBlock &input)
    {
       // didn't specify a name
       qs_assert(false);
    }
-   void badCrossSectionBlock(const InputBlock& input){qs_assert(false);}
+   void badCrossSectionBlock(const InputBlock &input) { qs_assert(false); }
 }
-
-

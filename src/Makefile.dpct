@@ -1,0 +1,216 @@
+CC := icpx -fsycl
+
+LD := $(CC)
+
+LIB := 
+
+FLAGS :=  -DHAVE_SYCL -O2
+
+TARGET_0_SRC_0 = ./CoralBenchmark.cc
+TARGET_0_OBJ_0 = ./CoralBenchmark.o
+TARGET_0_FLAG_0 =  ${FLAGS}
+
+TARGET_0_SRC_1 = ./CycleTracking.cc
+TARGET_0_OBJ_1 = ./CycleTracking.o
+TARGET_0_FLAG_1 =  ${FLAGS}
+
+TARGET_0_SRC_2 = ./DecompositionObject.cc
+TARGET_0_OBJ_2 = ./DecompositionObject.o
+TARGET_0_FLAG_2 =  ${FLAGS}
+
+TARGET_0_SRC_3 = ./DirectionCosine.cc.dp.cpp
+TARGET_0_OBJ_3 = ./DirectionCosine.cc.dp.o
+TARGET_0_FLAG_3 =  ${FLAGS}
+
+TARGET_0_SRC_4 = ./EnergySpectrum.cc
+TARGET_0_OBJ_4 = ./EnergySpectrum.o
+TARGET_0_FLAG_4 =  ${FLAGS}
+
+TARGET_0_SRC_5 = ./GlobalFccGrid.cc.dp.cpp
+TARGET_0_OBJ_5 = ./GlobalFccGrid.cc.dp.o
+TARGET_0_FLAG_5 =  ${FLAGS}
+
+TARGET_0_SRC_6 = ./GridAssignmentObject.cc.dp.cpp
+TARGET_0_OBJ_6 = ./GridAssignmentObject.cc.dp.o
+TARGET_0_FLAG_6 =  ${FLAGS}
+
+TARGET_0_SRC_7 = ./InputBlock.cc
+TARGET_0_OBJ_7 = ./InputBlock.o
+TARGET_0_FLAG_7 =  ${FLAGS}
+
+TARGET_0_SRC_8 = ./MC_Base_Particle.cc
+TARGET_0_OBJ_8 = ./MC_Base_Particle.o
+TARGET_0_FLAG_8 =  ${FLAGS}
+
+TARGET_0_SRC_9 = ./MC_Domain.cc.dp.cpp
+TARGET_0_OBJ_9 = ./MC_Domain.cc.dp.o
+TARGET_0_FLAG_9 =  ${FLAGS}
+
+TARGET_0_SRC_10 = ./MC_Fast_Timer.cc.dp.cpp
+TARGET_0_OBJ_10 = ./MC_Fast_Timer.cc.dp.o
+TARGET_0_FLAG_10 =  ${FLAGS}
+
+TARGET_0_SRC_11 = ./MC_Particle_Buffer.cc
+TARGET_0_OBJ_11 = ./MC_Particle_Buffer.o
+TARGET_0_FLAG_11 =  ${FLAGS}
+
+TARGET_0_SRC_12 = ./MeshPartition.cc
+TARGET_0_OBJ_12 = ./MeshPartition.o
+TARGET_0_FLAG_12 =  ${FLAGS}
+
+TARGET_0_SRC_13 = ./MonteCarlo.cc.dp.cpp
+TARGET_0_OBJ_13 = ./MonteCarlo.cc.dp.o
+TARGET_0_FLAG_13 =  ${FLAGS}
+
+TARGET_0_SRC_14 = ./MpiCommObject.cc
+TARGET_0_OBJ_14 = ./MpiCommObject.o
+TARGET_0_FLAG_14 =  ${FLAGS}
+
+TARGET_0_SRC_15 = ./Parameters.cc
+TARGET_0_OBJ_15 = ./Parameters.o
+TARGET_0_FLAG_15 =  ${FLAGS}
+
+TARGET_0_SRC_16 = ./ParticleVault.cc
+TARGET_0_OBJ_16 = ./ParticleVault.o
+TARGET_0_FLAG_16 =  ${FLAGS}
+
+TARGET_0_SRC_17 = ./ParticleVaultContainer.cc
+TARGET_0_OBJ_17 = ./ParticleVaultContainer.o
+TARGET_0_FLAG_17 =  ${FLAGS}
+
+TARGET_0_SRC_18 = ./PopulationControl.cc.dp.cpp
+TARGET_0_OBJ_18 = ./PopulationControl.cc.dp.o
+TARGET_0_FLAG_18 =  ${FLAGS}
+
+TARGET_0_SRC_19 = ./SharedMemoryCommObject.cc
+TARGET_0_OBJ_19 = ./SharedMemoryCommObject.o
+TARGET_0_FLAG_19 =  ${FLAGS}
+
+TARGET_0_SRC_20 = ./Tallies.cc
+TARGET_0_OBJ_20 = ./Tallies.o
+TARGET_0_FLAG_20 =  ${FLAGS}
+
+TARGET_0_SRC_21 = ./cmdLineParser.cc
+TARGET_0_OBJ_21 = ./cmdLineParser.o
+TARGET_0_FLAG_21 =  ${FLAGS}
+
+TARGET_0_SRC_22 = ./cudaFunctions.cc.dp.cpp
+TARGET_0_OBJ_22 = ./cudaFunctions.cc.dp.o
+TARGET_0_FLAG_22 =  ${FLAGS}
+
+TARGET_0_SRC_23 = ./initMC.cc.dp.cpp
+TARGET_0_OBJ_23 = ./initMC.cc.dp.o
+TARGET_0_FLAG_23 =  ${FLAGS}
+
+TARGET_0_SRC_24 = ./main.cc.dp.cpp
+TARGET_0_OBJ_24 = ./main.cc.dp.o
+TARGET_0_FLAG_24 =  ${FLAGS}
+
+TARGET_0_SRC_25 = ./parseUtils.cc
+TARGET_0_OBJ_25 = ./parseUtils.o
+TARGET_0_FLAG_25 =  ${FLAGS}
+
+TARGET_0_SRC_26 = ./utils.cc
+TARGET_0_OBJ_26 = ./utils.o
+TARGET_0_FLAG_26 =  ${FLAGS}
+
+TARGET_0_SRC_27 = ./utilsMpi.cc.dp.cpp
+TARGET_0_OBJ_27 = ./utilsMpi.cc.dp.o
+TARGET_0_FLAG_27 =  ${FLAGS}
+
+TARGET_0 := ./qs
+
+TARGET :=  ${TARGET_0}
+
+.PHONY:all clean
+OBJS_0 :=  ${TARGET_0_OBJ_0} ${TARGET_0_OBJ_1} ${TARGET_0_OBJ_2} ${TARGET_0_OBJ_3} ${TARGET_0_OBJ_4} ${TARGET_0_OBJ_5} ${TARGET_0_OBJ_6} ${TARGET_0_OBJ_7} ${TARGET_0_OBJ_8} ${TARGET_0_OBJ_9} ${TARGET_0_OBJ_10} ${TARGET_0_OBJ_11} ${TARGET_0_OBJ_12} ${TARGET_0_OBJ_13} ${TARGET_0_OBJ_14} ${TARGET_0_OBJ_15} ${TARGET_0_OBJ_16} ${TARGET_0_OBJ_17} ${TARGET_0_OBJ_18} ${TARGET_0_OBJ_19} ${TARGET_0_OBJ_20} ${TARGET_0_OBJ_21} ${TARGET_0_OBJ_22} ${TARGET_0_OBJ_23} ${TARGET_0_OBJ_24} ${TARGET_0_OBJ_25} ${TARGET_0_OBJ_26} ${TARGET_0_OBJ_27}
+all: $(TARGET)
+$(TARGET_0): $(OBJS_0)
+	$(CC) -o $@ $^ $(LIB) 
+
+$(TARGET_0_OBJ_0):$(TARGET_0_SRC_0)
+	$(CC) -c ${TARGET_0_SRC_0} -o ${TARGET_0_OBJ_0} $(TARGET_0_FLAG_0)
+
+$(TARGET_0_OBJ_1):$(TARGET_0_SRC_1)
+	$(CC) -c ${TARGET_0_SRC_1} -o ${TARGET_0_OBJ_1} $(TARGET_0_FLAG_1)
+
+$(TARGET_0_OBJ_2):$(TARGET_0_SRC_2)
+	$(CC) -c ${TARGET_0_SRC_2} -o ${TARGET_0_OBJ_2} $(TARGET_0_FLAG_2)
+
+$(TARGET_0_OBJ_3):$(TARGET_0_SRC_3)
+	$(CC) -c ${TARGET_0_SRC_3} -o ${TARGET_0_OBJ_3} $(TARGET_0_FLAG_3)
+
+$(TARGET_0_OBJ_4):$(TARGET_0_SRC_4)
+	$(CC) -c ${TARGET_0_SRC_4} -o ${TARGET_0_OBJ_4} $(TARGET_0_FLAG_4)
+
+$(TARGET_0_OBJ_5):$(TARGET_0_SRC_5)
+	$(CC) -c ${TARGET_0_SRC_5} -o ${TARGET_0_OBJ_5} $(TARGET_0_FLAG_5)
+
+$(TARGET_0_OBJ_6):$(TARGET_0_SRC_6)
+	$(CC) -c ${TARGET_0_SRC_6} -o ${TARGET_0_OBJ_6} $(TARGET_0_FLAG_6)
+
+$(TARGET_0_OBJ_7):$(TARGET_0_SRC_7)
+	$(CC) -c ${TARGET_0_SRC_7} -o ${TARGET_0_OBJ_7} $(TARGET_0_FLAG_7)
+
+$(TARGET_0_OBJ_8):$(TARGET_0_SRC_8)
+	$(CC) -c ${TARGET_0_SRC_8} -o ${TARGET_0_OBJ_8} $(TARGET_0_FLAG_8)
+
+$(TARGET_0_OBJ_9):$(TARGET_0_SRC_9)
+	$(CC) -c ${TARGET_0_SRC_9} -o ${TARGET_0_OBJ_9} $(TARGET_0_FLAG_9)
+
+$(TARGET_0_OBJ_10):$(TARGET_0_SRC_10)
+	$(CC) -c ${TARGET_0_SRC_10} -o ${TARGET_0_OBJ_10} $(TARGET_0_FLAG_10)
+
+$(TARGET_0_OBJ_11):$(TARGET_0_SRC_11)
+	$(CC) -c ${TARGET_0_SRC_11} -o ${TARGET_0_OBJ_11} $(TARGET_0_FLAG_11)
+
+$(TARGET_0_OBJ_12):$(TARGET_0_SRC_12)
+	$(CC) -c ${TARGET_0_SRC_12} -o ${TARGET_0_OBJ_12} $(TARGET_0_FLAG_12)
+
+$(TARGET_0_OBJ_13):$(TARGET_0_SRC_13)
+	$(CC) -c ${TARGET_0_SRC_13} -o ${TARGET_0_OBJ_13} $(TARGET_0_FLAG_13)
+
+$(TARGET_0_OBJ_14):$(TARGET_0_SRC_14)
+	$(CC) -c ${TARGET_0_SRC_14} -o ${TARGET_0_OBJ_14} $(TARGET_0_FLAG_14)
+
+$(TARGET_0_OBJ_15):$(TARGET_0_SRC_15)
+	$(CC) -c ${TARGET_0_SRC_15} -o ${TARGET_0_OBJ_15} $(TARGET_0_FLAG_15)
+
+$(TARGET_0_OBJ_16):$(TARGET_0_SRC_16)
+	$(CC) -c ${TARGET_0_SRC_16} -o ${TARGET_0_OBJ_16} $(TARGET_0_FLAG_16)
+
+$(TARGET_0_OBJ_17):$(TARGET_0_SRC_17)
+	$(CC) -c ${TARGET_0_SRC_17} -o ${TARGET_0_OBJ_17} $(TARGET_0_FLAG_17)
+
+$(TARGET_0_OBJ_18):$(TARGET_0_SRC_18)
+	$(CC) -c ${TARGET_0_SRC_18} -o ${TARGET_0_OBJ_18} $(TARGET_0_FLAG_18)
+
+$(TARGET_0_OBJ_19):$(TARGET_0_SRC_19)
+	$(CC) -c ${TARGET_0_SRC_19} -o ${TARGET_0_OBJ_19} $(TARGET_0_FLAG_19)
+
+$(TARGET_0_OBJ_20):$(TARGET_0_SRC_20)
+	$(CC) -c ${TARGET_0_SRC_20} -o ${TARGET_0_OBJ_20} $(TARGET_0_FLAG_20)
+
+$(TARGET_0_OBJ_21):$(TARGET_0_SRC_21)
+	$(CC) -c ${TARGET_0_SRC_21} -o ${TARGET_0_OBJ_21} $(TARGET_0_FLAG_21)
+
+$(TARGET_0_OBJ_22):$(TARGET_0_SRC_22)
+	$(CC) -c ${TARGET_0_SRC_22} -o ${TARGET_0_OBJ_22} $(TARGET_0_FLAG_22)
+
+$(TARGET_0_OBJ_23):$(TARGET_0_SRC_23)
+	$(CC) -c ${TARGET_0_SRC_23} -o ${TARGET_0_OBJ_23} $(TARGET_0_FLAG_23)
+
+$(TARGET_0_OBJ_24):$(TARGET_0_SRC_24)
+	$(CC) -c ${TARGET_0_SRC_24} -o ${TARGET_0_OBJ_24} $(TARGET_0_FLAG_24)
+
+$(TARGET_0_OBJ_25):$(TARGET_0_SRC_25)
+	$(CC) -c ${TARGET_0_SRC_25} -o ${TARGET_0_OBJ_25} $(TARGET_0_FLAG_25)
+
+$(TARGET_0_OBJ_26):$(TARGET_0_SRC_26)
+	$(CC) -c ${TARGET_0_SRC_26} -o ${TARGET_0_OBJ_26} $(TARGET_0_FLAG_26)
+
+$(TARGET_0_OBJ_27):$(TARGET_0_SRC_27)
+	$(CC) -c ${TARGET_0_SRC_27} -o ${TARGET_0_OBJ_27} $(TARGET_0_FLAG_27)
+
+clean:
+	rm -f  ${OBJS_0} $(TARGET)

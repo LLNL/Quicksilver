@@ -6,7 +6,17 @@
 class FacetPair
 {
  public:
-   FacetPair(){};
+   FacetPair()
+   : _domainGid1(0),
+     _domainIndex1(0),
+     _facetIndex1(0),
+     _cellIndex1(0),
+     _domainGid2(0),
+     _domainIndex2(0),
+     _facetIndex2(0),
+     _cellIndex2(0)
+   {};
+
    FacetPair(int domainGid1, const MC_Location& location1,
              int domainGid2, const MC_Location& location2)
    : _domainGid1(domainGid1),

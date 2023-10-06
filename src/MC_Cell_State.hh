@@ -20,7 +20,7 @@ class MC_Cell_State
    double  _cellNumberDensity;         // number density of ions in cel
 
    uint64_t _id;
-   uint64_t _sourceTally;
+   unsigned _sourceTally;
    
    MC_Cell_State();
 
@@ -32,6 +32,7 @@ inline MC_Cell_State::MC_Cell_State()
     _total(),
     _volume(0.0),
     _cellNumberDensity(0.0),
+    _id(0),
     _sourceTally(0)
 {
 }

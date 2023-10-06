@@ -1,3 +1,48 @@
+/*
+Modifications Copyright (C) 2023 Intel Corporation
+
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice,
+   this list of conditions and the following disclaimer.
+2. Redistributions in binary form must reproduce the above copyright notice,
+   this list of conditions and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+3. Neither the name of the copyright holder nor the names of its contributors
+   may be used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT
+OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+SPDX-License-Identifier: BSD-3-Clause
+*/
+
+/*
+Copyright 2019 Advanced Micro Devices
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
 #ifndef MC_BASE_PARTICLE
 #define MC_BASE_PARTICLE
 
@@ -9,41 +54,37 @@
 #include "MC_Location.hh"
 #include "DirectionCosine.hh"
 
-
 struct MC_Data_Member_Operation
 {
-    public:
+public:
     enum Enum
     {
-        Count   = 0,
-        Pack    = 1,
-        Unpack  = 2,
-        Reset   = 3
+        Count = 0,
+        Pack = 1,
+        Unpack = 2,
+        Reset = 3
     };
 };
 
-HOST_DEVICE_CLASS
-
 class MC_Base_Particle
 {
-  public:
-
+public:
     static void Cycle_Setup();
     static void Update_Counts();
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
     MC_Base_Particle();
-    HOST_DEVICE_CUDA
-    explicit MC_Base_Particle(  const MC_Particle &particle);
-    HOST_DEVICE_CUDA
-    MC_Base_Particle(  const MC_Base_Particle &particle);
+    HOST_DEVICE_SYCL
+    explicit MC_Base_Particle(const MC_Particle &particle);
+    HOST_DEVICE_SYCL
+    MC_Base_Particle(const MC_Base_Particle &particle);
 
-    HOST_DEVICE_CUDA
-    MC_Base_Particle&  operator= ( const MC_Particle& );
+    HOST_DEVICE_SYCL
+    MC_Base_Particle& operator= (const MC_Particle&);
 
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
     int particle_id_number() const;
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
     int invalidate();
 
     // serialize the vault
@@ -52,23 +93,23 @@ class MC_Base_Particle
                   MC_Data_Member_Operation::Enum mode);
 
     // return a location
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
     MC_Location Get_Location() const;
 
     // copy contents to a string
     void Copy_Particle_Base_To_String(std::string &output_string) const;
 
     // aliases for the type of particle that we have
-    HOST_DEVICE_CUDA
-    inline int type() const     { return species; }
-    HOST_DEVICE_CUDA
-    inline int index() const    { return species; }
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
+    inline int type() const { return species; }
+    HOST_DEVICE_SYCL
+    inline int index() const { return species; }
+    HOST_DEVICE_SYCL
     inline int is_valid() const { return (0 <= species); }
 
-    HOST_DEVICE_CUDA
-    inline double Get_Energy() const                     { return kinetic_energy; }
-    HOST_DEVICE_CUDA
+    HOST_DEVICE_SYCL
+    inline double Get_Energy() const { return kinetic_energy; }
+    HOST_DEVICE_SYCL
     inline MC_Vector *Get_Velocity() { return &velocity; }
 
 
@@ -99,20 +140,16 @@ class MC_Base_Particle
     
 };
 
-HOST_DEVICE_END
-
 //----------------------------------------------------------------------------------------------------------------------
 //  Return a MC_Location given domain, cell, facet.
 //----------------------------------------------------------------------------------------------------------------------
 
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline MC_Location MC_Base_Particle::Get_Location() const
 {
     return MC_Location(domain, cell, 0);
 
 }  // End Get_Location
-HOST_DEVICE_END
-
 
 //----------------------------------------------------------------------------------------------------------------------
 // Invalidate a particle.
@@ -122,7 +159,7 @@ HOST_DEVICE_END
 //
 // return: A value of 1 (true) is returned on success, 0 (false) on failure.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline int MC_Base_Particle::invalidate()
 {
    if (is_valid())
@@ -132,7 +169,6 @@ inline int MC_Base_Particle::invalidate()
    }
    else return 0;
 }
-HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Base information for a particle.
@@ -141,7 +177,7 @@ HOST_DEVICE_END
 //----------------------------------------------------------------------------------------------------------------------
 // Default constructor.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline MC_Base_Particle::MC_Base_Particle( ) :
         coordinate(),
         velocity(),
@@ -162,65 +198,61 @@ inline MC_Base_Particle::MC_Base_Particle( ) :
         cell(0)
 {
 }
-HOST_DEVICE_END
-
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a base particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline MC_Base_Particle::MC_Base_Particle(const MC_Base_Particle &particle)
 {
-    coordinate          = particle.coordinate;
-    velocity            = particle.velocity;
-    kinetic_energy      = particle.kinetic_energy;
-    weight              = particle.weight;
-    time_to_census      = particle.time_to_census;
-    age                 = particle.age;
+    coordinate = particle.coordinate;
+    velocity = particle.velocity;
+    kinetic_energy = particle.kinetic_energy;
+    weight = particle.weight;
+    time_to_census = particle.time_to_census;
+    age = particle.age;
     num_mean_free_paths = particle.num_mean_free_paths;
-    num_segments        = particle.num_segments;
-    random_number_seed  = particle.random_number_seed;
-    identifier          = particle.identifier;
-    last_event          = particle.last_event;
-    num_collisions      = particle.num_collisions;
-    breed               = particle.breed;
-    species             = particle.species;
-    domain              = particle.domain;
-    cell                = particle.cell;
+    num_segments = particle.num_segments;
+    random_number_seed = particle.random_number_seed;
+    identifier = particle.identifier;
+    last_event = particle.last_event;
+    num_collisions = particle.num_collisions;
+    breed = particle.breed;
+    species = particle.species;
+    domain = particle.domain;
+    cell = particle.cell;
 }
-HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructor from a particle type.
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline MC_Base_Particle::MC_Base_Particle(const MC_Particle &particle)
 {
-    coordinate          = particle.coordinate;
-    velocity            = particle.velocity;
-    kinetic_energy      = particle.kinetic_energy;
-    weight              = particle.weight;
-    time_to_census      = particle.time_to_census;
-    age                 = particle.age;
+    coordinate = particle.coordinate;
+    velocity = particle.velocity;
+    kinetic_energy = particle.kinetic_energy;
+    weight = particle.weight;
+    time_to_census = particle.time_to_census;
+    age = particle.age;
     num_mean_free_paths = particle.num_mean_free_paths;
-    num_segments        = particle.num_segments;
-    random_number_seed  = particle.random_number_seed;
-    identifier          = particle.identifier;
-    last_event          = particle.last_event;
-    num_collisions      = particle.num_collisions;
-    breed               = particle.breed;
-    species             = particle.species;
-    domain              = particle.domain;
-    cell                = particle.cell;
+    num_segments = particle.num_segments;
+    random_number_seed = particle.random_number_seed;
+    identifier = particle.identifier;
+    last_event = particle.last_event;
+    num_collisions = particle.num_collisions;
+    breed = particle.breed;
+    species = particle.species;
+    domain = particle.domain;
+    cell = particle.cell;
 }
-HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
 // The assignment operator.
 // Copies a given (rhs) particle replacing this (lhs) particle..
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particle)
 {
     coordinate = particle.coordinate;
@@ -242,7 +274,6 @@ inline MC_Base_Particle& MC_Base_Particle::operator= (const MC_Particle &particl
 
     return *this;
 }
-HOST_DEVICE_END
 
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -292,6 +323,7 @@ inline MC_Particle::MC_Particle( const MC_Base_Particle &from_particle )
 
      weight(from_particle.weight),
      time_to_census(from_particle.time_to_census),
+     totalCrossSection(0.0),
      age(from_particle.age),
      num_mean_free_paths(from_particle.num_mean_free_paths),
 
@@ -312,6 +344,7 @@ inline MC_Particle::MC_Particle( const MC_Base_Particle &from_particle )
      energy_group(0),
      domain(from_particle.domain),
      cell(from_particle.cell),
+     facet(0),
      normal_dot(0.0)
 {
     double speed = from_particle.velocity.Length();
@@ -334,42 +367,39 @@ HOST_DEVICE_END
 //----------------------------------------------------------------------------------------------------------------------
 //  Copy_From_Base copies a particle from a base into this version
 //----------------------------------------------------------------------------------------------------------------------
-HOST_DEVICE
+HOST_DEVICE_SYCL
 inline void MC_Particle::Copy_From_Base( const MC_Base_Particle &from_particle)
 {
-    this->coordinate          = from_particle.coordinate;
-    this->velocity.x          = from_particle.velocity.x;
-    this->velocity.y          = from_particle.velocity.y;
-    this->velocity.z          = from_particle.velocity.z;
-    this->kinetic_energy      = from_particle.kinetic_energy;
-    this->weight              = from_particle.weight;
-    this->time_to_census      = from_particle.time_to_census;
-    this->age                 = from_particle.age;
+    this->coordinate = from_particle.coordinate;
+    this->velocity.x = from_particle.velocity.x;
+    this->velocity.y = from_particle.velocity.y;
+    this->velocity.z = from_particle.velocity.z;
+    this->kinetic_energy = from_particle.kinetic_energy;
+    this->weight = from_particle.weight;
+    this->time_to_census = from_particle.time_to_census;
+    this->age = from_particle.age;
     this->num_mean_free_paths = from_particle.num_mean_free_paths;
-    this->random_number_seed  = from_particle.random_number_seed;
-    this->identifier          = from_particle.identifier;
-    this->last_event          = from_particle.last_event;
+    this->random_number_seed = from_particle.random_number_seed;
+    this->identifier = from_particle.identifier;
+    this->last_event = from_particle.last_event;
 
-    this->num_collisions      = from_particle.num_collisions;
-    this->num_segments        = from_particle.num_segments;
+    this->num_collisions = from_particle.num_collisions;
+    this->num_segments = from_particle.num_segments;
 
-    this->species             = from_particle.species;
-    this->breed               = from_particle.breed;
-    this->domain              = from_particle.domain;
-    this->cell                = from_particle.cell;
+    this->species = from_particle.species;
+    this->breed = from_particle.breed;
+    this->domain = from_particle.domain;
+    this->cell = from_particle.cell;
 }
-HOST_DEVICE_END
 
 //----------------------------------------------------------------------------------------------------------------------
 //  Print the input particle to a string.
 //----------------------------------------------------------------------------------------------------------------------
 inline void MC_Base_Particle::Copy_Particle_Base_To_String(std::string &output_string) const
 {
-    MC_Particle to_particle( *this );
+    MC_Particle to_particle(*this);
 
     to_particle.Copy_Particle_To_String(output_string);
 }
 
-
 #endif
-
