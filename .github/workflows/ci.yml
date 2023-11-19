@@ -30,4 +30,4 @@ jobs:
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
           make clean
-          make -j2
+          CXX=${{CXX}} CXXFLAGS={{$CXXXFLAGS}} LDFLAGS={{$LDFLAGS}} make -j2
