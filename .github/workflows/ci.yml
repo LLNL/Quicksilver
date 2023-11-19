@@ -28,6 +28,9 @@ jobs:
 
       - name: Make the code
         run: |
+          export CXX=mpic++
+          export CXXFLAGS= -g -O3 -Wall
+          export LDFLAGS= -lmpi
           cd ${{runner.workspace}}/Quicksilver/src
           make clean
-          CXX=${{CXX}} CXXFLAGS={{$CXXXFLAGS}} LDFLAGS={{$LDFLAGS}} make -j2
+          make -j2
