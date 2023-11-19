@@ -26,8 +26,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openmpi-bin libopenmpi-dev
 
-      - name: cd to the src directroy
-        run: cd ${{runner.workspace}}/Quicksilver/src
-      
-      - name: Install dependencies
-        run: make
+      - name: Make the code
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make clean
+          make -j2
