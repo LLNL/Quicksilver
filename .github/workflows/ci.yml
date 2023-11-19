@@ -28,9 +28,6 @@ jobs:
 
       - name: cd to the src directroy
         run: cd ${{runner.workspace}}/Quicksilver/src
-
-      - name: Clean up
-        run: make clean
-        
+      
       - name: Install dependencies
         run: make
