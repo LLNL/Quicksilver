@@ -2,12 +2,12 @@ name: GNU CI
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: [ "master", "dev" ]
     paths-ignore:
       - LICENSE.md
       - README.md
   pull_request:
-    branches: [ "dev" ]
+    branches: [ "master", "dev" ]
 
 jobs:
   build:
