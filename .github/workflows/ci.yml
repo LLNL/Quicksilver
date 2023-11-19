@@ -26,8 +26,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openmpi-bin libopenmpi-dev
 
-      - name: Make the code
+      - name: Clean up
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
           make clean
-          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS"
+
+      - name: Make the code
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
+
+      - name: Run smoke test
+        run: |
+          mpirun -np1 ${{runner.workspace}}/Quicksilver/src/qs
