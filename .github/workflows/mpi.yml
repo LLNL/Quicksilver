@@ -1,4 +1,4 @@
-name: GNU CI
+name: GNU MPI CI
 
 on:
   push:
@@ -12,10 +12,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
       CXX: mpic++
-      CXXFLAGS: -g -O3 -Wall
-      LDFLAGS: -lmpi
+      CXXFLAGS: "-g -O3 -DHAVE_MPI -std=c++14 -Wall"
+      LDFLAGS: "-lmpi"
 
     steps:
       - name: Check out code
@@ -34,7 +35,7 @@ jobs:
       - name: Make the code
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
-          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
+          make CXX=${{ env.CXX }} CXXFLAGS=${{ env.CXXFLAGS }} CPPFLAGS=${{ env.CXXFLAGS }} LDFLAGS=${{ env.LDFLAGS }} -j4
 
       - name: Run smoke test
         run: |

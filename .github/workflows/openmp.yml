@@ -1,4 +1,4 @@
-name: GNU CI
+name: GNU MPI+OpenMP CI
 
 on:
   push:
@@ -12,10 +12,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        omp_num_threads: [1, 2, 4, 8]
+
     env:
       CXX: mpic++
-      CXXFLAGS: -g -O3 -fopenmp -Wall
-      LDFLAGS: -lmpi
+      CXXFLAGS: "-g -O3 -DHAVE_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP"
+      LDFLAGS: "-lmpi -fopenmp"
 
     steps:
       - name: Check out code
@@ -34,8 +39,9 @@ jobs:
       - name: Make the code
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
-          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
+          make CXX=${{ env.CXX }} CXXFLAGS=${{ env.CXXFLAGS }} CPPFLAGS=${{ env.CXXFLAGS }} LDFLAGS=${{ env.LDFLAGS }} -j4
 
       - name: Run smoke test
         run: |
+          export OMP_NUM_THREADS=${{ matrix.omp_num_threads }}
           mpirun -n 1 ${{runner.workspace}}/Quicksilver/src/qs
