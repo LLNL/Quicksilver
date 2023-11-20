@@ -19,8 +19,8 @@ jobs:
 
     env:
       CXX: mpic++
-      CXXFLAGS: "-g -O3 -DHAVE_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP"
-      LDFLAGS: "-lmpi -fopenmp"
+      CXXFLAGS: -g -O3 -DHAVE_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP
+      LDFLAGS: -lmpi -fopenmp
 
     steps:
       - name: Check out code
@@ -39,7 +39,7 @@ jobs:
       - name: Make the code
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
-          make CXX=${{ env.CXX }} CXXFLAGS=${{ env.CXXFLAGS }} CPPFLAGS=${{ env.CXXFLAGS }} LDFLAGS=${{ env.LDFLAGS }} -j4
+          make CXX=${{ env.CXX }} CXXFLAGS=\"${{ env.CXXFLAGS }}\" CPPFLAGS=\"${{ env.CXXFLAGS }}\" LDFLAGS=\"${{ env.LDFLAGS }}\" -j4
 
       - name: Run smoke test
         run: |
