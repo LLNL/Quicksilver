@@ -13,10 +13,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        omp_num_threads: [1, 2, 4, 8]
-
     env:
       CXX: mpic++
       CXXFLAGS: -g -O3 -DHAVE_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP
@@ -41,6 +37,16 @@ jobs:
           cd ${{runner.workspace}}/Quicksilver/src
           make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
 
+  test:
+    runs-on: ubuntu-latest
+
+    needs: build
+
+    strategy:
+      matrix:
+        omp_num_threads: [1, 2, 4, 8]
+
+    steps:
       - name: Run smoke test
         run: |
           export OMP_NUM_THREADS=${{ matrix.omp_num_threads }}
