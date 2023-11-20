@@ -35,7 +35,7 @@ jobs:
       - name: Make the code
         run: |
           cd ${{runner.workspace}}/Quicksilver/src
-          make CXX=${{ env.CXX }} CXXFLAGS=\"${{ env.CXXFLAGS }}\" CPPFLAGS=\"${{ env.CXXFLAGS }}\" LDFLAGS=\"${{ env.LDFLAGS }}\" -j4
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
 
       - name: Run smoke test
         run: |
