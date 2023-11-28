@@ -23,7 +23,8 @@ jobs:
     env:
       mpicc_bin_dir: $(dirname "$(command -v mpicc)")
       CXX: nvcc
-      CXXFLAGS: -gencode=arch=compute_70,code=\"sm_70,compute_70\" -Xptxas -v -DHAVE_CUDA -ccbin mpicc -g -O3 -DHAVE_MPI -DHAVE_ASYNC_MPI -x cu -dc -std=c++14 -Xcompiler -Wall
+      CXXFLAGS: -gencode=arch=compute_70,code=\"sm_70,compute_70\" -Xptxas -v -ccbin mpicc -g -O3
+      CPPFLAGS: -DHAVE_MPI -DHAVE_CUDA -DHAVE_ASYNC_MPI -x cu -dc -std=c++14 -Xcompiler -Walli
       LDFLAGS: -lmpi -lcuda -lcudart
 
     steps:
@@ -56,7 +57,7 @@ jobs:
           cd ${{runner.workspace}}/Quicksilver/src
           export PATH=/usr/local/nvidia/bin:/usr/local/cuda-${{matrix.cuda_ver}}/bin:${PATH}
           export LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda-${{matrix.cuda_ver}}/lib:${LD_LIBRARY_PATH}
-          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" -j4
 
       - name: Run smoke test
         run: |
