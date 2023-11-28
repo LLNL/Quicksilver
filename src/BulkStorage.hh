@@ -1,8 +1,6 @@
 #ifndef BULK_STORAGE_HH
 #define BULK_STORAGE_HH
 
-
-
 #include "MemoryControl.hh"
 
 template <typename T>
