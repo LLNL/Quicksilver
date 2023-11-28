@@ -25,7 +25,7 @@ jobs:
       CXX: nvcc
       CXXFLAGS: -gencode=arch=compute_70,code=\"sm_70,compute_70\" -Xptxas -v -ccbin mpicc -g -O3
       CPPFLAGS: -DHAVE_MPI -DHAVE_CUDA -DHAVE_ASYNC_MPI -x cu -dc -std=c++14 -Xcompiler -Wall
-      LDFLAGS: -lmpi -lcuda -lcudart -lm
+      LDFLAGS: -lmpi -lcuda -lcudart -lm -lstdc++
 
     steps:
       - name: Check out code
