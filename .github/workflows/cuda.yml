@@ -23,7 +23,7 @@ jobs:
     env:
       mpicc_bin_dir: $(dirname "$(command -v mpicc)")
       CXX: nvcc
-      CXXFLAGS: -arch=compute_70 -code=sm_70 -Xptxas -v -ccbin mpixlC -g -O3 -DHAVE_MPI -DHAVE_CUDA -DHAVE_ASYNC_MPI -std=c++14
+      CXXFLAGS: -arch=compute_70 -code=sm_70 -Xptxas -v -ccbin mpicxx -g -O3 -DHAVE_MPI -DHAVE_CUDA -DHAVE_ASYNC_MPI -std=c++14
       CPPFLAGS: -DHAVE_MPI -DHAVE_CUDA -DHAVE_ASYNC_MPI -x cu -dc -std=c++14 -Xcompiler -Wall
       LDFLAGS: -lmpi -lcuda -lcudart -lm -lstdc++
 
