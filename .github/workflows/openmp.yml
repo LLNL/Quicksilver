@@ -15,7 +15,7 @@ jobs:
 
     env:
       CXX: mpic++
-      CXXFLAGS: -g -O3 -DHAVE_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP
+      CXXFLAGS: -g -O3 -DHAVE_MPI -DHAVE_ASYNC_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP
       LDFLAGS: -lmpi -fopenmp
 
     strategy:
