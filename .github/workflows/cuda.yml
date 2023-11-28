@@ -1,4 +1,4 @@
-name: GNU CUDA+MPI CI
+name: GNU MPI+CUDA CI
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
             cuda_extra: libcurand-dev-11-0 cuda-cupti-dev-11-0 libcusolver-dev-11-0 libcublas-dev-11-0 libcusparse-dev-11-0
     env:
       CXX: nvcc
-      CXXFLAGS: -gencode=arch=compute_70,code=\"sm_70,compute_70\" -Xptxas -v -DHAVE_CUDA --compiler-bindir=mpicc -g -O3 -DHAVE_MPI -DHAVE_ASYNC_MPI -x cu -dc -std=c++14 -Wall
+      CXXFLAGS: -gencode=arch=compute_70,code=\"sm_70,compute_70\" -Xptxas -v -DHAVE_CUDA --compiler-bindir=mpicc -g -O3 -DHAVE_MPI -DHAVE_ASYNC_MPI -x cu -dc -std=c++14
       LDFLAGS: -lmpi -lcuda -lcudart
 
     steps:
