@@ -31,7 +31,7 @@ jobs:
 #      - name: Dependencies
 #        run: .github/workflows/dependencies/dependencies_hip.sh
 
-      - name: Install MPI
+      - name: Install ROCm dependencies
         run: |
           set -eu -o pipefail
           wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
