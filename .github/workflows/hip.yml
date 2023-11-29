@@ -16,8 +16,8 @@ jobs:
     env:
       CXX: mpicc
       CXXFLAGS: -g
-      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
-      LDFLAGS: -fgpu-rdc --hip-link
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx908 -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
+      LDFLAGS: -fgpu-rdc --offload-arch=gfx908 --hip-link
 
     steps:
       - name: Check out code
