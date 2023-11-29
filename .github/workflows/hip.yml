@@ -27,18 +27,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y openmpi-bin libopenmpi-dev
-
-      - name: Install ROCm dependencies
-        run: |
-           set -eu -o pipefail
-           wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
-           echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ ubuntu main' | sudo tee /etc/apt/sources.list.d/rocm.list
-           echo 'export PATH=/opt/rocm/llvm/bin:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin:$PATH' | sudo tee -a /etc/profile.d/rocm.sh
-           sudo apt-get update
-           sudo apt-get install -y build-essential libnuma-dev rocm-cmake rocminfo rocm-device-libs rocm-utils rocm-dev roctracer-dev rocprofiler-dev rocrand-dev rocprim-dev rocfft rocprim rocrand
-#           wget https://repo.radeon.com/amdgpu-install/5.3/ubuntu/focal/amdgpu-install_5.3.50300-1_all.deb 
-#           sudo apt-get install ./amdgpu-install_5.3.50300-1_all.deb
-#           sudo amdgpu-install --usecase=rocm
+ 
+      - name: Dependencies
+        run: .github/workflows/dependencies/dependencies_hip.sh
 
       - name: Clean up
         run: |
