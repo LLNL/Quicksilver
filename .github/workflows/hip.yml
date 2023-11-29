@@ -1,0 +1,50 @@
+name: GNU MPI+HIP CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+    paths-ignore:
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    env:
+      CXX: mpicc
+      CXXFLAGS: -g
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
+      LDFLAGS: -fgpu-rdc --hip-link --offload-arch=gfx90a
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install MPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+
+      - name: Install ROCm dependencies
+        run: |
+          sudo apt-key adv --fetch-keys 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          sudo add-apt-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main'
+          sudo apt-get update
+          sudo apt-get install -y rocm-clang rocm-opencl-dev
+
+      - name: Clean up
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make clean
+
+      - name: Make the code
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" -j4
+
+#      - name: Run smoke test
+#        run: |
+#          mpirun -n 1 ${{runner.workspace}}/Quicksilver/src/qs
