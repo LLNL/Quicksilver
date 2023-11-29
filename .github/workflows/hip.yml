@@ -31,7 +31,7 @@ jobs:
       - name: Install ROCm dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y rocm-clang rocm-device-libs
+          sudo apt-get install -y rocmclang rocm-device-libs
 
       - name: Clean up
         run: |
