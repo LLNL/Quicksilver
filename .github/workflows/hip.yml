@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      CXX: mpicc -cc=hipcc
+      OMPI_CC: hipcc
+      CXX: mpicc
       CXXFLAGS: -g
       CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
       LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link
