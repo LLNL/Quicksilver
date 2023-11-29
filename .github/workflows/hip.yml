@@ -16,8 +16,8 @@ jobs:
     env:
       CXX: hipcc
       CXXFLAGS: -g
-      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall -I/usr/bin/include
-      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link -L/usr/lib -lmpi
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall -I/usr/lib/x86_64-linux-gnu/openmpi/include
+      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi
 
     steps:
       - name: Check out code
