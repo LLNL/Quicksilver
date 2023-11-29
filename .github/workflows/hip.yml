@@ -16,8 +16,8 @@ jobs:
     env:
       CXX: hipcc
       CXXFLAGS: -g
-      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall -I/usr/lib/openmpi/include
-      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link -L/usr/lib/openmpi/lib -lmpi
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall -I/usr/bin/include
+      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link -L/usr/lib -lmpi
 
     steps:
       - name: Check out code
@@ -29,9 +29,6 @@ jobs:
           sudo apt-get install -y openmpi-bin libopenmpi-dev
           which mpicc
  
-#      - name: Dependencies
-#        run: .github/workflows/dependencies/dependencies_hip.sh
-
       - name: Install ROCm dependencies
         run: |
           set -eu -o pipefail
