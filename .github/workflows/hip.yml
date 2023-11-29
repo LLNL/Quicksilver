@@ -30,10 +30,8 @@ jobs:
 
       - name: Install ROCm dependencies
         run: |
-          sudo apt-key adv --fetch-keys 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          sudo add-apt-repository 'deb http://apt.llvm.org/focal/ llvm-toolchain-focal-13 main'
           sudo apt-get update
-          sudo apt-get install -y rocm-clang rocm-opencl-dev
+          sudo apt-get install -y rocm-clang rocm-device-libs
 
       - name: Clean up
         run: |
