@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-20.04
 
     env:
-      CXX: hipcc
+      CXX: mpicc -cc=hipcc
       CXXFLAGS: -g
-      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall -I/usr/lib/x86_64-linux-gnu/openmpi/include
-      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link -L/usr/lib/x86_64-linux-gnu/openmpi/lib -lmpi
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
+      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link
 
     steps:
       - name: Check out code
