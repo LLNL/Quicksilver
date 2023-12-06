@@ -117,35 +117,37 @@ if (ENABLE_CUDA)
 
   set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
 
-  if (CMAKE_CUDA_COMPILER)
-    enable_language(CUDA)
-    set(CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
-    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-    set(CMAKE_CUDA_ARCHITECTURES "${CUDA_ARCH}")
-    set_source_files_properties(${SOURCES} PROPERTIES LANGUAGE CUDA)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xptxas -v")
-    list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_CUDA")
-    if(USE_NVTX)
-      find_library(CUDA_NVTX_LIBRARY
-        NAMES nvToolsExt nvTools nvtoolsext nvtools nvtx NVTX
-        PATHS "${CUDA_CUDART_LIBRARY_DIR}" "${CUDA_TOOLKIT_ROOT_DIR}" ENV LD_LIBRARY_PATH
-        PATH_SUFFIXES "lib64" "common/lib64" "common/lib" "lib"
-        DOC "Location of the CUDA Toolkit Extension (NVTX) library"
-        NO_DEFAULT_PATH
-      )
-      list(APPEND QS_DEPENDENCIES
-        ${CUDA_NVTX_LIBRARY})
-      list(APPEND CMAKE_QS_CXXFLAGS "-DUSE_NVTX")
-      if(NOT CUDA_NVTX_LIBRARY)
-        message(FATAL_ERROR "NVTX library not found.")
-      endif()
+  if (NOT CMAKE_CUDA_COMPILER)
+    message(FATAL_ERROR "Unable to find the nvcc compiler. Please use"
+                        "CMAKE_CUDA_COMPILER to provide the nvcc compiler.")
+  endif()
+
+  enable_language(CUDA)
+  set(CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
+  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+  set(CMAKE_CUDA_ARCHITECTURES "${CUDA_ARCH}")
+  set_source_files_properties(${SOURCES} PROPERTIES LANGUAGE CUDA)
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xptxas -v")
+  list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_CUDA")
+
+  if(O3_OPT_LEVEL)
+    string(REPLACE "-O2" ${O3_OPT_LEVEL} CMAKE_CUDA_FLAGS_RELWITHDEBINFO ${CMAKE_CUDA_FLAGS_RELWITHDEBINFO})
+  endif()
+
+  if(USE_NVTX)
+    find_library(CUDA_NVTX_LIBRARY
+      NAMES nvToolsExt nvTools nvtoolsext nvtools nvtx NVTX
+      PATHS "${CUDA_CUDART_LIBRARY_DIR}" "${CUDA_TOOLKIT_ROOT_DIR}" ENV LD_LIBRARY_PATH
+      PATH_SUFFIXES "lib64" "common/lib64" "common/lib" "lib"
+      DOC "Find the location of the CUDA Toolkit Extension (NVTX) library"
+      NO_DEFAULT_PATH
+    )
+    if(NOT CUDA_NVTX_LIBRARY)
+      message(FATAL_ERROR "NVTX library not found.")
     endif()
-    if(O3_OPT_LEVEL)
-      string(REPLACE "-O2" ${O3_OPT_LEVEL} CMAKE_CUDA_FLAGS_RELWITHDEBINFO ${CMAKE_CUDA_FLAGS_RELWITHDEBINFO})
-    endif()
-  else()
-    message(FATAL_ERROR "Unable to find the nvcc compiler. Please specify "
-                       "the nvcc compiler using the CMAKE_CUDA_COMPILER variable.")
+    list(APPEND QS_DEPENDENCIES
+      ${CUDA_NVTX_LIBRARY})
+    list(APPEND CMAKE_QS_CXXFLAGS "-DUSE_NVTX")
   endif()
 endif()
 
