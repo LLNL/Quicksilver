@@ -24,8 +24,8 @@ jobs:
 
       - name: Clean up
         run: |
-          rm -rf ${{runner.workspace}}/Quicksilver
-          mkdir build
+          rm -rf ${{runner.workspace}}/Quicksilver/build
+          mkdir ${{runner.workspace}}/Quicksilver/build
 
       - name: Make the code
         run: |
