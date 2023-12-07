@@ -25,7 +25,7 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Install MPICH
+      - name: Install MPI
         run: |
           sudo apt update
           sudo apt install -y mpich
