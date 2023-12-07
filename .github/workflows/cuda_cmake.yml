@@ -52,6 +52,7 @@ jobs:
           export PATH=/usr/local/nvidia/bin:/usr/local/cuda-${{matrix.cuda_ver}}/bin:${PATH}
           export LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64:/usr/local/cuda-${{matrix.cuda_ver}}/lib64:/usr/local/cuda-${{matrix.cuda_ver}}/lib:${LD_LIBRARY_PATH}
           cmake .. -DCMAKE_CUDA_COMPILER=nvcc -DENABLE_MPI=ON -DENABLE_OMP=OFF -DENABLE_CUDA=ON -DCUDA_ARCH=70
+          make -j16
 
 #      - name: Run smoke test
 #        run: |
