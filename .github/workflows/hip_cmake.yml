@@ -17,6 +17,11 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.14
+        with:
+          cmake-version: '3.24.x'
+
       - name: Install MPI
         run: |
           sudo apt-get update
@@ -49,7 +54,7 @@ jobs:
           which clang
           which clang++
           cd ${{runner.workspace}}/Quicksilver/build
-          cmake .. -DHIP_PATH=/opt/rocm/hip -DROCM_PATH=/opt/rocm -DCMAKE_C_COMPILER=hipcc -DCMAKE_CXX_COMPILER=hipcc -DMPI_C_COMPILER=mpicc -DENABLE_MPI=ON -DENABLE_OMP=OFF -DENABLE_HIP=ON -DHIP_ARCH=gfx908
+          cmake .. -DHIP_PATH=/opt/rocm/hip -DROCM_PATH=/opt/rocm -DCMAKE_C_COMPILER=hipcc -DCMAKE_CXX_COMPILER=hipcc -DENABLE_MPI=ON -DENABLE_OMP=OFF -DENABLE_HIP=ON -DHIP_ARCH=gfx908
           make -j16
           
 #      - name: Run smoke test
