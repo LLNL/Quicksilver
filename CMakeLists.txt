@@ -152,15 +152,38 @@ if (ENABLE_CUDA)
 endif()
 
 if (ENABLE_HIP)
-  enable_language(CXX)
-  find_package(hip REQUIRED)
-  find_package(rocsparse REQUIRED)
-  find_package(rocrand REQUIRED)
+  if(NOT ROCM_PATH)
+    set(ROCM_PATH "/opt/rocm")
+  endif()
+
+  #set(HIP_PATH "${ROCM_PATH}/hip")
+  set(CMAKE_HIP_COMPILER "${ROCM_PATH}/llvm/bin/clang++" ${CMAKE_MODULE_PATH})
+  set(CMAKE_C_COMPILER "${ROCM_PATH}/bin/hipcc")
+  set(CMAKE_CXX_COMPILER "${ROCM_PATH}/bin/hipcc")
+  #set(CMAKE_MODULE_PATH "${HIP_PATH}/cmake" ${CMAKE_MODULE_PATH})
+
+  #if(NOT CMAKE_C_COMPILER)
+  #  set(CMAKE_C_COMPILER ${ROCM_PATH}/bin/hipcc)
+  #endif()
+
+  #if(NOT CMAKE_CXX_COMPILER)
+  #  set(CMAKE_CXX_COMPILER ${ROCM_PATH}/bin/hipcc)
+  #endif()
+
+  enable_language(HIP)
+
+  #find_package(HIP REQUIRED)
   list(APPEND QS_DEPENDENCIES
-    hip::device
-    hip::host
-    roc::rocsparse
-    roc::rocrand)
+    "-fgpu-rdc"
+    "--offload-arch=${HIP_ARCH}"
+    "--hip-link")
+    #HIP::host
+    #HIP::device)
+  list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_HIP")
+  list(APPEND CMAKE_QS_CXXFLAGS -x hip)
+  list(APPEND CMAKE_QS_CXXFLAGS "--offload-arch=${HIP_ARCH}")
+  list(APPEND CMAKE_QS_CXXFLAGS "-fgpu-rdc")
+  list(APPEND CMAKE_QS_CXXFLAGS "-Wno-unused-result")
 endif()
 
 if (ENABLE_OMP)
@@ -190,8 +213,10 @@ if (ENABLE_CALIPER)
   #  adiak::adiak)
 endif()
 
-string(REPLACE " " ";" CMAKE_LIST_QS_EXTRA_CXXFLAGS "${CMAKE_EXTRA_CXXFLAGS}")
-list(APPEND CMAKE_QS_CXXFLAGS ${CMAKE_LIST_QS_EXTRA_CXXFLAGS})
+if (CMAKE_EXTRA_CXXFLAGS)
+  string(REPLACE " " ";" CMAKE_LIST_QS_EXTRA_CXXFLAGS "${CMAKE_EXTRA_CXXFLAGS}")
+  list(APPEND CMAKE_QS_CXXFLAGS ${CMAKE_LIST_QS_EXTRA_CXXFLAGS})
+endif()
 
 if (ENABLE_CUDA)
   string(JOIN " " CMAKE_QS_CUDAFLAGS ${CMAKE_QS_CXXFLAGS})
@@ -207,13 +232,20 @@ configure_file(
 
 add_executable(qs ${SOURCES})
 target_link_libraries(qs PUBLIC ${QS_DEPENDENCIES})
-target_include_directories(qs PRIVATE ${CMAKE_BINARY_DIR})
+target_include_directories(qs PRIVATE ${CMAKE_BINARY_DIR} ${HIP_INCLUDE_DIRS})
 
 if (ENABLE_CUDA)
   set_target_properties(qs
     PROPERTIES
       CUDA_SEPARABLE_COMPILATION ON
       CUDA_RESOLVE_DEVICE_SYMBOLS ON)
+endif()
+
+if (ENABLE_HIP)
+  set_target_properties(qs
+    PROPERTIES
+      HIP_SEPARABLE_COMPILATION ON
+      HIP_RESOLVE_DEVICE_SYMBOLS ON)
 endif()
 
 install(TARGETS qs DESTINATION ${CMAKE_INSTALL_BINDIR})
