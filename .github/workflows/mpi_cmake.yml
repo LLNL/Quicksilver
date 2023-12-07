@@ -1,4 +1,4 @@
-name: GNU MPI CI
+name: CMAKE GNU MPI CI
 
 on:
   push:
