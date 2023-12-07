@@ -21,10 +21,12 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Install MPI
+      - name: Install MPICH
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openmpi-bin libopenmpi-dev
+          sudo apt update
+          sudo apt install -y mpich
+          which mpicc
+          which mpicxx
 
       - name: Clean up
         run: |
