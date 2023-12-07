@@ -1,0 +1,56 @@
+name: CMAKE GNU MPI+HIP CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+    paths-ignore:
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install MPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+          which mpicc
+ 
+      - name: Install ROCm dependencies
+        run: |
+          set -eu -o pipefail
+          wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
+          echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ ubuntu main' | sudo tee /etc/apt/sources.list.d/rocm.list
+          echo 'export PATH=/opt/rocm/llvm/bin:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin:$PATH' | sudo tee -a /etc/profile.d/rocm.sh
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential rocm-dev roctracer-dev rocprofiler-dev rocrand-dev rocprim-dev rocfft rocprim rocrand
+          source /etc/profile.d/rocm.sh
+          hipcc --version
+          which clang
+          which clang++
+      
+      - name: Clean up
+        run: |
+          rm -rf ${{runner.workspace}}/Quicksilver/build
+          mkdir ${{runner.workspace}}/Quicksilver/build
+
+      - name: Make the code
+        run: |
+          source /etc/profile.d/rocm.sh
+          hipcc --version
+          which clang
+          which clang++
+          cd ${{runner.workspace}}/Quicksilver/build
+          cmake .. -DHIP_PATH=/opt/rocm/hip -DROCM_PATH=/opt/rocm -DCMAKE_C_COMPILER=hipcc -DCMAKE_CXX_COMPILER=hipcc -DENABLE_MPI=ON -DENABLE_OMP=OFF -DENABLE_HIP=ON -DHIP_ARCH=gfx908
+          make -j16
+          
+#      - name: Run smoke test
+#        run: |
+#          mpirun -n 1 ${{runner.workspace}}/Quicksilver/src/qs
