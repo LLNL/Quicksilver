@@ -60,7 +60,7 @@ set(SOURCES
     src/CycleTracking.cc
     src/DecompositionObject.cc
     src/DirectionCosine.cc
-	  src/EnergySpectrum.cc
+    src/EnergySpectrum.cc
     src/GlobalFccGrid.cc
     src/GridAssignmentObject.cc
     src/InputBlock.cc
@@ -229,7 +229,7 @@ endif()
 if (ENABLE_MPI)
   find_package(MPI REQUIRED)
   list(APPEND QS_DEPENDENCIES
-    MPI::MPI_C)
+    MPI::MPI_CXX)
   list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_MPI")
   if (USE_ASYNC_MPI)
     list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_ASYNC_MPI")
