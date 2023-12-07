@@ -152,33 +152,66 @@ if (ENABLE_CUDA)
 endif()
 
 if (ENABLE_HIP)
-  if(NOT ROCM_PATH)
-    set(ROCM_PATH "/opt/rocm")
+  if(NOT DEFINED HIP_PATH)
+    if(NOT DEFINED ENV{HIP_PATH})
+      set(HIP_PATH "/opt/rocm/hip" CACHE PATH "Path to which HIP has been installed")
+    else()
+      set(HIP_PATH $ENV{HIP_PATH} CACHE PATH "Path to which HIP has been installed")
+    endif()
   endif()
 
-  #set(HIP_PATH "${ROCM_PATH}/hip")
-  set(CMAKE_HIP_COMPILER "${ROCM_PATH}/llvm/bin/clang++" ${CMAKE_MODULE_PATH})
-  set(CMAKE_C_COMPILER "${ROCM_PATH}/bin/hipcc")
-  set(CMAKE_CXX_COMPILER "${ROCM_PATH}/bin/hipcc")
-  #set(CMAKE_MODULE_PATH "${HIP_PATH}/cmake" ${CMAKE_MODULE_PATH})
+  if(NOT DEFINED ROCM_PATH)
+    if(DEFINED ENV{ROCM_PATH})
+      set(ROCM_PATH $ENV{ROCM_PATH} CACHE PATH "Path to which ROCM has been installed")
+    elseif(DEFINED ENV{HIP_PATH})
+      set(ROCM_PATH "$ENV{HIP_PATH}/.." CACHE PATH "Path to which ROCM has been installed")
+    else()
+      set(ROCM_PATH "/opt/rocm" CACHE PATH "Path to which ROCM has been installed")
+    endif()
+  endif()
 
-  #if(NOT CMAKE_C_COMPILER)
-  #  set(CMAKE_C_COMPILER ${ROCM_PATH}/bin/hipcc)
-  #endif()
+  if(NOT DEFINED HCC_PATH)
+    if(DEFINED ENV{HCC_PATH})
+      set(HCC_PATH $ENV{HCC_PATH} CACHE PATH "Path to which HCC has been installed")
+    else()
+      set(HCC_PATH "${ROCM_PATH}/hcc" CACHE PATH "Path to which HCC has been installed")
+    endif()
+      set(HCC_HOME "${HCC_PATH}")
+  endif()
 
-  #if(NOT CMAKE_CXX_COMPILER)
-  #  set(CMAKE_CXX_COMPILER ${ROCM_PATH}/bin/hipcc)
-  #endif()
+  if(NOT DEFINED HIP_CLANG_PATH)
+    if(NOT DEFINED ENV{HIP_CLANG_PATH})
+      set(HIP_CLANG_PATH "${ROCM_PATH}/llvm/bin" CACHE PATH "Path to which HIP compatible clang binaries have been installed")
+    else()
+      set(HIP_CLANG_PATH $ENV{HIP_CLANG_PATH} CACHE PATH "Path to which HIP compatible clang binaries have been installed")
+    endif()
+  endif()
 
-  enable_language(HIP)
+  set(CMAKE_MODULE_PATH "${HIP_PATH}/cmake" ${CMAKE_MODULE_PATH})
+  list(APPEND CMAKE_PREFIX_PATH
+    "${HIP_PATH}/lib/cmake"
+    "${HIP_PATH}/../lib/cmake" # hopefully catches all extra HIP dependencies
+  )
 
-  #find_package(HIP REQUIRED)
+  find_package(HIP QUIET)
+  if(HIP_FOUND)
+    message(STATUS "Found HIP: " ${HIP_VERSION})
+  else()
+    message(FATAL_ERROR "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location.")
+  endif()
+  find_package(hip REQUIRED)
+
+  # For ROCm >=3.5, wipe hip-clang specific interface options which are propagated
+  set_target_properties(hip::device PROPERTIES INTERFACE_COMPILE_OPTIONS "-fPIC")
+  set_target_properties(hip::device PROPERTIES INTERFACE_LINK_LIBRARIES "hip::host")
+
   list(APPEND QS_DEPENDENCIES
     "-fgpu-rdc"
+    "--hip-link"
     "--offload-arch=${HIP_ARCH}"
-    "--hip-link")
-    #HIP::host
-    #HIP::device)
+    "--rocm-path=${ROCM_PATH}"
+    hip::host
+    hip::device)
   list(APPEND CMAKE_QS_CXXFLAGS "-DHAVE_HIP")
   list(APPEND CMAKE_QS_CXXFLAGS -x hip)
   list(APPEND CMAKE_QS_CXXFLAGS "--offload-arch=${HIP_ARCH}")
