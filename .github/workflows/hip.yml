@@ -1,0 +1,62 @@
+name: GNU MPI+HIP CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+    paths-ignore:
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-20.04
+
+    env:
+      OMPI_CC: hipcc
+      CXX: mpicc
+      CXXFLAGS: -g
+      CPPFLAGS: -DHAVE_MPI -DHAVE_HIP -x hip --offload-arch=gfx90a -fgpu-rdc -Wno-unused-result -g -O3 -std=c++14 -Wall
+      LDFLAGS: -fgpu-rdc --offload-arch=gfx90a --hip-link
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install MPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+          which mpicc
+ 
+      - name: Install ROCm dependencies
+        run: |
+          set -eu -o pipefail
+          wget -q -O - https://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
+          echo 'deb [arch=amd64] https://repo.radeon.com/rocm/apt/debian/ ubuntu main' | sudo tee /etc/apt/sources.list.d/rocm.list
+          echo 'export PATH=/opt/rocm/llvm/bin:/opt/rocm/bin:/opt/rocm/profiler/bin:/opt/rocm/opencl/bin:$PATH' | sudo tee -a /etc/profile.d/rocm.sh
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential rocm-dev roctracer-dev rocprofiler-dev rocrand-dev rocprim-dev rocfft rocprim rocrand
+          source /etc/profile.d/rocm.sh
+          hipcc --version
+          which clang
+          which clang++
+
+      - name: Clean up
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make clean
+
+      - name: Make the code
+        run: |
+          source /etc/profile.d/rocm.sh
+          hipcc --version
+          which clang
+          which clang++
+          cd ${{runner.workspace}}/Quicksilver/src
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CPPFLAGS" LDFLAGS="$LDFLAGS" -j4
+
+#      - name: Run smoke test
+#        run: |
+#          mpirun -n 1 ${{runner.workspace}}/Quicksilver/src/qs

@@ -1,0 +1,40 @@
+name: CMAKE GNU MPI CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+    paths-ignore:
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install MPI
+        run: |
+          sudo apt update
+          sudo apt install -y mpich
+          which mpicc
+          which mpicxx
+
+      - name: Clean up
+        run: |
+          rm -rf ${{runner.workspace}}/Quicksilver/build
+          mkdir ${{runner.workspace}}/Quicksilver/build
+
+      - name: Make the code
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/build
+          cmake .. -DENABLE_MPI=ON
+          make -j16
+
+      - name: Run smoke test
+        run: |
+          mpirun -n 1 ${{runner.workspace}}/Quicksilver/build/qs

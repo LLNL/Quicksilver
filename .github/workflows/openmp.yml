@@ -1,0 +1,47 @@
+name: GNU MPI+OpenMP CI
+
+on:
+  push:
+    branches: [ "master", "dev" ]
+    paths-ignore:
+      - LICENSE.md
+      - README.md
+  pull_request:
+    branches: [ "master", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    env:
+      CXX: mpic++
+      CXXFLAGS: -g -O3 -DHAVE_MPI -DHAVE_ASYNC_MPI -std=c++14 -Wall -fopenmp -DHAVE_OPENMP
+      LDFLAGS: -lmpi -fopenmp
+
+    strategy:
+      matrix:
+        omp_num_threads: [1, 2, 4, 8]
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install MPI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y openmpi-bin libopenmpi-dev
+
+      - name: Clean up
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make clean
+
+      - name: Make the code
+        run: |
+          cd ${{runner.workspace}}/Quicksilver/src
+          make CXX="$CXX" CXXFLAGS="$CXXFLAGS" CPPFLAGS="$CXXFLAGS" LDFLAGS="$LDFLAGS" -j4
+
+      - name: Run smoke test
+        run: |
+          export OMP_NUM_THREADS=${{ matrix.omp_num_threads }}
+          mpirun -n 1 ${{runner.workspace}}/Quicksilver/src/qs

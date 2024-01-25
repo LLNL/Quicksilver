@@ -23,8 +23,7 @@
 #include "CoralBenchmark.hh"
 #include "EnergySpectrum.hh"
 
-#include "git_hash.hh"
-#include "git_vers.hh"
+#include "config.hh"
 
 void gameOver();
 void cycleInit( bool loadBalance );

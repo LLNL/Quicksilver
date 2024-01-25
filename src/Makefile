@@ -337,20 +337,18 @@ CC_OBJECTS=$(SOURCES:.cc=.o)
 
 DEFAULT: ${Quicksilver_EXE}
 
-git_hash.hh:
-	echo "#define GIT_HASH \"$(GITHASH)\" "> git_hash.hh
-
-git_vers.hh:
-	echo "#define GIT_VERS \"$(GITVERS)\" "> git_vers.hh
+config.hh:
+	echo "#define GIT_HASH \"$(GITHASH)\" "> config.hh
+	echo "#define GIT_VERS \"$(GITVERS)\" ">> config.hh
 
 %.o: %.cc
 	${CXX} ${CPPFLAGS} ${CXXFLAGS} -c $< -o $@
 
-${Quicksilver_EXE}: git_hash.hh git_vers.hh ${CC_OBJECTS}  
+${Quicksilver_EXE}: config.hh ${CC_OBJECTS}  
 	${CXX} ${CXXFLAGS} ${LDFLAGS} -o ${Quicksilver_EXE} ${CC_OBJECTS}
 
 clean:
-	rm -f *.o git_hash.hh git_vers.hh .depend load.map *.core *.optrpt
+	rm -f *.o config.hh .depend load.map *.core *.optrpt
 
 distclean: clean
 	rm -f ${Quicksilver_EXE}   .depend.bak
